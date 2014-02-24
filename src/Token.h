@@ -1,9 +1,9 @@
 #ifndef __TOKEN_H__
 #define __TOKEN_H__
 
-enum {NUMBER,OPERAND,IDENTIFIER}Token;
+typedef enum {NUMBER,OPERAND,IDENTIFIER}Token;
 //Will be added soon.
-enum {ADD,SUBTRACT,DIVIDE,MULTIPLY}Operator;
+typedef enum {ADD,SUBTRACT,DIVIDE,MULTIPLY}Operator;
 
 typedef struct {
 	Token type;
