@@ -1,22 +1,22 @@
 #ifndef __TOKEN_H__
 #define __TOKEN_H__
 
-enum Token{NUMBER,OPERAND,IDENTIFIER};
+enum {NUMBER,OPERAND,IDENTIFIER}Token;
 //Will be added soon.
-enum Operator {ADD,SUBTRACT,DIVIDE,MULTIPLY};
+enum {ADD,SUBTRACT,DIVIDE,MULTIPLY}Operator;
 
 typedef struct {
-	enum Token type;
+	Token type;
 	int value;
 }Number;
 
 typedef struct {
-	enum Token type;
-	enum Operator ope;
+	Token type;
+	Operator ope;
 }Operand;
 
 typedef struct {
-	enum Token type;
+	Token type;
 	char *name;
 }Identifier;
 
