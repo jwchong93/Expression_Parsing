@@ -39,45 +39,51 @@ Token *getToken (Tokenizer *tokenizer)
 	else
 	{
 		Operator *opeToken = malloc(sizeof(Operator));
-		if(tokenizer->rawString[tokenizer->startIndex]=='+')
+		switch(tokenizer->rawString[tokenizer->startIndex])
 		{
-			if(tokenizer->rawString[tokenizer->startIndex+1]=='+'&&tokenizer->length!=0)
+			case '+':
 			{
-				opeToken->ope = POST_INCREMENT;
-				i++;
+				if(tokenizer->rawString[tokenizer->startIndex+1]=='+'&&tokenizer->length!=0)
+				{
+					opeToken->ope = POST_INCREMENT;
+					i++;
+				}
+				else if(tokenizer->rawString[tokenizer->startIndex+1]=='+'&&tokenizer->length==0)
+				{
+					opeToken->ope = PRE_INCREMENT;
+					i++;
+				}
+				else
+				{
+					opeToken->ope=ADD;
+				}
+				break;
 			}
-			else if(tokenizer->rawString[tokenizer->startIndex+1]=='+'&&tokenizer->length==0)
+			 case '-':
 			{
-				opeToken->ope = PRE_INCREMENT;
-				i++;
+				if(tokenizer->rawString[tokenizer->startIndex+1]=='-'&&tokenizer->length!=0)
+				{
+					opeToken->ope = POST_DECREMENT;
+					i++;
+				}
+				else if(tokenizer->rawString[tokenizer->startIndex+1]=='-'&&tokenizer->length==0)
+				{
+					opeToken->ope = PRE_DECREMENT;
+					i++;
+				}
+				else
+				{
+					opeToken->ope=SUBTRACT;
+				}
+				break;
 			}
-			else
-			{
-				opeToken->ope=ADD;
-			}
-		}
-		else if(tokenizer->rawString[tokenizer->startIndex]=='-')
-		{
-			if(tokenizer->rawString[tokenizer->startIndex+1]=='-'&&tokenizer->length!=0)
-			{
-				opeToken->ope = POST_DECREMENT;
-				i++;
-			}
-			else if(tokenizer->rawString[tokenizer->startIndex+1]=='-'&&tokenizer->length==0)
-			{
-				opeToken->ope = PRE_DECREMENT;
-				i++;
-			}
-			else
-			{
-				opeToken->ope=SUBTRACT;
-			}
+			default:{}
 		}
 		opeToken->type = OPERATOR;;
 		tokenizer->length-=i;
-		tokenizer->startIndex+=i;
-		
+		tokenizer->startIndex+=i;			
 		return (Token*)opeToken;
+		
 	}
 	
 }
