@@ -20,5 +20,4 @@ typedef struct {
 	char *name;
 }Identifier;
 
-Token Identify (char input);
 #endif //__TOKEN_H__
