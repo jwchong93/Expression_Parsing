@@ -68,7 +68,7 @@ void test_getToken_should_return_the_token_by_sequence()
 
 
 /*
-This is the testing progrma for the casting.
+This is the testing program for the casting.
 After we get the address after a casting , we need to cast it back to his original type
 so that we can access to the member inside this structure.
 
