@@ -28,4 +28,5 @@ typedef struct {
 	char *name;
 }Identifier;
 
+Tokenizer *InitTokenizer(char *expression);
 #endif //__TOKEN_H__
