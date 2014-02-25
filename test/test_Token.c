@@ -64,8 +64,18 @@ void test_getToken_should_return_the_token_by_sequence()
 	testNum = (Number*)testToken;
 	TEST_ASSERT_EQUAL(NUMBER,testNum->type);
 	TEST_ASSERT_EQUAL(3,testNum->value);
+	
+	//Continue getToken even the token all been retrived
+	testToken=getToken(testTokenizer);
+	TEST_ASSERT_NULL(testToken);
+	TEST_ASSERT_EQUAL(0,testTokenizer->length);
+	TEST_ASSERT_EQUAL(3,testTokenizer->startIndex);
 }
 
+void test_getToken_should_indentify_the_identifier_consist_in_the_expression()
+{
+	
+}
 
 /*
 This is the testing program for the casting.

@@ -59,7 +59,7 @@ Token *getToken (Tokenizer *tokenizer)
 				}
 				break;
 			}
-			 case '-':
+			case '-':
 			{
 				if(tokenizer->rawString[tokenizer->startIndex+1]=='-'&&tokenizer->length!=0)
 				{
@@ -77,7 +77,11 @@ Token *getToken (Tokenizer *tokenizer)
 				}
 				break;
 			}
-			default:{}
+			default:
+			{
+				return NULL;
+				break;
+			}
 		}
 		opeToken->type = OPERATOR;;
 		tokenizer->length-=i;
