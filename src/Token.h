@@ -2,9 +2,17 @@
 #define __TOKEN_H__
 
 typedef enum {NUMBER,OPERAND,IDENTIFIER}Token;
-//Will be added soon.
+//Will be update soon.
 typedef enum {ADD,SUBTRACT,DIVIDE,MULTIPLY}Operator;
 
+//This structure store the converted version of string
+typedef struct {
+	char *rawString;
+	int  startIndex;
+	int length;
+}Tokenizer;
+
+//Three type of token needed.
 typedef struct {
 	Token type;
 	int value;
