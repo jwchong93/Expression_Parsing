@@ -3,7 +3,16 @@
 #include <malloc.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
+
+/*
+	This function will generate a tokenizer
+	
+	Input: *expression 		which contain the string(expression)
+	Output: none
+	return: Tokenizer 		which pass to the getToken to generate token.
+*/
 Tokenizer *initTokenizer(char *expression)
 {
 	Tokenizer *newTokenizer = malloc (sizeof(Tokenizer));
@@ -13,8 +22,16 @@ Tokenizer *initTokenizer(char *expression)
 	return newTokenizer;
 }
 
+
+/*
+	This function will generate a token
+	
+	Input: *tokenizer 	which contain the details of the expression
+	Output: none
+	return: token 		which carry the type of the token and can be cast to the respective token type structure.
+*/
 Token *getToken (Tokenizer *tokenizer)
-{ int tempNum,i=1;
+{ int tempNum,i=1; //i is for calculate how many char been tokenize
 
 	if(isdigit(tokenizer->rawString[tokenizer->startIndex]))
 	{
@@ -35,6 +52,20 @@ Token *getToken (Tokenizer *tokenizer)
 	}
 	else if (isalpha(tokenizer->rawString[tokenizer->startIndex]))
 	{
+		Identifier *idenToken = malloc(sizeof(Identifier));
+		int tempIndex,j=0; //j is for calculate how many char that is belong to identifier
+		char tempChar;
+		tempIndex = tokenizer->startIndex;
+		idenToken->type=IDENTIFIER;
+		idenToken->name = malloc (sizeof(Identifier)*tokenizer->length);
+		while(isalnum(tokenizer->rawString[tempIndex]))
+		{
+			j++;
+			tempIndex++;
+		}
+		copyString(tokenizer->rawString,idenToken->name,tokenizer->startIndex,j);
+		i=j;
+		return (Token*)idenToken;
 	}
 	else
 	{
@@ -91,4 +122,26 @@ Token *getToken (Tokenizer *tokenizer)
 	}
 	
 }
+/*
+	input :
+	destination 		must be in array to make this work , complicated issue , no explain.
+*/
+void copyString(char *source,char*destination,int startLocation, int length)
+{
+	/*
+	destination[0]= source[startLocation-1];
+	destination[1]= source[startLocation];
+	destination[2]= source[startLocation+1];
+	destination[3]= source[startLocation+2];
+	destination[4]= source[startLocation+3];
+	destination[5]= '\0';
+	*/
+	int i,j=0;
+	for (i=0;i<length;i++,j++)
+	{
+		destination[j]= source[startLocation+i];
+	}
+	destination[j]='\0';
 	
+
+}	
