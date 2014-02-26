@@ -1,7 +1,7 @@
 #include "unity.h"
 #include "Token.h"
 #include <malloc.h>
-
+#include <string.h>
 void setUp(){}
 void tearDown(){}
 
@@ -74,7 +74,40 @@ void test_getToken_should_return_the_token_by_sequence()
 
 void test_getToken_should_indentify_the_identifier_consist_in_the_expression()
 {
+	Identifier *IdenToken;
+	Token *testToken=NULL;
+	Tokenizer *testTokenizer = initTokenizer("2+MAX5-4");
 	
+	//Since previous test had tested how to return 2 and + lets skip the test
+	testToken = getToken(testTokenizer);
+	testToken = getToken(testTokenizer);
+	
+	//This getToken should return an identifier token address.
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(IDENTIFIER,*testToken);
+	IdenToken = (Identifier*)testToken;
+	TEST_ASSERT_EQUAL_STRING("MAX5",IdenToken->name);
+
+	
+}
+
+void test_copyString_should_copy_the_string_from_source_to_destination()
+{
+	char * newString ="Hello World!!!!";
+	char * stringGet = malloc (sizeof(char)*(strlen(newString)));
+	
+	//Start From the location 6 and the size is 5
+	copyString (newString,stringGet,6,5);
+	
+	TEST_ASSERT_EQUAL('W',stringGet[0]);
+	TEST_ASSERT_EQUAL('o',stringGet[1]);
+	TEST_ASSERT_EQUAL('r',stringGet[2]);
+	TEST_ASSERT_EQUAL('l',stringGet[3]);
+	TEST_ASSERT_EQUAL('d',stringGet[4]);
+	TEST_ASSERT_EQUAL_STRING("World",stringGet);
+
+
 }
 
 /*
