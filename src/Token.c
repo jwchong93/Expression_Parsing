@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
+#include "CException.h"
 
 /*
 	This function will generate a tokenizer
@@ -26,25 +26,36 @@ Tokenizer *initTokenizer(char *expression)
 /*
 	This function will generate a token
 	
-	Input: *tokenizer 	which contain the details of the expression
+	Input: *tokenizer 		which contain the details of the expression
 	Output: none
-	return: token 		which carry the type of the token and can be cast to the respective token type structure.
+	return: token 			which carry the type of the token and can be cast to the respective token type structure.
 */
 Token *getToken (Tokenizer *tokenizer)
 { int tempNum,i=1; //i is for calculate how many char been tokenize
 
 	if(isdigit(tokenizer->rawString[tokenizer->startIndex]))
 	{
-		Number *numToken = malloc(sizeof(Number));
-		numToken->value =atoi (&tokenizer->rawString[tokenizer->startIndex]);
-		numToken->type = NUMBER;
-		tempNum = numToken->value;
-		
-		while(tempNum/10!=0)
+		if(isalpha(tokenizer->rawString[tokenizer->startIndex+1]))
 		{
-			tempNum /=10;
-			i++;
+			Throw(INVALID_INDENTIFIER);
+			return NULL;
 		}
+		Number *numToken = malloc(sizeof(Number));
+		tempNum=tokenizer->startIndex;
+		numToken->value=0;
+		do
+		{
+			numToken->value =(numToken->value*10)+(tokenizer->rawString[tempNum]-'0');
+			tempNum++;
+			i++;
+			
+		}
+		while(isdigit(tokenizer->rawString[tempNum]));
+		
+		i--;
+			
+		numToken->type = NUMBER;
+		
 		tokenizer->length-=i;
 		tokenizer->startIndex+=i;
 		

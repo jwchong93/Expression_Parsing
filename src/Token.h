@@ -5,6 +5,8 @@ typedef enum {NUMBER,OPERATOR,IDENTIFIER}Token;
 //Will be update soon.
 typedef enum {ADD,SUBTRACT,DIVIDE,MULTIPLY,POST_INCREMENT,PRE_INCREMENT,POST_DECREMENT,PRE_DECREMENT}Operation;
 
+//Will be update when discuss with bing xuan group.
+typedef enum {INVALID_INDENTIFIER,INCOMPLETE_EXPRESSION} Error;
 //This structure store the converted version of string
 typedef struct {
 	char *rawString;
