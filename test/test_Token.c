@@ -2,6 +2,7 @@
 #include "Token.h"
 #include <malloc.h>
 #include <string.h>
+#include "CException.h"
 void setUp(){}
 void tearDown(){}
 
@@ -65,13 +66,55 @@ void test_getToken_should_return_the_token_by_sequence()
 	TEST_ASSERT_EQUAL(NUMBER,testNum->type);
 	TEST_ASSERT_EQUAL(3,testNum->value);
 	
-	//Continue getToken even the token all been retrived
+	//Continue getToken even the token all been retrieved
 	testToken=getToken(testTokenizer);
 	TEST_ASSERT_NULL(testToken);
 	TEST_ASSERT_EQUAL(0,testTokenizer->length);
 	TEST_ASSERT_EQUAL(3,testTokenizer->startIndex);
 }
 
+
+void test_getToken_should_stop_return_a_token_while_an_invalid_identifer_is_included_in_the_expression()
+{
+	Tokenizer *testTokenizer = initTokenizer("5MAX+4");
+	Error Exception;
+	Try 
+	{
+	Token *testToken = getToken (testTokenizer);
+	//The getToken function will return NULL and throw an enum INVALID_IDENTFIER.
+	TEST_ASSERT_NULL(testToken);
+	}Catch(Exception)
+	{
+		TEST_ASSERT_EQUAL(INVALID_INDENTIFIER,Exception);
+	}
+	
+	//lets try the function which the invalid identifier being in the last part of thr expression
+	testTokenizer = initTokenizer("2+5MAX");
+	Try 
+	{
+	Token *testToken = getToken (testTokenizer);
+	testToken = getToken (testTokenizer);
+	testToken = getToken (testTokenizer);
+	//The getToken function will return NULL and throw an enum INVALID_IDENTFIER.
+	TEST_ASSERT_NULL(testToken);
+	}Catch(Exception)
+	{
+		TEST_ASSERT_EQUAL(INVALID_INDENTIFIER,Exception);
+	}
+	//Try some valid format like .MAX
+	testTokenizer = initTokenizer("2+.MAX");
+
+	Token *testToken = getToken (testTokenizer);
+	testToken = getToken (testTokenizer);
+	testToken = getToken (testTokenizer);
+	//The getToken function will not return NULL and do not throw an enum INVALID_IDENTFIER.
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(IDENTIFIER,*testToken);
+	Identifier *testIden = (Identifier*)testToken;
+	//Since the previous test already test for the properties of tokenizer 
+	TEST_ASSERT_EQUAL_STRING(".MAX",testIden->name);
+
+}
 void test_getToken_should_indentify_the_identifier_consist_in_the_expression()
 {
 	Identifier *IdenToken;
@@ -89,11 +132,10 @@ void test_getToken_should_indentify_the_identifier_consist_in_the_expression()
 	IdenToken = (Identifier*)testToken;
 	TEST_ASSERT_EQUAL_STRING("MAX5",IdenToken->name);
 
-	
 }
 
 
-void test_getToken_should_identifier_the_number_that_is_more_than_10()
+void test_getToken_should_identify_the_number_that_is_more_than_10()
 {
 	Tokenizer *testTokenizer = initTokenizer("25-456");
 	//Get the first token out from the tokenizer.
@@ -125,6 +167,7 @@ void test_getToken_should_identifier_the_number_that_is_more_than_10()
 	//Make sure the getToken will return NULL while there is no more token to be return 
 	testToken = getToken(testTokenizer);
 	TEST_ASSERT_EQUAL(NULL,testToken);
+	
 }
 void test_copyString_should_copy_the_string_from_source_to_destination()
 {
@@ -140,7 +183,6 @@ void test_copyString_should_copy_the_string_from_source_to_destination()
 	TEST_ASSERT_EQUAL('l',stringGet[3]);
 	TEST_ASSERT_EQUAL('d',stringGet[4]);
 	TEST_ASSERT_EQUAL_STRING("World",stringGet);
-
 
 }
 
