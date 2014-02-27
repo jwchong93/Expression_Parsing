@@ -92,6 +92,40 @@ void test_getToken_should_indentify_the_identifier_consist_in_the_expression()
 	
 }
 
+
+void test_getToken_should_identifier_the_number_that_is_more_than_10()
+{
+	Tokenizer *testTokenizer = initTokenizer("25-456");
+	//Get the first token out from the tokenizer.
+	Token *testToken = getToken(testTokenizer);
+	//Test the tokenizer will be updated as expected.
+	TEST_ASSERT_EQUAL(2,testTokenizer->startIndex);
+	TEST_ASSERT_EQUAL(4,testTokenizer->length);
+	//Check the type of the token that been returned.
+	TEST_ASSERT_EQUAL(NUMBER,*testToken);
+	Number *testNum = (Number*) testToken;
+	//Test the data inside the Token.
+	TEST_ASSERT_EQUAL(25,testNum->value);
+	//Get the next token.
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_EQUAL(3,testTokenizer->startIndex);
+	TEST_ASSERT_EQUAL(3,testTokenizer->length);
+	//It should be operator type
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	Operator *testOpe = (Operator*) testToken;
+	TEST_ASSERT_EQUAL(SUBTRACT,testOpe->ope);
+	//Continue get the token
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_EQUAL(6,testTokenizer->startIndex);
+	TEST_ASSERT_EQUAL(0,testTokenizer->length);
+	//It should be operator type
+	TEST_ASSERT_EQUAL(NUMBER,*testToken);
+	testNum = (Number*) testToken;
+	TEST_ASSERT_EQUAL(456,testNum->value);
+	//Make sure the getToken will return NULL while there is no more token to be return 
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_EQUAL(NULL,testToken);
+}
 void test_copyString_should_copy_the_string_from_source_to_destination()
 {
 	char * newString ="Hello World!!!!";
