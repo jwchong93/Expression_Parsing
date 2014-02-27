@@ -140,7 +140,15 @@ Token *getToken (Tokenizer *tokenizer)
 }
 /*
 	input :
-	destination 		must be in array to make this work , complicated issue , no explain.
+	*source				The string that contain the wanted string.
+	startLocation		The start location of the wanted string in source
+	length 				The length of the wanted string 
+	
+	output:
+	*destination 		The wanted string will be copied to this string.(must be in array to make this work)
+	
+	return:
+	none
 */
 void copyString(char *source,char*destination,int startLocation, int length)
 {
