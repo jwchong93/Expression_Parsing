@@ -29,6 +29,11 @@ Tokenizer *initTokenizer(char *expression)
 	Input: *tokenizer 		which contain the details of the expression
 	Output: none
 	return: token 			which carry the type of the token and can be cast to the respective token type structure.
+	
+	Note: Identifier must obey the rule below:
+		1)Must start with number ,under_score(_) or a dot (.).
+		2)Must not start with number.
+		
 */
 Token *getToken (Tokenizer *tokenizer)
 { int tempNum,i=1; //i is for calculate how many char been tokenize
@@ -61,7 +66,7 @@ Token *getToken (Tokenizer *tokenizer)
 		
 		return (Token*)numToken;
 	}
-	else if (isalpha(tokenizer->rawString[tokenizer->startIndex]))
+	else if (isalpha(tokenizer->rawString[tokenizer->startIndex])||(tokenizer->rawString[tokenizer->startIndex])=='.')
 	{
 		Identifier *idenToken = malloc(sizeof(Identifier));
 		int tempIndex,j=0; //j is for calculate how many char that is belong to identifier
@@ -69,11 +74,11 @@ Token *getToken (Tokenizer *tokenizer)
 		tempIndex = tokenizer->startIndex;
 		idenToken->type=IDENTIFIER;
 		idenToken->name = malloc (sizeof(Identifier)*tokenizer->length);
-		while(isalnum(tokenizer->rawString[tempIndex]))
+		do
 		{
 			j++;
 			tempIndex++;
-		}
+		}while(isalnum(tokenizer->rawString[tempIndex]));
 		copyString(tokenizer->rawString,idenToken->name,tokenizer->startIndex,j);
 		i=j;
 		return (Token*)idenToken;
