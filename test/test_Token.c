@@ -194,6 +194,43 @@ void test_getToken_should_identify_the_number_that_is_more_than_10()
 	TEST_ASSERT_EQUAL(NULL,testToken);
 	
 }
+
+void test_getToken_should_detect_multiply_sign()
+{
+	Tokenizer *testTokenizer = initTokenizer("25*456");
+	
+	//Since the program already can detect 25.
+	Token *testToken = getToken(testTokenizer);
+	testToken = getToken(testTokenizer);
+	
+	//This testToken should be not NULL
+	TEST_ASSERT_NOT_NULL(testToken);
+	//With operator type.
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	Operator *opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(MULTIPLY,opeToken->ope);
+	
+}
+
+void test_getToken_should_detect_divide_sign()
+{
+	Tokenizer *testTokenizer = initTokenizer("25/456");
+	
+	//Since the program already can detect 25.
+	Token *testToken = getToken(testTokenizer);
+	testToken = getToken(testTokenizer);
+	
+	//This testToken should be not NULL
+	TEST_ASSERT_NOT_NULL(testToken);
+	//With operator type.
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	Operator *opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(DIVIDE,opeToken->ope);
+	
+}
+
 void test_copyString_should_copy_the_string_from_source_to_destination()
 {
 	char * newString ="Hello World!!!!";
