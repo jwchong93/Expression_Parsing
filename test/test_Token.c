@@ -74,6 +74,25 @@ void test_getToken_should_return_the_token_by_sequence()
 }
 
 
+void test_getToken_should_indentify_the_identifier_consist_in_the_expression()
+{
+	Identifier *IdenToken;
+	Token *testToken=NULL;
+	Tokenizer *testTokenizer = initTokenizer("2+MAX5-4");
+	
+	//Since previous test had tested how to return 2 and + lets skip the test
+	testToken = getToken(testTokenizer);
+	testToken = getToken(testTokenizer);
+	
+	//This getToken should return an identifier token address.
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(IDENTIFIER,*testToken);
+	IdenToken = (Identifier*)testToken;
+	TEST_ASSERT_EQUAL_STRING("MAX5",IdenToken->name);
+
+}
+
 void test_getToken_should_stop_return_a_token_while_an_invalid_identifer_is_included_in_the_expression()
 {
 	Tokenizer *testTokenizer = initTokenizer("5MAX+4");
@@ -140,25 +159,6 @@ void test_getToken_should_detect_the_valid_identifier_which_have_a_different_pat
 	TEST_ASSERT_EQUAL_STRING(".M.A.X.",testIden->name);
 	
 }
-void test_getToken_should_indentify_the_identifier_consist_in_the_expression()
-{
-	Identifier *IdenToken;
-	Token *testToken=NULL;
-	Tokenizer *testTokenizer = initTokenizer("2+MAX5-4");
-	
-	//Since previous test had tested how to return 2 and + lets skip the test
-	testToken = getToken(testTokenizer);
-	testToken = getToken(testTokenizer);
-	
-	//This getToken should return an identifier token address.
-	testToken = getToken(testTokenizer);
-	TEST_ASSERT_NOT_NULL(testToken);
-	TEST_ASSERT_EQUAL(IDENTIFIER,*testToken);
-	IdenToken = (Identifier*)testToken;
-	TEST_ASSERT_EQUAL_STRING("MAX5",IdenToken->name);
-
-}
-
 
 void test_getToken_should_identify_the_number_that_is_more_than_10()
 {
