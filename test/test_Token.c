@@ -310,6 +310,71 @@ void test_getToken_should_detect_parenthesis_sign()
 	TEST_ASSERT_EQUAL(RIGHT_PARENTHESIS,opeToken->ope);
 }
 
+void test_getToken_should_detect_equal_sign()
+{
+	Tokenizer *testTokenizer = initTokenizer("2+3=5");
+	
+	//Since the program already can detect 2,+ and 3.
+	Token *testToken = getToken(testTokenizer);
+	testToken = getToken(testTokenizer);
+	testToken = getToken(testTokenizer);
+	testToken = getToken(testTokenizer);
+	
+	//This testToken should be not NULL
+	TEST_ASSERT_NOT_NULL(testToken);
+	//With operator type.
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	Operator *opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(EQUAL,opeToken->ope);
+	
+}
+
+void test_getToken_should_detect_not_sign()
+{
+	Tokenizer *testTokenizer = initTokenizer("2+3+!3");
+	
+	//Since the program already can detect 2,+ and 3.
+	Token *testToken = getToken(testTokenizer);
+	testToken = getToken(testTokenizer);	//2
+	testToken = getToken(testTokenizer);	//+
+	testToken = getToken(testTokenizer);	//3
+	testToken = getToken(testTokenizer);	//+
+	
+	//This testToken should be not NULL
+	TEST_ASSERT_NOT_NULL(testToken);
+	//With operator type.
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	Operator *opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(LOGIC_NOT,opeToken->ope);
+	
+	//getToken should diffrentiate NOT and not equal
+	testTokenizer = initTokenizer("2+3!=5");
+	
+	//Since the program already can detect 2,+ and 3.
+	testToken = getToken(testTokenizer);
+	testToken = getToken(testTokenizer);
+	testToken = getToken(testTokenizer);
+	testToken = getToken(testTokenizer);
+	
+	//This testToken should be not NULL
+	TEST_ASSERT_NOT_NULL(testToken);
+	//With operator type.
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(NOT_EQUAL,opeToken->ope);
+	
+	//The tokenizer should updated to...
+	TEST_ASSERT_EQUAL(5,testTokenizer->startIndex);
+	TEST_ASSERT_EQUAL(1,testTokenizer->length);
+	
+	testToken = getToken(testTokenizer);
+	//Try to get the last token and check the status of tokenizer.
+	TEST_ASSERT_EQUAL(6,testTokenizer->startIndex);
+	TEST_ASSERT_EQUAL(0,testTokenizer->length);
+}
 
 void test_copyString_should_copy_the_string_from_source_to_destination()
 {
