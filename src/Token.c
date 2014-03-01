@@ -145,6 +145,26 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 				opeToken->ope=DIVIDE;
 				break;
 			}
+			case '%':
+			{
+				opeToken->ope=MODULUS;
+				break;
+			}
+			case '$':
+			{
+				opeToken->ope=CURRENT_PROGRAM_COUNTER;
+				break;
+			}
+			case '(':
+			{
+				opeToken->ope=LEFT_PARENTHESIS;
+				break;
+			}
+			case ')':
+			{
+				opeToken->ope=RIGHT_PARENTHESIS;
+				break;
+			}
 			default:
 			{
 				return NULL;
