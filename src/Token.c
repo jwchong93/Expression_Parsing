@@ -165,6 +165,24 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 				opeToken->ope=RIGHT_PARENTHESIS;
 				break;
 			}
+			case '=':
+			{
+				opeToken->ope=EQUAL;
+				break;
+			}
+			case '!':
+			{
+				if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
+				{
+					opeToken->ope=NOT_EQUAL;
+					i++;
+				}
+				else
+				{
+					opeToken->ope=LOGIC_NOT;
+				}
+				break;
+			}
 			default:
 			{
 				return NULL;
