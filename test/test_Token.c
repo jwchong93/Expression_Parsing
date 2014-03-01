@@ -231,6 +231,86 @@ void test_getToken_should_detect_divide_sign()
 	
 }
 
+void test_getToken_should_detect_modulus_sign()
+{
+	Tokenizer *testTokenizer = initTokenizer("200%10");
+	
+	//Since the program already can detect 25.
+	Token *testToken = getToken(testTokenizer);
+	testToken = getToken(testTokenizer);
+	
+	//This testToken should be not NULL
+	TEST_ASSERT_NOT_NULL(testToken);
+	//With operator type.
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	Operator *opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(MODULUS,opeToken->ope);
+	
+}
+
+void test_getToken_should_detect_current_program_counter_sign()
+{
+	Tokenizer *testTokenizer = initTokenizer("2+$");
+	
+	//Since the program already can detect 2 and +.
+	Token *testToken = getToken(testTokenizer);
+	testToken = getToken(testTokenizer);
+	testToken = getToken(testTokenizer);
+	
+	//This testToken should be not NULL
+	TEST_ASSERT_NOT_NULL(testToken);
+	//With operator type.
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	Operator *opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(CURRENT_PROGRAM_COUNTER,opeToken->ope);
+	
+	//Try reverse the other of the equation
+	testTokenizer = initTokenizer("$+2");
+	
+	testToken = getToken(testTokenizer);
+
+	//This testToken should be not NULL
+	TEST_ASSERT_NOT_NULL(testToken);
+	//With operator type.
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(CURRENT_PROGRAM_COUNTER,opeToken->ope);
+	
+}
+
+void test_getToken_should_detect_parenthesis_sign()
+{
+	Tokenizer *testTokenizer = initTokenizer("(2+3)");
+	
+	Token *testToken = getToken(testTokenizer);
+	
+	//This testToken should be not NULL
+	TEST_ASSERT_NOT_NULL(testToken);
+	//With operator type.
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	Operator *opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(LEFT_PARENTHESIS,opeToken->ope);
+	
+	//Read out the 2 , + and 3
+	testToken = getToken(testTokenizer);
+	testToken = getToken(testTokenizer);
+	testToken = getToken(testTokenizer);
+	
+	testToken = getToken(testTokenizer);
+	//This testToken should be not NULL
+	TEST_ASSERT_NOT_NULL(testToken);
+	//With operator type.
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(RIGHT_PARENTHESIS,opeToken->ope);
+}
+
+
 void test_copyString_should_copy_the_string_from_source_to_destination()
 {
 	char * newString ="Hello World!!!!";
