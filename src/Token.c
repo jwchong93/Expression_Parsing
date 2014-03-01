@@ -135,6 +135,16 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 				}
 				break;
 			}
+			case '*':
+			{
+				opeToken->ope=MULTIPLY;
+				break;
+			}
+			case '/':
+			{
+				opeToken->ope=DIVIDE;
+				break;
+			}
 			default:
 			{
 				return NULL;
