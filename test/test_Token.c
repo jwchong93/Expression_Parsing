@@ -101,8 +101,13 @@ void test_getToken_should_stop_return_a_token_while_an_invalid_identifer_is_incl
 	{
 		TEST_ASSERT_EQUAL(INVALID_INDENTIFIER,Exception);
 	}
+	
+}
+
+void test_getToken_should_detect_the_valid_identifier_which_have_a_different_pattern()
+{
 	//Try some valid format like .MAX
-	testTokenizer = initTokenizer("2+.MAX");
+	Tokenizer *testTokenizer = initTokenizer("2+.MAX");
 
 	Token *testToken = getToken (testTokenizer);
 	testToken = getToken (testTokenizer);
@@ -114,6 +119,26 @@ void test_getToken_should_stop_return_a_token_while_an_invalid_identifer_is_incl
 	//Since the previous test already test for the properties of tokenizer 
 	TEST_ASSERT_EQUAL_STRING(".MAX",testIden->name);
 
+	//Test for the identifier that consist more dot(.)
+	testTokenizer = initTokenizer("2+..MAX");
+	testToken = getToken (testTokenizer);
+	testToken = getToken (testTokenizer);
+	testToken = getToken (testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(IDENTIFIER,*testToken);
+	testIden = (Identifier*)testToken;
+	TEST_ASSERT_EQUAL_STRING("..MAX",testIden->name);
+	
+	//Try the identifier which have many dot in random location.
+	testTokenizer = initTokenizer("2+.M.A.X.");
+	testToken = getToken (testTokenizer);
+	testToken = getToken (testTokenizer);
+	testToken = getToken (testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(IDENTIFIER,*testToken);
+	testIden = (Identifier*)testToken;
+	TEST_ASSERT_EQUAL_STRING(".M.A.X.",testIden->name);
+	
 }
 void test_getToken_should_indentify_the_identifier_consist_in_the_expression()
 {

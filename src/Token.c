@@ -78,15 +78,26 @@ Token *getToken (Tokenizer *tokenizer)
 		{
 			j++;
 			tempIndex++;
-		}while(isalnum(tokenizer->rawString[tempIndex]));
+		}while(isalnum(tokenizer->rawString[tempIndex])||(tokenizer->rawString[tempIndex]=='.'));
 		copyString(tokenizer->rawString,idenToken->name,tokenizer->startIndex,j);
 		i=j;
 		return (Token*)idenToken;
 	}
 	else
 	{
-		Operator *opeToken = malloc(sizeof(Operator));
-		switch(tokenizer->rawString[tokenizer->startIndex])
+		Operator *opeToken ;
+		opeToken = detectOperator(tokenizer,i);			
+		return (Token*)opeToken;
+		
+	}
+}
+	
+	
+	
+Operator *detectOperator(Tokenizer *tokenizer, int i)
+{	
+	Operator *opeToken = malloc(sizeof(Operator));
+	switch(tokenizer->rawString[tokenizer->startIndex])
 		{
 			case '+':
 			{
@@ -130,13 +141,10 @@ Token *getToken (Tokenizer *tokenizer)
 				break;
 			}
 		}
-		opeToken->type = OPERATOR;;
+		opeToken->type = OPERATOR;
 		tokenizer->length-=i;
-		tokenizer->startIndex+=i;			
-		return (Token*)opeToken;
-		
-	}
-	
+		tokenizer->startIndex+=i;
+		return opeToken;
 }
 /*
 	input :

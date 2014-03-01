@@ -34,4 +34,5 @@ typedef struct {
 Tokenizer *initTokenizer(char *expression);
 Token *getToken (Tokenizer *tokenizer);
 void copyString(char *source, char* destination, int startLocation,int length);
+Operator *detectOperator(Tokenizer *tokenizer, int i);
 #endif //__TOKEN_H__
