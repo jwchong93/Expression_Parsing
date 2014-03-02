@@ -384,7 +384,41 @@ void test_getToken_should_indentify_negation_symbol()
 	Operator * opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
 	TEST_ASSERT_EQUAL(NEGATION,opeToken->ope);
+	
+	
+	//Try do on some different equation 
+	
+	testTokenizer = initTokenizer("2+-6");
+	testToken = getToken(testTokenizer); //2
+	testToken = getToken(testTokenizer); //+
+	testToken = getToken(testTokenizer); //-
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(NEGATION,opeToken->ope);
+	
+	//What if there is a double '-' sign ?
+	
+	testTokenizer = initTokenizer("2--6");
+	testToken = getToken(testTokenizer); //2
+	testToken = getToken(testTokenizer); //-
+	
+	//Should get as subtract for the first '-'
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(SUBTRACT,opeToken->ope);
+	
+	//Should get as negation for the second '-'
+	testToken = getToken(testTokenizer); //-
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(NEGATION,opeToken->ope);
+	
 }
+
+
 void test_copyString_should_copy_the_string_from_source_to_destination()
 {
 	char * newString ="Hello World!!!!";
