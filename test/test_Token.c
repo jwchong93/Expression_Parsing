@@ -376,6 +376,15 @@ void test_getToken_should_detect_not_sign()
 	TEST_ASSERT_EQUAL(0,testTokenizer->length);
 }
 
+void test_getToken_should_indentify_negation_symbol()
+{
+	Tokenizer *testTokenizer = initTokenizer("-2+6");
+	Token *testToken = getToken(testTokenizer);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	Operator * opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(NEGATION,opeToken->ope);
+}
 void test_copyString_should_copy_the_string_from_source_to_destination()
 {
 	char * newString ="Hello World!!!!";

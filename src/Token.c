@@ -101,38 +101,12 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 		{
 			case '+':
 			{
-				if(tokenizer->rawString[tokenizer->startIndex+1]=='+'&&tokenizer->length!=0)
-				{
-					opeToken->ope = POST_INCREMENT;
-					i++;
-				}
-				else if(tokenizer->rawString[tokenizer->startIndex+1]=='+'&&tokenizer->length==0)
-				{
-					opeToken->ope = PRE_INCREMENT;
-					i++;
-				}
-				else
-				{
-					opeToken->ope=ADD;
-				}
+				opeToken->ope=ADD;
 				break;
 			}
 			case '-':
 			{
-				if(tokenizer->rawString[tokenizer->startIndex+1]=='-'&&tokenizer->length!=0)
-				{
-					opeToken->ope = POST_DECREMENT;
-					i++;
-				}
-				else if(tokenizer->rawString[tokenizer->startIndex+1]=='-'&&tokenizer->length==0)
-				{
-					opeToken->ope = PRE_DECREMENT;
-					i++;
-				}
-				else
-				{
-					opeToken->ope=SUBTRACT;
-				}
+				opeToken->ope=SUBTRACT;
 				break;
 			}
 			case '*':
