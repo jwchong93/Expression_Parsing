@@ -106,8 +106,17 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 			}
 			case '-':
 			{
-				opeToken->ope=SUBTRACT;
-				break;
+				if(isalnum(tokenizer->rawString[tokenizer->startIndex+1])&&
+				!(isalnum(tokenizer->rawString[tokenizer->startIndex-1])))
+				{
+					opeToken->ope=NEGATION;
+					break;
+				}
+				else
+				{
+					opeToken->ope=SUBTRACT;
+					break;
+				}
 			}
 			case '*':
 			{
