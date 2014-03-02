@@ -15,10 +15,13 @@
 */
 Tokenizer *initTokenizer(char *expression)
 {
+	int i =0, j=0;
 	Tokenizer *newTokenizer = malloc (sizeof(Tokenizer));
-	newTokenizer->rawString =expression;
+	char *newString = malloc (strlen(expression)+1);
+	copyStringWithoutSpace (expression,newString);
+	newTokenizer->rawString=newString;
 	newTokenizer ->startIndex =0;
-	newTokenizer ->length =strlen(expression);
+	newTokenizer ->length =strlen(newTokenizer->rawString);
 	return newTokenizer;
 }
 
@@ -166,6 +169,11 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 				}
 				break;
 			}
+			case '~':
+			{
+				opeToken->ope=COMPLEMENT;
+				break;
+			}
 			default:
 			{
 				return NULL;
@@ -208,3 +216,18 @@ void copyString(char *source,char*destination,int startLocation, int length)
 	
 
 }	
+
+void copyStringWithoutSpace(char *source,char *destination)
+{
+    int i =0 ,j=0;
+	int length = strlen(source);
+	for(i=0;i<length;i++)
+	{
+		if(source[i]!=' '&&source[i]!='\t')
+		{		
+			destination[j] = source[i];
+			j++;
+		}
+	}
+	destination[j]='\0';
+}

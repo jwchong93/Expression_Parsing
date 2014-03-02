@@ -3,7 +3,7 @@
 
 typedef enum {NUMBER,OPERATOR,IDENTIFIER}Token;
 //Will be update soon.
-typedef enum {CURRENT_PROGRAM_COUNTER,LEFT_PARENTHESIS,RIGHT_PARENTHESIS,LOGIC_NOT,
+typedef enum {CURRENT_PROGRAM_COUNTER,LEFT_PARENTHESIS,RIGHT_PARENTHESIS,LOGIC_NOT,COMPLEMENT,
 				NEGATION,EQUAL,NOT_EQUAL,ADD,SUBTRACT,DIVIDE,MULTIPLY,MODULUS,POST_INCREMENT,
 				PRE_INCREMENT,POST_DECREMENT,PRE_DECREMENT}Operation;
 
@@ -14,7 +14,7 @@ typedef enum {INVALID_INDENTIFIER,INCOMPLETE_EXPRESSION} Error;
 typedef struct {
 	char *rawString;
 	int  startIndex;
-	int length;
+	int length;	
 }Tokenizer;
 
 //Three type of token needed.
@@ -36,5 +36,6 @@ typedef struct {
 Tokenizer *initTokenizer(char *expression);
 Token *getToken (Tokenizer *tokenizer);
 void copyString(char *source, char* destination, int startLocation,int length);
+void copyStringWithoutSpace(char *source,char*destination);
 Operator *detectOperator(Tokenizer *tokenizer, int i);
 #endif //__TOKEN_H__
