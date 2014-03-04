@@ -519,6 +519,20 @@ void test_getToken_should_detect_complement_in_an_expression()
 	Operator *opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
 	TEST_ASSERT_EQUAL(COMPLEMENT,opeToken->ope);
+	free (opeToken);
+	//Lets try to input some equation that the complement is being in middle. 
+	testTokenizer = initTokenizer("2+~9");
+	testToken = getToken(testTokenizer); //2
+	free(testToken);
+	testToken = getToken(testTokenizer); //+
+	free(testToken); 
+	testToken = getToken(testTokenizer); //~
+	//This testToken should be not NULL
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(COMPLEMENT,opeToken->ope);
 	
 }
 
