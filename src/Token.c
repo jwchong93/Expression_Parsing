@@ -211,6 +211,35 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 					break;
 				}
 			}
+			case '<':
+			{
+				if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
+				{	
+					opeToken->ope=LESS_EQUAL_THAN;
+					i++;
+					break;
+				}
+				else if(tokenizer->rawString[tokenizer->startIndex+1]=='<')
+				{
+					i++;
+					if(tokenizer->rawString[tokenizer->startIndex+2]=='=')
+					{	
+						opeToken->ope=LEFT_SHIFT_SET_EQUAL;
+						i++;
+						break;
+					}
+					else
+					{
+						opeToken->ope=LEFT_SHIFT;
+						break;
+					}
+				}	
+				else
+				{
+					opeToken->ope=LESS_THAN;
+					break;
+				}
+			}
 			default:
 			{
 				return NULL;
