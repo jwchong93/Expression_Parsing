@@ -654,6 +654,74 @@ void test_getToken_will_differentiate_greater__greater_or_equal__right_shift_and
 	free(testTokenizer);
 	
 }
+
+
+void test_getToken_will_differentiate_less__less_or_equal__left_shift_and_left_shift_set_equal()
+{
+	Tokenizer * testTokenizer = initTokenizer("num1<num2");
+	Token * testToken = getToken(testTokenizer);
+	
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(IDENTIFIER,*testToken);
+	Identifier *idenToken = (Identifier*)testToken;
+	TEST_ASSERT_EQUAL(IDENTIFIER,idenToken->type);
+	TEST_ASSERT_EQUAL_STRING("num1",idenToken->name);
+	free(idenToken);
+	
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	Operator *opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(LESS_THAN,opeToken->ope);
+	free(opeToken);
+	
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(IDENTIFIER,*testToken);
+	idenToken = (Identifier*)testToken;
+	TEST_ASSERT_EQUAL(IDENTIFIER,idenToken->type);
+	TEST_ASSERT_EQUAL_STRING("num2",idenToken->name);
+	free(idenToken);
+	free(testTokenizer);
+	
+	testTokenizer = initTokenizer("num1<=num2<<=MAX<<1");
+	testToken = getToken(testTokenizer); //num1
+	free(testToken);
+	
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(LESS_EQUAL_THAN,opeToken->ope);
+	free(opeToken);
+	
+	testToken = getToken(testTokenizer);	//num2
+	free(testToken);
+	
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(LEFT_SHIFT_SET_EQUAL,opeToken->ope);
+	free(opeToken);
+	
+	testToken = getToken(testTokenizer);	//MAX
+	free(testToken);
+	
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(LEFT_SHIFT,opeToken->ope);
+	free(opeToken);
+	free(testTokenizer);
+	
+}
+
 void test_copyString_should_copy_the_string_from_source_to_destination()
 {
 	char * newString ="Hello World!!!!";
