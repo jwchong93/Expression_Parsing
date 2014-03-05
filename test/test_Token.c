@@ -718,10 +718,51 @@ void test_getToken_will_differentiate_less__less_or_equal__left_shift_and_left_s
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
 	TEST_ASSERT_EQUAL(LEFT_SHIFT,opeToken->ope);
 	free(opeToken);
+	
+	//Make sure the tokenizer will be updated to the latest position.
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(NUMBER,*testToken);
+	Number *numToken = (Number*)testToken;
+	TEST_ASSERT_EQUAL(NUMBER,numToken->type);
+	TEST_ASSERT_EQUAL(1,numToken->value);
+	free(opeToken);
 	free(testTokenizer);
 	
 }
 
+void test_getToken_will_identify_equal_and_equal_to()
+{
+	Tokenizer * testTokenizer = initTokenizer("tempNum = 2 + 	3");
+	Token *testToken = getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(IDENTIFIER,*testToken);
+	Identifier *idenToken = (Identifier*)testToken;
+	TEST_ASSERT_EQUAL(IDENTIFIER,idenToken->type);
+	TEST_ASSERT_EQUAL_STRING("tempNum",idenToken->name);
+	free(idenToken);
+	
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	Operator *opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(EQUAL,opeToken->ope);
+	free(opeToken);
+	free(testTokenizer);
+	
+	testTokenizer = initTokenizer("tempNum == 5");
+	testToken = getToken(testTokenizer); //tempNum
+	testToken = getToken(testTokenizer); //==
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(EQUAL_TO,opeToken->ope);
+	free(opeToken);
+	free(testTokenizer);
+	
+}
 void test_copyString_should_copy_the_string_from_source_to_destination()
 {
 	char * newString ="Hello World!!!!";
@@ -829,50 +870,3 @@ void test_checkIdentifer_will_filter_out_low_high_and_upper()
 	
 }
 
-/*
-This is the testing program for the casting.
-After we get the address after a casting , we need to cast it back to his original type
-so that we can access to the member inside this structure.
-
-void test_something_about_type_casting()
-{
-	Token *newToken;
-	Number *newNumber=malloc(sizeof(Number));
-	newNumber->type = NUMBER;
-	newNumber->value = 8;
-	newToken = (Token *)newNumber;
-	newNumber= (Number *)newToken;
-	printf("Type:%d,Value:%d\n",newNumber->type,newNumber->value);
-	printf("The type of the token: %d\n",*newToken);
-	
-}
-
-
-This program is use to test the structure behaviour.
-For testing purpose.
-
-void test_Playing_with_the_struct()
-{
-	Tokenizer tokenizer;
-	//Try if the string are empty and the program are going to access.
-	//printf("The string inside the tokenizer is: %s",tokenizer.rawString);
-	//Actually will return an error.
-
-	tokenizer.rawString = "2+3";
-	printf("The string inside the tokenizer is: %s\n",tokenizer.rawString);
-	//Try to work on the length and also the start index.
-	tokenizer.startIndex =0;
-	tokenizer.length = 3;
-	printf("The startIndex:%d \t The length:%d \n",tokenizer.startIndex,tokenizer.length);
-	
-	//If the tokenizer is a pointer?
-	
-	Tokenizer *ptrTokenizer = malloc (sizeof(Tokenizer));
-	ptrTokenizer-> rawString ="Hello World ! Nothing here, just want to lengthen this string and observe the effect on the memory";
-	ptrTokenizer->startIndex=4567813;
-	ptrTokenizer->length = 99999999;
-	printf ("String:%s \n Start Index:%d \n Length:%d\n",ptrTokenizer-> rawString,ptrTokenizer->startIndex,ptrTokenizer->length);
-	free(ptrTokenizer);
-	
-}
-*/
