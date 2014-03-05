@@ -520,6 +520,7 @@ void test_getToken_should_detect_complement_in_an_expression()
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
 	TEST_ASSERT_EQUAL(COMPLEMENT,opeToken->ope);
 	free (opeToken);
+	
 	//Lets try to input some equation that the complement is being in middle. 
 	testTokenizer = initTokenizer("2+~9");
 	testToken = getToken(testTokenizer); //2
@@ -533,9 +534,58 @@ void test_getToken_should_detect_complement_in_an_expression()
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
 	TEST_ASSERT_EQUAL(COMPLEMENT,opeToken->ope);
-	
+	free(opeToken);
+	testToken = getToken(testTokenizer);
+	free(testToken);
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_NULL(testToken);
+	free(testTokenizer);
 }
 
+void test_getToken_will_differentiate_low_high_and_upper_as_operator()
+{
+	Tokenizer *testTokenizer = initTokenizer("low(45012357)");
+	
+	Token *testToken = getToken(testTokenizer);
+
+	//This testToken should be not NULL
+	TEST_ASSERT_NOT_NULL(testToken);
+	//With operator type.
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	Operator *opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(LOW,opeToken->ope);
+	free (opeToken);
+	free(testTokenizer);
+	
+	//Since the function been tested in below. 
+	//Try to make some combinational expression.
+	testTokenizer = initTokenizer("1*high(45012357)");
+	
+	testToken = getToken(testTokenizer);
+	free (testToken);
+	testToken = getToken(testTokenizer);
+	free (testToken);
+	testToken = getToken(testTokenizer);
+	
+	//This testToken should be not NULL
+	TEST_ASSERT_NOT_NULL(testToken);
+	//With operator type.
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(HIGH,opeToken->ope);
+	free (opeToken);
+		
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(LEFT_PARENTHESIS,opeToken->ope);
+	
+
+}
 void test_copyString_should_copy_the_string_from_source_to_destination()
 {
 	char * newString ="Hello World!!!!";
@@ -582,6 +632,64 @@ void test_copyStringWithoutSpace_should_copy_the_string_without_space_and_tab()
 	TEST_ASSERT_EQUAL_STRING("Hello",stringGet);
 	
 
+	
+}
+
+void test_checkIdentifer_will_filter_out_low_high_and_upper()
+{
+	Token *testToken=checkIdentifier("low");
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	Operator *opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(LOW,opeToken->ope);
+	free(opeToken);
+	
+	testToken=checkIdentifier("high");
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(HIGH,opeToken->ope);
+	free(opeToken);
+	
+	testToken=checkIdentifier("upper");
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(UPPER,opeToken->ope);
+	free(opeToken);
+	
+	//try to input name that out of low , high and upper.
+	testToken=checkIdentifier("HAHAHA");
+	TEST_ASSERT_NULL(testToken);   	//Should be null.
+	
+	//Try work on upper case of the key words.\
+	//The program should accept any form of low , high and upper.
+	testToken=checkIdentifier("LOW");
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(LOW,opeToken->ope);
+	free(opeToken);
+	
+	testToken=checkIdentifier("HIGH");
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(HIGH,opeToken->ope);
+	free(opeToken);
+	
+	testToken=checkIdentifier("UPPER");
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(UPPER,opeToken->ope);
+	free(opeToken);
 	
 }
 
