@@ -2,8 +2,9 @@
 #define __TOKEN_H__
 
 typedef enum {NUMBER,OPERATOR,IDENTIFIER}Token;
-//Will be update soon.
+//Updating in progress, please be patient.....
 typedef enum {CURRENT_PROGRAM_COUNTER,LEFT_PARENTHESIS,RIGHT_PARENTHESIS,LOGIC_NOT,COMPLEMENT,
+				LOW,HIGH,UPPER,
 				NEGATION,EQUAL,NOT_EQUAL,ADD,SUBTRACT,DIVIDE,MULTIPLY,MODULUS,POST_INCREMENT,
 				PRE_INCREMENT,POST_DECREMENT,PRE_DECREMENT}Operation;
 
@@ -35,7 +36,9 @@ typedef struct {
 
 Tokenizer *initTokenizer(char *expression);
 Token *getToken (Tokenizer *tokenizer);
+Operator *detectOperator(Tokenizer *tokenizer, int i);
 void copyString(char *source, char* destination, int startLocation,int length);
 void copyStringWithoutSpace(char *source,char*destination);
-Operator *detectOperator(Tokenizer *tokenizer, int i);
+Token *checkIdentifier(char *name);
+
 #endif //__TOKEN_H__

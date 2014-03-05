@@ -72,6 +72,7 @@ Token *getToken (Tokenizer *tokenizer)
 	else if (isalpha(tokenizer->rawString[tokenizer->startIndex])||(tokenizer->rawString[tokenizer->startIndex])=='.')
 	{
 		Identifier *idenToken = malloc(sizeof(Identifier));
+		Token *opeToken;
 		int tempIndex,j=0; //j is for calculate how many char that is belong to identifier
 		char tempChar;
 		tempIndex = tokenizer->startIndex;
@@ -84,6 +85,13 @@ Token *getToken (Tokenizer *tokenizer)
 		}while(isalnum(tokenizer->rawString[tempIndex])||(tokenizer->rawString[tempIndex]=='.'));
 		copyString(tokenizer->rawString,idenToken->name,tokenizer->startIndex,j);
 		i=j;
+		tokenizer->length-=i;
+		tokenizer->startIndex+=i;
+		opeToken=checkIdentifier(idenToken->name);
+		if(opeToken!=NULL)
+		{
+			return opeToken;
+		}
 		return (Token*)idenToken;
 	}
 	else
@@ -185,7 +193,59 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 		tokenizer->startIndex+=i;
 		return opeToken;
 }
+
+
 /*
+	The purpose of this function is to validate the input string is low , high or upper.
+	
+	input :
+	*name			The identifier(string) that need to be check
+	
+	output:
+	none
+	
+	return:
+	NULL			If it is a valid identifier
+	opeToken		If it is low, high or upper.
+	
+*/
+
+Token *checkIdentifier(char * name)
+{
+	char *tempName = malloc(strlen(name)+1);
+	int i =0;
+	Operator *opeToken = malloc(sizeof(Operator));
+	strcpy(tempName,name);
+	while(tempName[i]!='\0')
+	{
+		tempName[i]= toupper(tempName[i]);
+		i++;
+	}
+	if(strcmp("LOW",tempName)==0)
+	{
+		opeToken->ope= LOW;
+	}
+	else if (strcmp("HIGH",tempName)==0)
+	{
+		opeToken->ope= HIGH;
+	}
+	else if (strcmp("UPPER",tempName)==0)
+	{
+		opeToken->ope= UPPER;
+	}
+	else 
+	{
+		return NULL;
+	}
+	
+	opeToken->type=OPERATOR;
+	
+	return (Token*)opeToken;
+}
+
+/*
+	This function is to copy string from the middle of the string for specific length.
+	
 	input :
 	*source				The string that contain the wanted string.
 	startLocation		The start location of the wanted string in source
@@ -217,6 +277,18 @@ void copyString(char *source,char*destination,int startLocation, int length)
 
 }	
 
+/*
+	This function will copy the string without the space. (Trim space)
+	
+	input :
+	*source				The string that contain the wanted string.
+	
+	output:
+	*destination 		The wanted string will be copied to this string.(must be in array to make this work)
+	
+	return:
+	none
+*/
 void copyStringWithoutSpace(char *source,char *destination)
 {
     int i =0 ,j=0;
