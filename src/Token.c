@@ -182,6 +182,35 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 				opeToken->ope=COMPLEMENT;
 				break;
 			}
+			case '>':
+			{
+				if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
+				{	
+					opeToken->ope=GREATER_EQUAL_THAN;
+					i++;
+					break;
+				}
+				else if(tokenizer->rawString[tokenizer->startIndex+1]=='>')
+				{
+					i++;
+					if(tokenizer->rawString[tokenizer->startIndex+2]=='=')
+					{	
+						opeToken->ope=RIGHT_SHIFT_SET_EQUAL;
+						i++;
+						break;
+					}
+					else
+					{
+						opeToken->ope=RIGHT_SHIFT;
+						break;
+					}
+				}	
+				else
+				{
+					opeToken->ope=GREATER_THAN;
+					break;
+				}
+			}
 			default:
 			{
 				return NULL;
