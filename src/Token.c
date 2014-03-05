@@ -161,8 +161,17 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 			}
 			case '=':
 			{
-				opeToken->ope=EQUAL;
-				break;
+				if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
+				{
+					i++;
+					opeToken->ope=EQUAL_TO;
+					break;
+				}
+				else
+				{
+					opeToken->ope=EQUAL;
+					break;
+				}
 			}
 			case '!':
 			{
@@ -250,6 +259,7 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 		tokenizer->length-=i;
 		tokenizer->startIndex+=i;
 		return opeToken;
+		
 }
 
 
@@ -299,6 +309,7 @@ Token *checkIdentifier(char * name)
 	opeToken->type=OPERATOR;
 	
 	return (Token*)opeToken;
+	
 }
 
 /*
@@ -317,14 +328,6 @@ Token *checkIdentifier(char * name)
 */
 void copyString(char *source,char*destination,int startLocation, int length)
 {
-	/*
-	destination[0]= source[startLocation-1];
-	destination[1]= source[startLocation];
-	destination[2]= source[startLocation+1];
-	destination[3]= source[startLocation+2];
-	destination[4]= source[startLocation+3];
-	destination[5]= '\0';
-	*/
 	int i,j=0;
 	for (i=0;i<length;i++,j++)
 	{
@@ -332,7 +335,6 @@ void copyString(char *source,char*destination,int startLocation, int length)
 	}
 	destination[j]='\0';
 	
-
 }	
 
 /*
@@ -360,4 +362,5 @@ void copyStringWithoutSpace(char *source,char *destination)
 		}
 	}
 	destination[j]='\0';
+	
 }
