@@ -121,13 +121,12 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 				!(isalnum(tokenizer->rawString[tokenizer->startIndex-1])))
 				{
 					opeToken->ope=NEGATION;
-					break;
 				}
 				else
 				{
 					opeToken->ope=SUBTRACT;
-					break;
 				}
+				break;
 			}
 			case '*':
 			{
@@ -165,13 +164,12 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 				{
 					i++;
 					opeToken->ope=EQUAL_TO;
-					break;
 				}
 				else
 				{
 					opeToken->ope=EQUAL;
-					break;
 				}
+				break;
 			}
 			case '!':
 			{
@@ -197,7 +195,6 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 				{	
 					opeToken->ope=GREATER_EQUAL_THAN;
 					i++;
-					break;
 				}
 				else if(tokenizer->rawString[tokenizer->startIndex+1]=='>')
 				{
@@ -206,19 +203,17 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 					{	
 						opeToken->ope=RIGHT_SHIFT_SET_EQUAL;
 						i++;
-						break;
 					}
 					else
 					{
 						opeToken->ope=RIGHT_SHIFT;
-						break;
 					}
 				}	
 				else
 				{
 					opeToken->ope=GREATER_THAN;
-					break;
 				}
+				break;
 			}
 			case '<':
 			{
@@ -226,7 +221,6 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 				{	
 					opeToken->ope=LESS_EQUAL_THAN;
 					i++;
-					break;
 				}
 				else if(tokenizer->rawString[tokenizer->startIndex+1]=='<')
 				{
@@ -235,19 +229,35 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 					{	
 						opeToken->ope=LEFT_SHIFT_SET_EQUAL;
 						i++;
-						break;
 					}
 					else
 					{
 						opeToken->ope=LEFT_SHIFT;
-						break;
 					}
 				}	
 				else
 				{
 					opeToken->ope=LESS_THAN;
-					break;
 				}
+				break;
+			}
+			case '&':
+			{
+				if(tokenizer->rawString[tokenizer->startIndex+1]=='&')
+				{
+					i++;
+					opeToken->ope = LOGICAL_AND;
+				}
+				else if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
+				{
+					opeToken->ope = AND_SET_EQUAL;
+					i++;
+				}
+				else
+				{
+				opeToken->ope=BITWISE_AND;
+				}
+				break;
 			}
 			default:
 			{
