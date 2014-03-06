@@ -870,3 +870,23 @@ void test_checkIdentifer_will_filter_out_low_high_and_upper()
 	
 }
 
+void test_createNumberToken_should_identify_the_input_and_return_a_token()
+{
+	Token *testToken = createNumberToken(7);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(NUMBER,*testToken);
+	Number *numToken = (Number*)testToken;
+	TEST_ASSERT_EQUAL(NUMBER,numToken->type);
+	TEST_ASSERT_EQUAL(7,numToken->value);
+	free(numToken);
+	
+	//Try to input some bigger number like 456789
+	testToken = createNumberToken(456789);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(NUMBER,*testToken);
+	numToken = (Number*)testToken;
+	TEST_ASSERT_EQUAL(NUMBER,numToken->type);
+	TEST_ASSERT_EQUAL(456789,numToken->value);	
+	free(numToken);
+	
+}
