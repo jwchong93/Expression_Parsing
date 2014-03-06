@@ -112,7 +112,21 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 		{
 			case '+':
 			{
-				opeToken->ope=ADD;
+				if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
+				{
+					i++;
+					opeToken->ope=ADD_SET_EQUAL;
+					
+				}
+				else if(tokenizer->rawString[tokenizer->startIndex+1]=='+'&&!(isalnum(tokenizer->rawString[tokenizer->startIndex+2])))
+				{
+					i++;
+					opeToken->ope=INCREMENT;
+				}
+				else
+				{
+					opeToken->ope=ADD;
+				}
 				break;
 			}
 			case '-':
@@ -121,6 +135,17 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 				!(isalnum(tokenizer->rawString[tokenizer->startIndex-1])))
 				{
 					opeToken->ope=NEGATION;
+				}
+				else if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
+				{
+					i++;
+					opeToken->ope=SUBTRACT_SET_EQUAL;
+					
+				}
+				else if(tokenizer->rawString[tokenizer->startIndex+1]=='-'&&!(isalnum(tokenizer->rawString[tokenizer->startIndex+2])))
+				{
+					i++;
+					opeToken->ope=DECREMENT;
 				}
 				else
 				{
