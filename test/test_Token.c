@@ -763,6 +763,45 @@ void test_getToken_will_identify_equal_and_equal_to()
 	free(testTokenizer);
 	
 }
+
+void test_getToken_will_detect_BITWISE_LOGICAL_AND_AND_and_AND_SET_EQUAL()
+{
+	Tokenizer * testTokenizer = initTokenizer("4&5&&1");
+	Token *testToken = getToken(testTokenizer);
+	free(testToken);
+	
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	Operator * opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(BITWISE_AND,opeToken->ope);
+	free(opeToken);
+	
+	testToken = getToken(testTokenizer);
+	free(testToken);
+	
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(LOGICAL_AND,opeToken->ope);
+	free(opeToken);
+	free(testTokenizer);
+	
+	testTokenizer = initTokenizer("bool &= input");
+	testToken = getToken(testTokenizer);
+	free(testToken);
+	
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(AND_SET_EQUAL,opeToken->ope);
+	free(opeToken);
+}
 void test_copyString_should_copy_the_string_from_source_to_destination()
 {
 	char * newString ="Hello World!!!!";
@@ -852,7 +891,7 @@ void test_checkIdentifer_will_filter_out_low_high_and_upper()
 	TEST_ASSERT_EQUAL(LOW,opeToken->ope);
 	free(opeToken);
 	
-	testToken=checkIdentifier("HIGH");
+	testToken=checkIdentifier("HiGH");
 	TEST_ASSERT_NOT_NULL(testToken);
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
@@ -860,7 +899,7 @@ void test_checkIdentifer_will_filter_out_low_high_and_upper()
 	TEST_ASSERT_EQUAL(HIGH,opeToken->ope);
 	free(opeToken);
 	
-	testToken=checkIdentifier("UPPER");
+	testToken=checkIdentifier("UPpeR");
 	TEST_ASSERT_NOT_NULL(testToken);
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
