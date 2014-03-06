@@ -364,3 +364,12 @@ void copyStringWithoutSpace(char *source,char *destination)
 	destination[j]='\0';
 	
 }
+
+Token *createNumberToken(int number)
+{
+	Number *newToken = malloc (sizeof(Number));
+	newToken->type = NUMBER;
+	newToken->value=number;
+	
+	return (Token*)newToken;
+}

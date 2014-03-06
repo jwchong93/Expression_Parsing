@@ -41,5 +41,5 @@ Operator *detectOperator(Tokenizer *tokenizer, int i);
 void copyString(char *source, char* destination, int startLocation,int length);
 void copyStringWithoutSpace(char *source,char*destination);
 Token *checkIdentifier(char *name);
-
+Token *createNumberToken(int number);
 #endif //__TOKEN_H__
