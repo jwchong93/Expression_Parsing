@@ -801,7 +801,62 @@ void test_getToken_will_detect_BITWISE_LOGICAL_AND_AND_and_AND_SET_EQUAL()
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
 	TEST_ASSERT_EQUAL(AND_SET_EQUAL,opeToken->ope);
 	free(opeToken);
+	free(testTokenizer);
 }
+void test_getToken_will_detect_ADD_SET_EQUAL_and_INCREMENT()
+{
+	Tokenizer * testTokenizer = initTokenizer("total += number++");
+	Token *testToken = getToken(testTokenizer);
+	free(testToken);
+	
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	Operator *opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(ADD_SET_EQUAL,opeToken->ope);
+	free(opeToken);
+	
+	testToken = getToken(testTokenizer);
+	free(testToken);
+	
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(INCREMENT,opeToken->ope);
+	free(opeToken);
+	free(testTokenizer);
+}
+
+void test_getToken_will_identify_SUBTRACT_SET_EQUAL_and_DECREMENT()
+{
+		Tokenizer * testTokenizer = initTokenizer("total -= number--");
+	Token *testToken = getToken(testTokenizer);
+	free(testToken);
+	
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	Operator *opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(SUBTRACT_SET_EQUAL,opeToken->ope);
+	free(opeToken);
+	
+	testToken = getToken(testTokenizer);
+	free(testToken);
+	
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(DECREMENT,opeToken->ope);
+	free(opeToken);
+	free(testTokenizer);
+}
+
 void test_copyString_should_copy_the_string_from_source_to_destination()
 {
 	char * newString ="Hello World!!!!";
