@@ -832,7 +832,7 @@ void test_getToken_will_detect_ADD_SET_EQUAL_and_INCREMENT()
 
 void test_getToken_will_identify_SUBTRACT_SET_EQUAL_and_DECREMENT()
 {
-		Tokenizer * testTokenizer = initTokenizer("total -= number--");
+	Tokenizer * testTokenizer = initTokenizer("total -= number--");
 	Token *testToken = getToken(testTokenizer);
 	free(testToken);
 	
@@ -854,6 +854,75 @@ void test_getToken_will_identify_SUBTRACT_SET_EQUAL_and_DECREMENT()
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
 	TEST_ASSERT_EQUAL(DECREMENT,opeToken->ope);
 	free(opeToken);
+	free(testTokenizer);
+}
+
+void test_getToken_will_identify_BITWISE_XOR_and_XOR_SET_EQUAL()
+{
+	Tokenizer * testTokenizer = initTokenizer("total+1^0 ^= 1" );
+	Token *testToken = getToken(testTokenizer); //total
+	free(testToken);
+	testToken = getToken(testTokenizer);		//+
+	free(testToken);
+	testToken = getToken(testTokenizer);		//1
+	free(testToken);
+	
+	testToken = getToken(testTokenizer);		//^
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	Operator *opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(BITWISE_XOR,opeToken->ope);
+	free(opeToken);
+	
+	testToken = getToken(testTokenizer);		//0
+	free(testToken);
+	
+	testToken = getToken(testTokenizer);		//^=
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(XOR_SET_EQUAL,opeToken->ope);
+	free(opeToken);
+	free(testTokenizer);
+}
+
+
+void test_getToken_will_identify_BITWISE_OR_LOGICAL_OR_and_OR_SET_EQUAL()
+{
+	Tokenizer * testTokenizer = initTokenizer("total|1||0 |= 1" );
+	Token *testToken = getToken(testTokenizer); //total
+	free(testToken);
+	
+	testToken = getToken(testTokenizer);		//|
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	Operator *opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(BITWISE_OR,opeToken->ope);
+	free(opeToken);
+	
+	testToken = getToken(testTokenizer);		//1
+	free(testToken);
+	
+	testToken = getToken(testTokenizer);		//||
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(LOGICAL_OR,opeToken->ope);
+	free(opeToken);
+	
+	testToken = getToken(testTokenizer);		//0
+	free(testToken);
+	
+		testToken = getToken(testTokenizer);		//|=
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(OR_SET_EQUAL,opeToken->ope);
 	free(testTokenizer);
 }
 
