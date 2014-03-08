@@ -25,7 +25,6 @@ Tokenizer *initTokenizer(char *expression)
 	return newTokenizer;
 }
 
-
 /*
 	This function will generate a token
 	
@@ -102,9 +101,19 @@ Token *getToken (Tokenizer *tokenizer)
 		
 	}
 }
+
+
+/*
+	The job of this function is to detect the operation type and return it. 
 	
+	input:			*tokenizer 	-> which contain the expression and the details
+					i			-> contain a value for update tokenizer purpose.
 	
+	output: 		none
 	
+	return:			opeToken	-> If it is a valid operator.
+					NULL		-> If it is not a valid operator.
+*/	
 Operator *detectOperator(Tokenizer *tokenizer, int i)
 {	
 	Operator *opeToken = malloc(sizeof(Operator));
@@ -155,17 +164,44 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 			}
 			case '*':
 			{
-				opeToken->ope=MULTIPLY;
+				if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
+				{
+					i++;
+					opeToken->ope=MULTIPLY_SET_EQUAL;
+					
+				}
+				else
+				{
+					opeToken->ope=MULTIPLY;
+				}
 				break;
 			}
 			case '/':
 			{
-				opeToken->ope=DIVIDE;
+				if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
+				{
+					i++;
+					opeToken->ope=DIVIDE_SET_EQUAL;
+					
+				}
+				else
+				{
+					opeToken->ope=DIVIDE;
+				}
 				break;
 			}
 			case '%':
 			{
-				opeToken->ope=MODULUS;
+				if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
+				{
+					i++;
+					opeToken->ope=MODULUS_SET_EQUAL;
+					
+				}
+				else
+				{
+					opeToken->ope=MODULUS;
+				}
 				break;
 			}
 			case '$':
@@ -339,7 +375,7 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 	none
 	
 	return:
-	NULL			If it is a valid identifier
+	NULL			If it is an invalid identifier
 	opeToken		If it is low, high or upper.
 	
 */
