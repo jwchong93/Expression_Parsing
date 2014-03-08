@@ -280,7 +280,38 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 				}
 				else
 				{
-				opeToken->ope=BITWISE_AND;
+					opeToken->ope=BITWISE_AND;
+				}
+				break;
+			}
+			case '^':
+			{
+				if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
+				{
+					i++;
+					opeToken->ope = XOR_SET_EQUAL;
+				}
+				else
+				{
+					opeToken->ope=BITWISE_XOR;
+				}
+				break;
+			}
+			case '|':
+			{
+				if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
+				{
+					i++;
+					opeToken->ope = OR_SET_EQUAL;
+				}
+				else if(tokenizer->rawString[tokenizer->startIndex+1]=='|')
+				{
+					i++;
+					opeToken->ope = LOGICAL_OR;
+				}		
+				else
+				{
+					opeToken->ope=BITWISE_OR;
 				}
 				break;
 			}
