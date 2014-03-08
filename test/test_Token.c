@@ -917,12 +917,56 @@ void test_getToken_will_identify_BITWISE_OR_LOGICAL_OR_and_OR_SET_EQUAL()
 	testToken = getToken(testTokenizer);		//0
 	free(testToken);
 	
-		testToken = getToken(testTokenizer);		//|=
+	testToken = getToken(testTokenizer);		//|=
 	TEST_ASSERT_NOT_NULL(testToken);
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
 	TEST_ASSERT_EQUAL(OR_SET_EQUAL,opeToken->ope);
+	free(opeToken);
+	free(testTokenizer);
+}
+
+void test_getToken_will_identify_MULTIPLY_DIVIDE_and_MODULUS_SET_EQUAL()
+{
+	Tokenizer * testTokenizer = initTokenizer("total *= 0" );
+	Token *testToken = getToken(testTokenizer); //total
+	free(testToken);
+	
+	testToken = getToken(testTokenizer); 		//*=
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	Operator *opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(MULTIPLY_SET_EQUAL,opeToken->ope);
+	free(opeToken);
+	free(testTokenizer);
+	
+	testTokenizer = initTokenizer("total %= 0" );
+	testToken = getToken(testTokenizer); //total
+	free(testToken);
+	
+	testToken = getToken(testTokenizer); 		//%=
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(MODULUS_SET_EQUAL,opeToken->ope);
+	free(opeToken);
+	free(testTokenizer);
+	
+	
+	testTokenizer = initTokenizer("total /= 0" );
+	testToken = getToken(testTokenizer); //total
+	free(testToken);
+	
+	testToken = getToken(testTokenizer); 		///=
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(DIVIDE_SET_EQUAL,opeToken->ope);
+	free(opeToken);
 	free(testTokenizer);
 }
 
