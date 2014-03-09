@@ -28,7 +28,7 @@ typedef struct {
 
 typedef struct {
 	Token type;
-	Operation ope;
+	Operation operation;
 }Operator;
 
 typedef struct {
