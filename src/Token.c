@@ -467,6 +467,19 @@ void copyStringWithoutSpace(char *source,char *destination)
 	
 }
 
+/*
+	This function will generate a Token from a number.
+	
+	input :
+	number				Carry the number that going to store in a Token.
+	
+	output:
+	none
+	
+	return:
+	(Token*)newToken	The token that generated.
+*/
+
 Token *createNumberToken(int number)
 {
 	Number *newToken = malloc (sizeof(Number));
