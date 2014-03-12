@@ -97,8 +97,7 @@ void test_getToken_should_indentify_the_identifier_consist_in_the_expression()
 	Tokenizer *testTokenizer = initTokenizer("2+MAX5-4");
 	
 	//Since previous test had tested how to return 2 and + lets skip the test
-	testToken = getToken(testTokenizer);
-	free(testToken);
+	free(getToken(testTokenizer));
 	testToken = getToken(testTokenizer);
 	
 	//This getToken should return an identifier token address.
@@ -131,10 +130,9 @@ void test_getToken_should_stop_return_a_token_while_an_invalid_identifer_is_incl
 	testTokenizer = initTokenizer("2+5MAX");
 	Try 
 	{
-	Token *testToken = getToken (testTokenizer);
-	free(testToken);
-	testToken = getToken (testTokenizer);
-	free(testToken);
+	Token *testToken;
+	free(getToken(testTokenizer));
+	free(getToken(testTokenizer));
 	testToken = getToken (testTokenizer);
 	//The getToken function will return NULL and throw an enum INVALID_IDENTFIER.
 	TEST_ASSERT_NULL(testToken);
@@ -151,10 +149,9 @@ void test_getToken_should_detect_the_valid_identifier_which_have_a_different_pat
 	//Try some valid format like .MAX
 	Tokenizer *testTokenizer = initTokenizer("2+.MAX");
 
-	Token *testToken = getToken (testTokenizer);
-	free(testToken);
-	testToken = getToken (testTokenizer);
-	free(testToken);
+	Token *testToken;
+	free(getToken(testTokenizer));
+	free(getToken(testTokenizer));
 	testToken = getToken (testTokenizer);
 	//The getToken function will not return NULL and do not throw an enum INVALID_IDENTFIER.
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -167,10 +164,8 @@ void test_getToken_should_detect_the_valid_identifier_which_have_a_different_pat
 	
 	//Test for the identifier that consist more dot(.)
 	testTokenizer = initTokenizer("2+..MAX");
-	testToken = getToken (testTokenizer);
-	free(testToken);
-	testToken = getToken (testTokenizer);
-	free(testToken);
+	free(getToken(testTokenizer));
+	free(getToken(testTokenizer));
 	testToken = getToken (testTokenizer);
 	TEST_ASSERT_NOT_NULL(testToken);
 	TEST_ASSERT_EQUAL(IDENTIFIER,*testToken);
@@ -181,10 +176,8 @@ void test_getToken_should_detect_the_valid_identifier_which_have_a_different_pat
 	
 	//Try the identifier which have many dot in random location.
 	testTokenizer = initTokenizer("2+.M.A.X.");
-	testToken = getToken (testTokenizer);
-	free(testToken);
-	testToken = getToken (testTokenizer);
-	free(testToken);
+	free(getToken(testTokenizer));
+	free(getToken(testTokenizer));
 	testToken = getToken (testTokenizer);
 	TEST_ASSERT_NOT_NULL(testToken);
 	TEST_ASSERT_EQUAL(IDENTIFIER,*testToken);
@@ -242,8 +235,8 @@ void test_getToken_should_detect_multiply_sign()
 	Tokenizer *testTokenizer = initTokenizer("25*456");
 	
 	//Since the program already can detect 25.
-	Token *testToken = getToken(testTokenizer);
-	free(testToken);
+	Token *testToken;
+	free(getToken(testTokenizer));
 	testToken = getToken(testTokenizer);
 	
 	//This testToken should be not NULL
@@ -263,8 +256,8 @@ void test_getToken_should_detect_divide_sign()
 	Tokenizer *testTokenizer = initTokenizer("25/456");
 	
 	//Since the program already can detect 25.
-	Token *testToken = getToken(testTokenizer);
-	free(testToken);
+	Token *testToken;
+	free(getToken(testTokenizer));
 	testToken = getToken(testTokenizer);
 	
 	//This testToken should be not NULL
@@ -284,8 +277,8 @@ void test_getToken_should_detect_modulus_sign()
 	Tokenizer *testTokenizer = initTokenizer("200%10");
 	
 	//Since the program already can detect 25.
-	Token *testToken = getToken(testTokenizer);
-	free(testToken);
+	Token *testToken;
+	free(getToken(testTokenizer));
 	testToken = getToken(testTokenizer);
 	
 	//This testToken should be not NULL
@@ -305,10 +298,9 @@ void test_getToken_should_detect_current_program_counter_sign()
 	Tokenizer *testTokenizer = initTokenizer("2+$");
 	
 	//Since the program already can detect 2 and +.
-	Token *testToken = getToken(testTokenizer);
-	free(testToken);
-	testToken = getToken(testTokenizer);
-	free(testToken);
+	Token *testToken;
+	free(getToken(testTokenizer));
+	free(getToken(testTokenizer));
 	testToken = getToken(testTokenizer);
 	
 	//This testToken should be not NULL
@@ -353,10 +345,8 @@ void test_getToken_should_detect_parenthesis_sign()
 	TEST_ASSERT_EQUAL(LEFT_PARENTHESIS,opeToken->operation);
 	
 	//Read out the 2 , + and 3
-	testToken = getToken(testTokenizer);
-	free(testToken);
-	testToken = getToken(testTokenizer);
-	free(testToken);
+	free(getToken(testTokenizer));
+	free(getToken(testTokenizer));
 	testToken = getToken(testTokenizer);
 	
 	testToken = getToken(testTokenizer);
@@ -376,11 +366,10 @@ void test_getToken_should_detect_equal_sign()
 	Tokenizer *testTokenizer = initTokenizer("2+3=5");
 	
 	//Since the program already can detect 2,+ and 3.
-	Token *testToken = getToken(testTokenizer);
-	testToken = getToken(testTokenizer);
-	free(testToken);
-	testToken = getToken(testTokenizer);
-	free(testToken);
+	Token *testToken;
+	free(getToken(testTokenizer));
+	free(getToken(testTokenizer));
+	free(getToken(testTokenizer));
 	testToken = getToken(testTokenizer);
 	
 	//This testToken should be not NULL
@@ -401,13 +390,11 @@ void test_getToken_should_detect_not_sign()
 	Tokenizer *testTokenizer = initTokenizer("2+3+!3");
 	
 	//Since the program already can detect 2,+ and 3.
-	Token *testToken = getToken(testTokenizer);
-	testToken = getToken(testTokenizer);	//2
-	free(testToken);
-	testToken = getToken(testTokenizer);	//+
-	free(testToken);
-	testToken = getToken(testTokenizer);	//3
-	free(testToken);
+	Token *testToken;
+	free(getToken(testTokenizer));
+	free(getToken(testTokenizer));
+	free(getToken(testTokenizer));
+	free(getToken(testTokenizer));
 	testToken = getToken(testTokenizer);	//+
 	
 	//This testToken should be not NULL
@@ -424,12 +411,9 @@ void test_getToken_should_detect_not_sign()
 	testTokenizer = initTokenizer("2+3!=5");
 	
 	//Since the program already can detect 2,+ and 3.
-	testToken = getToken(testTokenizer);
-	free(testToken);
-	testToken = getToken(testTokenizer);
-	free(testToken);
-	testToken = getToken(testTokenizer);
-	free(testToken);
+	free(getToken(testTokenizer));
+	free(getToken(testTokenizer));
+	free(getToken(testTokenizer));
 	testToken = getToken(testTokenizer);
 	
 	//This testToken should be not NULL
@@ -467,10 +451,8 @@ void test_getToken_should_indentify_negation_symbol()
 	//Try do on some different equation 
 	
 	testTokenizer = initTokenizer("2+-6");
-	testToken = getToken(testTokenizer); //2
-	free(testToken);
-	testToken = getToken(testTokenizer); //+
-	free(testToken);
+	free(getToken(testTokenizer));
+	free(getToken(testTokenizer));
 	testToken = getToken(testTokenizer); //-
 	
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
@@ -483,8 +465,7 @@ void test_getToken_should_indentify_negation_symbol()
 	//What if there is a double '-' sign ?
 	
 	testTokenizer = initTokenizer("2--6");
-	testToken = getToken(testTokenizer); //2
-	free(testToken);
+	free(getToken(testTokenizer));
 	testToken = getToken(testTokenizer); //-
 	
 	//Should get as subtract for the first '-'
@@ -523,11 +504,10 @@ void test_getToken_should_detect_complement_in_an_expression()
 	
 	//Lets try to input some equation that the complement is being in middle. 
 	testTokenizer = initTokenizer("2+~9");
-	testToken = getToken(testTokenizer); //2
-	free(testToken);
-	testToken = getToken(testTokenizer); //+
-	free(testToken); 
+	free(getToken(testTokenizer));
+	free(getToken(testTokenizer));
 	testToken = getToken(testTokenizer); //~
+	
 	//This testToken should be not NULL
 	TEST_ASSERT_NOT_NULL(testToken);
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
@@ -535,8 +515,8 @@ void test_getToken_should_detect_complement_in_an_expression()
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
 	TEST_ASSERT_EQUAL(COMPLEMENT,opeToken->operation);
 	free(opeToken);
-	testToken = getToken(testTokenizer);
-	free(testToken);
+	
+	free(getToken(testTokenizer));
 	testToken = getToken(testTokenizer);
 	TEST_ASSERT_NULL(testToken);
 	free(testTokenizer);
@@ -562,10 +542,8 @@ void test_getToken_will_differentiate_low_high_and_upper_as_operator()
 	//Try to make some combinational expression.
 	testTokenizer = initTokenizer("1*high(45012357)");
 	
-	testToken = getToken(testTokenizer);
-	free (testToken);
-	testToken = getToken(testTokenizer);
-	free (testToken);
+	free(getToken(testTokenizer));
+	free(getToken(testTokenizer));
 	testToken = getToken(testTokenizer);
 	
 	//This testToken should be not NULL
@@ -619,8 +597,7 @@ void test_getToken_will_differentiate_greater__greater_or_equal__right_shift_and
 	free(testTokenizer);
 	
 	testTokenizer = initTokenizer("num1>=num2>>=MAX>>1");
-	testToken = getToken(testTokenizer); //num1
-	free(testToken);
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -630,8 +607,7 @@ void test_getToken_will_differentiate_greater__greater_or_equal__right_shift_and
 	TEST_ASSERT_EQUAL(GREATER_EQUAL_THAN,opeToken->operation);
 	free(opeToken);
 	
-	testToken = getToken(testTokenizer);	//num2
-	free(testToken);
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -641,8 +617,7 @@ void test_getToken_will_differentiate_greater__greater_or_equal__right_shift_and
 	TEST_ASSERT_EQUAL(RIGHT_SHIFT_SET_EQUAL,opeToken->operation);
 	free(opeToken);
 	
-	testToken = getToken(testTokenizer);	//MAX
-	free(testToken);
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -686,8 +661,7 @@ void test_getToken_will_differentiate_less__less_or_equal__left_shift_and_left_s
 	free(testTokenizer);
 	
 	testTokenizer = initTokenizer("num1<=num2<<=MAX<<1");
-	testToken = getToken(testTokenizer); //num1
-	free(testToken);
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -697,8 +671,7 @@ void test_getToken_will_differentiate_less__less_or_equal__left_shift_and_left_s
 	TEST_ASSERT_EQUAL(LESS_EQUAL_THAN,opeToken->operation);
 	free(opeToken);
 	
-	testToken = getToken(testTokenizer);	//num2
-	free(testToken);
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -708,8 +681,7 @@ void test_getToken_will_differentiate_less__less_or_equal__left_shift_and_left_s
 	TEST_ASSERT_EQUAL(LEFT_SHIFT_SET_EQUAL,opeToken->operation);
 	free(opeToken);
 	
-	testToken = getToken(testTokenizer);	//MAX
-	free(testToken);
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -752,7 +724,7 @@ void test_getToken_will_identify_equal_and_equal_to()
 	free(testTokenizer);
 	
 	testTokenizer = initTokenizer("tempNum == 5");
-	testToken = getToken(testTokenizer); //tempNum
+	free(getToken(testTokenizer));
 	testToken = getToken(testTokenizer); //==
 	TEST_ASSERT_NOT_NULL(testToken);
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
@@ -767,8 +739,8 @@ void test_getToken_will_identify_equal_and_equal_to()
 void test_getToken_will_detect_BITWISE_LOGICAL_AND_AND_and_AND_SET_EQUAL()
 {
 	Tokenizer * testTokenizer = initTokenizer("4&5&&1");
-	Token *testToken = getToken(testTokenizer);
-	free(testToken);
+	Token *testToken;
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -778,8 +750,7 @@ void test_getToken_will_detect_BITWISE_LOGICAL_AND_AND_and_AND_SET_EQUAL()
 	TEST_ASSERT_EQUAL(BITWISE_AND,opeToken->operation);
 	free(opeToken);
 	
-	testToken = getToken(testTokenizer);
-	free(testToken);
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -791,8 +762,7 @@ void test_getToken_will_detect_BITWISE_LOGICAL_AND_AND_and_AND_SET_EQUAL()
 	free(testTokenizer);
 	
 	testTokenizer = initTokenizer("bool &= input");
-	testToken = getToken(testTokenizer);
-	free(testToken);
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -806,8 +776,8 @@ void test_getToken_will_detect_BITWISE_LOGICAL_AND_AND_and_AND_SET_EQUAL()
 void test_getToken_will_detect_ADD_SET_EQUAL_and_INCREMENT()
 {
 	Tokenizer * testTokenizer = initTokenizer("total += number++");
-	Token *testToken = getToken(testTokenizer);
-	free(testToken);
+	Token *testToken;
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -817,8 +787,7 @@ void test_getToken_will_detect_ADD_SET_EQUAL_and_INCREMENT()
 	TEST_ASSERT_EQUAL(ADD_SET_EQUAL,opeToken->operation);
 	free(opeToken);
 	
-	testToken = getToken(testTokenizer);
-	free(testToken);
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -833,8 +802,8 @@ void test_getToken_will_detect_ADD_SET_EQUAL_and_INCREMENT()
 void test_getToken_will_identify_SUBTRACT_SET_EQUAL_and_DECREMENT()
 {
 	Tokenizer * testTokenizer = initTokenizer("total -= number--");
-	Token *testToken = getToken(testTokenizer);
-	free(testToken);
+	Token *testToken;
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -844,8 +813,7 @@ void test_getToken_will_identify_SUBTRACT_SET_EQUAL_and_DECREMENT()
 	TEST_ASSERT_EQUAL(SUBTRACT_SET_EQUAL,opeToken->operation);
 	free(opeToken);
 	
-	testToken = getToken(testTokenizer);
-	free(testToken);
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -860,12 +828,10 @@ void test_getToken_will_identify_SUBTRACT_SET_EQUAL_and_DECREMENT()
 void test_getToken_will_identify_BITWISE_XOR_and_XOR_SET_EQUAL()
 {
 	Tokenizer * testTokenizer = initTokenizer("total+1^0 ^= 1" );
-	Token *testToken = getToken(testTokenizer); //total
-	free(testToken);
-	testToken = getToken(testTokenizer);		//+
-	free(testToken);
-	testToken = getToken(testTokenizer);		//1
-	free(testToken);
+	Token *testToken;
+	free(getToken(testTokenizer));
+	free(getToken(testTokenizer));
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);		//^
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -875,8 +841,7 @@ void test_getToken_will_identify_BITWISE_XOR_and_XOR_SET_EQUAL()
 	TEST_ASSERT_EQUAL(BITWISE_XOR,opeToken->operation);
 	free(opeToken);
 	
-	testToken = getToken(testTokenizer);		//0
-	free(testToken);
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);		//^=
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -892,8 +857,8 @@ void test_getToken_will_identify_BITWISE_XOR_and_XOR_SET_EQUAL()
 void test_getToken_will_identify_BITWISE_OR_LOGICAL_OR_and_OR_SET_EQUAL()
 {
 	Tokenizer * testTokenizer = initTokenizer("total|1||0 |= 1" );
-	Token *testToken = getToken(testTokenizer); //total
-	free(testToken);
+	Token *testToken;
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);		//|
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -903,8 +868,7 @@ void test_getToken_will_identify_BITWISE_OR_LOGICAL_OR_and_OR_SET_EQUAL()
 	TEST_ASSERT_EQUAL(BITWISE_OR,opeToken->operation);
 	free(opeToken);
 	
-	testToken = getToken(testTokenizer);		//1
-	free(testToken);
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);		//||
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -914,8 +878,7 @@ void test_getToken_will_identify_BITWISE_OR_LOGICAL_OR_and_OR_SET_EQUAL()
 	TEST_ASSERT_EQUAL(LOGICAL_OR,opeToken->operation);
 	free(opeToken);
 	
-	testToken = getToken(testTokenizer);		//0
-	free(testToken);
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);		//|=
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -930,8 +893,8 @@ void test_getToken_will_identify_BITWISE_OR_LOGICAL_OR_and_OR_SET_EQUAL()
 void test_getToken_will_identify_MULTIPLY_DIVIDE_and_MODULUS_SET_EQUAL()
 {
 	Tokenizer * testTokenizer = initTokenizer("total *= 0" );
-	Token *testToken = getToken(testTokenizer); //total
-	free(testToken);
+	Token *testToken;
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer); 		//*=
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -943,8 +906,7 @@ void test_getToken_will_identify_MULTIPLY_DIVIDE_and_MODULUS_SET_EQUAL()
 	free(testTokenizer);
 	
 	testTokenizer = initTokenizer("total %= 0" );
-	testToken = getToken(testTokenizer); //total
-	free(testToken);
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer); 		//%=
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -957,8 +919,7 @@ void test_getToken_will_identify_MULTIPLY_DIVIDE_and_MODULUS_SET_EQUAL()
 	
 	
 	testTokenizer = initTokenizer("total /= 0" );
-	testToken = getToken(testTokenizer); //total
-	free(testToken);
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer); 		///=
 	TEST_ASSERT_NOT_NULL(testToken);
