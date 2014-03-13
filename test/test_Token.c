@@ -63,7 +63,7 @@ void test_getToken_should_return_the_token_by_sequence()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	testOpe = (Operator *) testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,testOpe->type);
-	TEST_ASSERT_EQUAL(ADD,testOpe->operation);
+	TEST_ASSERT_EQUAL(ADD,testOpe->id);
 	free(testOpe);
 
 	//Get the last token which is 3 an1d test the length and startIndex.
@@ -210,7 +210,7 @@ void test_getToken_should_identify_the_number_that_is_more_than_10()
 	//It should be operator type
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	Operator *testOpe = (Operator*) testToken;
-	TEST_ASSERT_EQUAL(SUBTRACT,testOpe->operation);
+	TEST_ASSERT_EQUAL(SUBTRACT,testOpe->id);
 	free(testOpe);
 	
 	//Continue get the token
@@ -245,7 +245,7 @@ void test_getToken_should_detect_multiply_sign()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	Operator *opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(MULTIPLY,opeToken->operation);
+	TEST_ASSERT_EQUAL(MULTIPLY,opeToken->id);
 	free(testTokenizer);
 	free(opeToken);
 	
@@ -266,7 +266,7 @@ void test_getToken_should_detect_divide_sign()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	Operator *opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(DIVIDE,opeToken->operation);
+	TEST_ASSERT_EQUAL(DIVIDE,opeToken->id);
 	free(testTokenizer);
 	free(opeToken);
 	
@@ -287,7 +287,7 @@ void test_getToken_should_detect_modulus_sign()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	Operator *opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(MODULUS,opeToken->operation);
+	TEST_ASSERT_EQUAL(MODULUS,opeToken->id);
 	free(testTokenizer);
 	free(opeToken);
 	
@@ -309,7 +309,7 @@ void test_getToken_should_detect_current_program_counter_sign()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	Operator *opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(CURRENT_PROGRAM_COUNTER,opeToken->operation);
+	TEST_ASSERT_EQUAL(CURRENT_PROGRAM_COUNTER,opeToken->id);
 	free(testTokenizer);
 	free(opeToken);
 	
@@ -324,7 +324,7 @@ void test_getToken_should_detect_current_program_counter_sign()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(CURRENT_PROGRAM_COUNTER,opeToken->operation);
+	TEST_ASSERT_EQUAL(CURRENT_PROGRAM_COUNTER,opeToken->id);
 	free(testTokenizer);
 	free(opeToken);
 	
@@ -342,7 +342,7 @@ void test_getToken_should_detect_parenthesis_sign()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	Operator *opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(LEFT_PARENTHESIS,opeToken->operation);
+	TEST_ASSERT_EQUAL(LEFT_PARENTHESIS,opeToken->id);
 	
 	//Read out the 2 , + and 3
 	free(getToken(testTokenizer));
@@ -356,7 +356,7 @@ void test_getToken_should_detect_parenthesis_sign()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(RIGHT_PARENTHESIS,opeToken->operation);
+	TEST_ASSERT_EQUAL(RIGHT_PARENTHESIS,opeToken->id);
 	free(testTokenizer);
 	free(opeToken);
 }
@@ -378,7 +378,7 @@ void test_getToken_should_detect_equal_sign()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	Operator *opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(EQUAL,opeToken->operation);
+	TEST_ASSERT_EQUAL(EQUAL,opeToken->id);
 	free(testTokenizer);
 	free(opeToken);
 	
@@ -403,7 +403,7 @@ void test_getToken_should_detect_not_sign()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	Operator *opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(LOGIC_NOT,opeToken->operation);
+	TEST_ASSERT_EQUAL(LOGIC_NOT,opeToken->id);
 	free(testTokenizer);
 	free(opeToken);
 	
@@ -422,7 +422,7 @@ void test_getToken_should_detect_not_sign()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(NOT_EQUAL,opeToken->operation);
+	TEST_ASSERT_EQUAL(NOT_EQUAL,opeToken->id);
 	
 	//The tokenizer should updated to...
 	TEST_ASSERT_EQUAL(5,testTokenizer->startIndex);
@@ -443,7 +443,7 @@ void test_getToken_should_indentify_negation_symbol()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	Operator * opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(NEGATION,opeToken->operation);
+	TEST_ASSERT_EQUAL(NEGATION,opeToken->id);
 	free(testTokenizer);
 	free(opeToken);
 	
@@ -458,7 +458,7 @@ void test_getToken_should_indentify_negation_symbol()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(NEGATION,opeToken->operation);
+	TEST_ASSERT_EQUAL(NEGATION,opeToken->id);
 	free(testTokenizer);
 	free(opeToken);
 	
@@ -472,14 +472,14 @@ void test_getToken_should_indentify_negation_symbol()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(SUBTRACT,opeToken->operation);
+	TEST_ASSERT_EQUAL(SUBTRACT,opeToken->id);
 	
 	//Should get as negation for the second '-'
 	testToken = getToken(testTokenizer); //-
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(NEGATION,opeToken->operation);
+	TEST_ASSERT_EQUAL(NEGATION,opeToken->id);
 	free(testTokenizer);
 	free(opeToken);
 	
@@ -499,7 +499,7 @@ void test_getToken_should_detect_complement_in_an_expression()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	Operator *opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(COMPLEMENT,opeToken->operation);
+	TEST_ASSERT_EQUAL(COMPLEMENT,opeToken->id);
 	free (opeToken);
 	
 	//Lets try to input some equation that the complement is being in middle. 
@@ -513,7 +513,7 @@ void test_getToken_should_detect_complement_in_an_expression()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(COMPLEMENT,opeToken->operation);
+	TEST_ASSERT_EQUAL(COMPLEMENT,opeToken->id);
 	free(opeToken);
 	
 	free(getToken(testTokenizer));
@@ -534,7 +534,7 @@ void test_getToken_will_differentiate_low_high_and_upper_as_operator()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	Operator *opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(LOW,opeToken->operation);
+	TEST_ASSERT_EQUAL(LOW,opeToken->id);
 	free (opeToken);
 	free(testTokenizer);
 	
@@ -552,7 +552,7 @@ void test_getToken_will_differentiate_low_high_and_upper_as_operator()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(HIGH,opeToken->operation);
+	TEST_ASSERT_EQUAL(HIGH,opeToken->id);
 	free (opeToken);
 		
 	testToken = getToken(testTokenizer);
@@ -560,7 +560,7 @@ void test_getToken_will_differentiate_low_high_and_upper_as_operator()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(LEFT_PARENTHESIS,opeToken->operation);
+	TEST_ASSERT_EQUAL(LEFT_PARENTHESIS,opeToken->id);
 	free (opeToken);
 	free(testTokenizer);
 	
@@ -584,7 +584,7 @@ void test_getToken_will_differentiate_greater__greater_or_equal__right_shift_and
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	Operator *opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(GREATER_THAN,opeToken->operation);
+	TEST_ASSERT_EQUAL(GREATER_THAN,opeToken->id);
 	free(opeToken);
 	
 	testToken = getToken(testTokenizer);
@@ -604,7 +604,7 @@ void test_getToken_will_differentiate_greater__greater_or_equal__right_shift_and
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(GREATER_EQUAL_THAN,opeToken->operation);
+	TEST_ASSERT_EQUAL(GREATER_EQUAL_THAN,opeToken->id);
 	free(opeToken);
 	
 	free(getToken(testTokenizer));
@@ -614,7 +614,7 @@ void test_getToken_will_differentiate_greater__greater_or_equal__right_shift_and
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(RIGHT_SHIFT_SET_EQUAL,opeToken->operation);
+	TEST_ASSERT_EQUAL(RIGHT_SHIFT_SET_EQUAL,opeToken->id);
 	free(opeToken);
 	
 	free(getToken(testTokenizer));
@@ -624,7 +624,7 @@ void test_getToken_will_differentiate_greater__greater_or_equal__right_shift_and
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(RIGHT_SHIFT,opeToken->operation);
+	TEST_ASSERT_EQUAL(RIGHT_SHIFT,opeToken->id);
 	free(opeToken);
 	free(testTokenizer);
 	
@@ -648,7 +648,7 @@ void test_getToken_will_differentiate_less__less_or_equal__left_shift_and_left_s
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	Operator *opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(LESS_THAN,opeToken->operation);
+	TEST_ASSERT_EQUAL(LESS_THAN,opeToken->id);
 	free(opeToken);
 	
 	testToken = getToken(testTokenizer);
@@ -668,7 +668,7 @@ void test_getToken_will_differentiate_less__less_or_equal__left_shift_and_left_s
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(LESS_EQUAL_THAN,opeToken->operation);
+	TEST_ASSERT_EQUAL(LESS_EQUAL_THAN,opeToken->id);
 	free(opeToken);
 	
 	free(getToken(testTokenizer));
@@ -678,7 +678,7 @@ void test_getToken_will_differentiate_less__less_or_equal__left_shift_and_left_s
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(LEFT_SHIFT_SET_EQUAL,opeToken->operation);
+	TEST_ASSERT_EQUAL(LEFT_SHIFT_SET_EQUAL,opeToken->id);
 	free(opeToken);
 	
 	free(getToken(testTokenizer));
@@ -688,7 +688,7 @@ void test_getToken_will_differentiate_less__less_or_equal__left_shift_and_left_s
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(LEFT_SHIFT,opeToken->operation);
+	TEST_ASSERT_EQUAL(LEFT_SHIFT,opeToken->id);
 	free(opeToken);
 	
 	//Make sure the tokenizer will be updated to the latest position.
@@ -719,7 +719,7 @@ void test_getToken_will_identify_equal_and_equal_to()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	Operator *opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(EQUAL,opeToken->operation);
+	TEST_ASSERT_EQUAL(EQUAL,opeToken->id);
 	free(opeToken);
 	free(testTokenizer);
 	
@@ -730,7 +730,7 @@ void test_getToken_will_identify_equal_and_equal_to()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(EQUAL_TO,opeToken->operation);
+	TEST_ASSERT_EQUAL(EQUAL_TO,opeToken->id);
 	free(opeToken);
 	free(testTokenizer);
 	
@@ -747,7 +747,7 @@ void test_getToken_will_detect_BITWISE_LOGICAL_AND_AND_and_AND_SET_EQUAL()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	Operator * opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(BITWISE_AND,opeToken->operation);
+	TEST_ASSERT_EQUAL(BITWISE_AND,opeToken->id);
 	free(opeToken);
 	
 	free(getToken(testTokenizer));
@@ -757,7 +757,7 @@ void test_getToken_will_detect_BITWISE_LOGICAL_AND_AND_and_AND_SET_EQUAL()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(LOGICAL_AND,opeToken->operation);
+	TEST_ASSERT_EQUAL(LOGICAL_AND,opeToken->id);
 	free(opeToken);
 	free(testTokenizer);
 	
@@ -769,7 +769,7 @@ void test_getToken_will_detect_BITWISE_LOGICAL_AND_AND_and_AND_SET_EQUAL()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(AND_SET_EQUAL,opeToken->operation);
+	TEST_ASSERT_EQUAL(AND_SET_EQUAL,opeToken->id);
 	free(opeToken);
 	free(testTokenizer);
 }
@@ -784,7 +784,7 @@ void test_getToken_will_detect_ADD_SET_EQUAL_and_INCREMENT()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	Operator *opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(ADD_SET_EQUAL,opeToken->operation);
+	TEST_ASSERT_EQUAL(ADD_SET_EQUAL,opeToken->id);
 	free(opeToken);
 	
 	free(getToken(testTokenizer));
@@ -794,7 +794,7 @@ void test_getToken_will_detect_ADD_SET_EQUAL_and_INCREMENT()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(INCREMENT,opeToken->operation);
+	TEST_ASSERT_EQUAL(INCREMENT,opeToken->id);
 	free(opeToken);
 	free(testTokenizer);
 }
@@ -810,7 +810,7 @@ void test_getToken_will_identify_SUBTRACT_SET_EQUAL_and_DECREMENT()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	Operator *opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(SUBTRACT_SET_EQUAL,opeToken->operation);
+	TEST_ASSERT_EQUAL(SUBTRACT_SET_EQUAL,opeToken->id);
 	free(opeToken);
 	
 	free(getToken(testTokenizer));
@@ -820,7 +820,7 @@ void test_getToken_will_identify_SUBTRACT_SET_EQUAL_and_DECREMENT()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(DECREMENT,opeToken->operation);
+	TEST_ASSERT_EQUAL(DECREMENT,opeToken->id);
 	free(opeToken);
 	free(testTokenizer);
 }
@@ -838,7 +838,7 @@ void test_getToken_will_identify_BITWISE_XOR_and_XOR_SET_EQUAL()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	Operator *opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(BITWISE_XOR,opeToken->operation);
+	TEST_ASSERT_EQUAL(BITWISE_XOR,opeToken->id);
 	free(opeToken);
 	
 	free(getToken(testTokenizer));
@@ -848,7 +848,7 @@ void test_getToken_will_identify_BITWISE_XOR_and_XOR_SET_EQUAL()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(XOR_SET_EQUAL,opeToken->operation);
+	TEST_ASSERT_EQUAL(XOR_SET_EQUAL,opeToken->id);
 	free(opeToken);
 	free(testTokenizer);
 }
@@ -865,7 +865,7 @@ void test_getToken_will_identify_BITWISE_OR_LOGICAL_OR_and_OR_SET_EQUAL()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	Operator *opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(BITWISE_OR,opeToken->operation);
+	TEST_ASSERT_EQUAL(BITWISE_OR,opeToken->id);
 	free(opeToken);
 	
 	free(getToken(testTokenizer));
@@ -875,7 +875,7 @@ void test_getToken_will_identify_BITWISE_OR_LOGICAL_OR_and_OR_SET_EQUAL()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(LOGICAL_OR,opeToken->operation);
+	TEST_ASSERT_EQUAL(LOGICAL_OR,opeToken->id);
 	free(opeToken);
 	
 	free(getToken(testTokenizer));
@@ -885,7 +885,7 @@ void test_getToken_will_identify_BITWISE_OR_LOGICAL_OR_and_OR_SET_EQUAL()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(OR_SET_EQUAL,opeToken->operation);
+	TEST_ASSERT_EQUAL(OR_SET_EQUAL,opeToken->id);
 	free(opeToken);
 	free(testTokenizer);
 }
@@ -901,7 +901,7 @@ void test_getToken_will_identify_MULTIPLY_DIVIDE_and_MODULUS_SET_EQUAL()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	Operator *opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(MULTIPLY_SET_EQUAL,opeToken->operation);
+	TEST_ASSERT_EQUAL(MULTIPLY_SET_EQUAL,opeToken->id);
 	free(opeToken);
 	free(testTokenizer);
 	
@@ -913,7 +913,7 @@ void test_getToken_will_identify_MULTIPLY_DIVIDE_and_MODULUS_SET_EQUAL()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(MODULUS_SET_EQUAL,opeToken->operation);
+	TEST_ASSERT_EQUAL(MODULUS_SET_EQUAL,opeToken->id);
 	free(opeToken);
 	free(testTokenizer);
 	
@@ -926,7 +926,7 @@ void test_getToken_will_identify_MULTIPLY_DIVIDE_and_MODULUS_SET_EQUAL()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(DIVIDE_SET_EQUAL,opeToken->operation);
+	TEST_ASSERT_EQUAL(DIVIDE_SET_EQUAL,opeToken->id);
 	free(opeToken);
 	free(testTokenizer);
 }
@@ -987,7 +987,7 @@ void test_checkIdentifer_will_filter_out_low_high_and_upper()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	Operator *opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(LOW,opeToken->operation);
+	TEST_ASSERT_EQUAL(LOW,opeToken->id);
 	free(opeToken);
 	
 	testToken=checkIdentifier("high");
@@ -995,7 +995,7 @@ void test_checkIdentifer_will_filter_out_low_high_and_upper()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(HIGH,opeToken->operation);
+	TEST_ASSERT_EQUAL(HIGH,opeToken->id);
 	free(opeToken);
 	
 	testToken=checkIdentifier("upper");
@@ -1003,7 +1003,7 @@ void test_checkIdentifer_will_filter_out_low_high_and_upper()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(UPPER,opeToken->operation);
+	TEST_ASSERT_EQUAL(UPPER,opeToken->id);
 	free(opeToken);
 	
 	//try to input name that out of low , high and upper.
@@ -1017,7 +1017,7 @@ void test_checkIdentifer_will_filter_out_low_high_and_upper()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(LOW,opeToken->operation);
+	TEST_ASSERT_EQUAL(LOW,opeToken->id);
 	free(opeToken);
 	
 	testToken=checkIdentifier("HiGH");
@@ -1025,7 +1025,7 @@ void test_checkIdentifer_will_filter_out_low_high_and_upper()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(HIGH,opeToken->operation);
+	TEST_ASSERT_EQUAL(HIGH,opeToken->id);
 	free(opeToken);
 	
 	testToken=checkIdentifier("UPpeR");
@@ -1033,7 +1033,7 @@ void test_checkIdentifer_will_filter_out_low_high_and_upper()
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
-	TEST_ASSERT_EQUAL(UPPER,opeToken->operation);
+	TEST_ASSERT_EQUAL(UPPER,opeToken->id);
 	free(opeToken);
 	
 }

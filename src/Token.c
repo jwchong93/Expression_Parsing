@@ -124,17 +124,17 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 				if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
 				{
 					i++;
-					opeToken->operation=ADD_SET_EQUAL;
+					opeToken->id=ADD_SET_EQUAL;
 					
 				}
 				else if(tokenizer->rawString[tokenizer->startIndex+1]=='+'&&!(isalnum(tokenizer->rawString[tokenizer->startIndex+2])))
 				{
 					i++;
-					opeToken->operation=INCREMENT;
+					opeToken->id=INCREMENT;
 				}
 				else
 				{
-					opeToken->operation=ADD;
+					opeToken->id=ADD;
 				}
 				break;
 			}
@@ -143,22 +143,22 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 				if(isalnum(tokenizer->rawString[tokenizer->startIndex+1])&&
 				!(isalnum(tokenizer->rawString[tokenizer->startIndex-1])))
 				{
-					opeToken->operation=NEGATION;
+					opeToken->id=NEGATION;
 				}
 				else if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
 				{
 					i++;
-					opeToken->operation=SUBTRACT_SET_EQUAL;
+					opeToken->id=SUBTRACT_SET_EQUAL;
 					
 				}
 				else if(tokenizer->rawString[tokenizer->startIndex+1]=='-'&&!(isalnum(tokenizer->rawString[tokenizer->startIndex+2])))
 				{
 					i++;
-					opeToken->operation=DECREMENT;
+					opeToken->id=DECREMENT;
 				}
 				else
 				{
-					opeToken->operation=SUBTRACT;
+					opeToken->id=SUBTRACT;
 				}
 				break;
 			}
@@ -167,12 +167,12 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 				if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
 				{
 					i++;
-					opeToken->operation=MULTIPLY_SET_EQUAL;
+					opeToken->id=MULTIPLY_SET_EQUAL;
 					
 				}
 				else
 				{
-					opeToken->operation=MULTIPLY;
+					opeToken->id=MULTIPLY;
 				}
 				break;
 			}
@@ -181,12 +181,12 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 				if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
 				{
 					i++;
-					opeToken->operation=DIVIDE_SET_EQUAL;
+					opeToken->id=DIVIDE_SET_EQUAL;
 					
 				}
 				else
 				{
-					opeToken->operation=DIVIDE;
+					opeToken->id=DIVIDE;
 				}
 				break;
 			}
@@ -195,28 +195,28 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 				if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
 				{
 					i++;
-					opeToken->operation=MODULUS_SET_EQUAL;
+					opeToken->id=MODULUS_SET_EQUAL;
 					
 				}
 				else
 				{
-					opeToken->operation=MODULUS;
+					opeToken->id=MODULUS;
 				}
 				break;
 			}
 			case '$':
 			{
-				opeToken->operation=CURRENT_PROGRAM_COUNTER;
+				opeToken->id=CURRENT_PROGRAM_COUNTER;
 				break;
 			}
 			case '(':
 			{
-				opeToken->operation=LEFT_PARENTHESIS;
+				opeToken->id=LEFT_PARENTHESIS;
 				break;
 			}
 			case ')':
 			{
-				opeToken->operation=RIGHT_PARENTHESIS;
+				opeToken->id=RIGHT_PARENTHESIS;
 				break;
 			}
 			case '=':
@@ -224,11 +224,11 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 				if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
 				{
 					i++;
-					opeToken->operation=EQUAL_TO;
+					opeToken->id=EQUAL_TO;
 				}
 				else
 				{
-					opeToken->operation=EQUAL;
+					opeToken->id=EQUAL;
 				}
 				break;
 			}
@@ -236,25 +236,25 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 			{
 				if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
 				{
-					opeToken->operation=NOT_EQUAL;
+					opeToken->id=NOT_EQUAL;
 					i++;
 				}
 				else
 				{
-					opeToken->operation=LOGIC_NOT;
+					opeToken->id=LOGIC_NOT;
 				}
 				break;
 			}
 			case '~':
 			{
-				opeToken->operation=COMPLEMENT;
+				opeToken->id=COMPLEMENT;
 				break;
 			}
 			case '>':
 			{
 				if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
 				{	
-					opeToken->operation=GREATER_EQUAL_THAN;
+					opeToken->id=GREATER_EQUAL_THAN;
 					i++;
 				}
 				else if(tokenizer->rawString[tokenizer->startIndex+1]=='>')
@@ -262,17 +262,17 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 					i++;
 					if(tokenizer->rawString[tokenizer->startIndex+2]=='=')
 					{	
-						opeToken->operation=RIGHT_SHIFT_SET_EQUAL;
+						opeToken->id=RIGHT_SHIFT_SET_EQUAL;
 						i++;
 					}
 					else
 					{
-						opeToken->operation=RIGHT_SHIFT;
+						opeToken->id=RIGHT_SHIFT;
 					}
 				}	
 				else
 				{
-					opeToken->operation=GREATER_THAN;
+					opeToken->id=GREATER_THAN;
 				}
 				break;
 			}
@@ -280,7 +280,7 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 			{
 				if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
 				{	
-					opeToken->operation=LESS_EQUAL_THAN;
+					opeToken->id=LESS_EQUAL_THAN;
 					i++;
 				}
 				else if(tokenizer->rawString[tokenizer->startIndex+1]=='<')
@@ -288,17 +288,17 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 					i++;
 					if(tokenizer->rawString[tokenizer->startIndex+2]=='=')
 					{	
-						opeToken->operation=LEFT_SHIFT_SET_EQUAL;
+						opeToken->id=LEFT_SHIFT_SET_EQUAL;
 						i++;
 					}
 					else
 					{
-						opeToken->operation=LEFT_SHIFT;
+						opeToken->id=LEFT_SHIFT;
 					}
 				}	
 				else
 				{
-					opeToken->operation=LESS_THAN;
+					opeToken->id=LESS_THAN;
 				}
 				break;
 			}
@@ -307,16 +307,16 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 				if(tokenizer->rawString[tokenizer->startIndex+1]=='&')
 				{
 					i++;
-					opeToken->operation = LOGICAL_AND;
+					opeToken->id = LOGICAL_AND;
 				}
 				else if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
 				{
-					opeToken->operation = AND_SET_EQUAL;
+					opeToken->id = AND_SET_EQUAL;
 					i++;
 				}
 				else
 				{
-					opeToken->operation=BITWISE_AND;
+					opeToken->id=BITWISE_AND;
 				}
 				break;
 			}
@@ -325,11 +325,11 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 				if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
 				{
 					i++;
-					opeToken->operation = XOR_SET_EQUAL;
+					opeToken->id = XOR_SET_EQUAL;
 				}
 				else
 				{
-					opeToken->operation=BITWISE_XOR;
+					opeToken->id=BITWISE_XOR;
 				}
 				break;
 			}
@@ -338,16 +338,16 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 				if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
 				{
 					i++;
-					opeToken->operation = OR_SET_EQUAL;
+					opeToken->id = OR_SET_EQUAL;
 				}
 				else if(tokenizer->rawString[tokenizer->startIndex+1]=='|')
 				{
 					i++;
-					opeToken->operation = LOGICAL_OR;
+					opeToken->id = LOGICAL_OR;
 				}		
 				else
 				{
-					opeToken->operation=BITWISE_OR;
+					opeToken->id=BITWISE_OR;
 				}
 				break;
 			}
@@ -393,15 +393,15 @@ Token *checkIdentifier(char * name)
 	}
 	if(strcmp("LOW",tempName)==0)
 	{
-		opeToken->operation= LOW;
+		opeToken->id= LOW;
 	}
 	else if (strcmp("HIGH",tempName)==0)
 	{
-		opeToken->operation= HIGH;
+		opeToken->id= HIGH;
 	}
 	else if (strcmp("UPPER",tempName)==0)
 	{
-		opeToken->operation= UPPER;
+		opeToken->id= UPPER;
 	}
 	else 
 	{
