@@ -12,7 +12,7 @@ typedef enum {CURRENT_PROGRAM_COUNTER,LEFT_PARENTHESIS,RIGHT_PARENTHESIS,LOGIC_N
 				OR_SET_EQUAL,XOR_SET_EQUAL,INCREMENT,DECREMENT}Operation;
 
 //Will be update when discuss with bing xuan group.
-typedef enum {INVALID_INDENTIFIER,INCOMPLETE_EXPRESSION} Error;
+typedef enum {INVALID_INDENTIFIER,UNKNOWN_OPERATOR} Error;
 
 //This structure store the converted version of string
 typedef struct {

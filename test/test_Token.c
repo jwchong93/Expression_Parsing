@@ -931,6 +931,23 @@ void test_getToken_will_identify_MULTIPLY_DIVIDE_and_MODULUS_SET_EQUAL()
 	free(testTokenizer);
 }
 
+void test_getToken_will_throw_error_if_the_the_expression_contain_invalid_simbol()
+{
+	Tokenizer * testTokenizer = initTokenizer("3?2");
+	Error Exception;
+	Token *testToken;
+	free(getToken(testTokenizer));		//3
+	Try
+	{
+		testToken = getToken(testTokenizer);//? 
+	}
+	Catch(Exception)
+	{
+		TEST_ASSERT_EQUAL(UNKNOWN_OPERATOR,Exception);
+	}
+	
+	
+}
 void test_copyString_should_copy_the_string_from_source_to_destination()
 {
 	char * newString ="Hello World!!!!";
