@@ -93,10 +93,14 @@ Token *getToken (Tokenizer *tokenizer)
 		}
 		return (Token*)idenToken;
 	}
+	else if (tokenizer->rawString[tokenizer->startIndex]==0)
+	{
+		return NULL;
+	}
 	else
 	{
 		Operator *opeToken ;
-		opeToken = detectOperator(tokenizer,i);			
+		opeToken = detectOperator(tokenizer,i);	
 		return (Token*)opeToken;
 		
 	}
@@ -353,7 +357,7 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 			}
 			default:
 			{
-				return NULL;
+				Throw(UNKNOWN_OPERATOR);
 				break;
 			}
 		}
