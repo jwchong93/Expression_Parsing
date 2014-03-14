@@ -16,9 +16,10 @@
 Tokenizer *initTokenizer(char *expression)
 {
 	int i =0, j=0;
+	int length = strlen(expression);
 	Tokenizer *newTokenizer = malloc (sizeof(Tokenizer));
-	char *newString = malloc (strlen(expression)+1);
-	copyStringWithoutSpace (expression,newString);
+	char *newString = malloc (length+1);
+	copyString(expression,newString,0,length);
 	newTokenizer->rawString=newString;
 	newTokenizer ->startIndex =0;
 	newTokenizer ->length =strlen(newTokenizer->rawString);
@@ -40,6 +41,10 @@ Tokenizer *initTokenizer(char *expression)
 Token *getToken (Tokenizer *tokenizer)
 { int tempNum,i=1; //i is for calculate how many char been tokenize
 
+	while(tokenizer->rawString[tokenizer->startIndex]==' '||tokenizer->rawString[tokenizer->startIndex]=='\t')
+	{
+		tokenizer->startIndex ++;
+	}
 	if(isdigit(tokenizer->rawString[tokenizer->startIndex]))
 	{
 		if(isalpha(tokenizer->rawString[tokenizer->startIndex+1]))
@@ -131,11 +136,6 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 					opeToken->id=ADD_SET_EQUAL;
 					
 				}
-				else if(tokenizer->rawString[tokenizer->startIndex+1]=='+'&&!(isalnum(tokenizer->rawString[tokenizer->startIndex+2])))
-				{
-					i++;
-					opeToken->id=INCREMENT;
-				}
 				else
 				{
 					opeToken->id=ADD;
@@ -144,21 +144,11 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 			}
 			case '-':
 			{
-				if(isalnum(tokenizer->rawString[tokenizer->startIndex+1])&&
-				!(isalnum(tokenizer->rawString[tokenizer->startIndex-1])))
-				{
-					opeToken->id=NEGATION;
-				}
-				else if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
+				if(tokenizer->rawString[tokenizer->startIndex+1]=='=')
 				{
 					i++;
 					opeToken->id=SUBTRACT_SET_EQUAL;
 					
-				}
-				else if(tokenizer->rawString[tokenizer->startIndex+1]=='-'&&!(isalnum(tokenizer->rawString[tokenizer->startIndex+2])))
-				{
-					i++;
-					opeToken->id=DECREMENT;
 				}
 				else
 				{
