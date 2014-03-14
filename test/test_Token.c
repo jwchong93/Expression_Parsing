@@ -716,9 +716,9 @@ void test_getToken_will_detect_BITWISE_LOGICAL_AND_AND_and_AND_SET_EQUAL()
 	free(opeToken);
 	free(testTokenizer);
 }
-void test_getToken_will_detect_ADD_SET_EQUAL_and_INCREMENT()
+void test_getToken_will_detect_ADD_SET_EQUAL()
 {
-	Tokenizer * testTokenizer = initTokenizer("total+=number++");
+	Tokenizer * testTokenizer = initTokenizer("total+=number");
 	Token *testToken;
 	free(getToken(testTokenizer));
 	
@@ -815,7 +815,7 @@ void test_getToken_will_identify_BITWISE_OR_LOGICAL_OR_and_OR_SET_EQUAL()
 
 void test_getToken_will_identify_MULTIPLY_DIVIDE_and_MODULUS_SET_EQUAL()
 {
-	Tokenizer * testTokenizer = initTokenizer("total *=			0" );
+	Tokenizer * testTokenizer = initTokenizer("total*=0" );
 	Token *testToken;
 	free(getToken(testTokenizer));
 	
@@ -854,6 +854,21 @@ void test_getToken_will_identify_MULTIPLY_DIVIDE_and_MODULUS_SET_EQUAL()
 	free(testTokenizer);
 }
 
+void test_getToken_ignore_space_and_tab()
+{
+	Tokenizer * testTokenizer = initTokenizer("   total				+=    number   			");
+	Token *testToken;
+	free(getToken(testTokenizer));
+	
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	Operator *opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(ADD_SET_EQUAL,opeToken->id);
+	free(opeToken);
+	free(testTokenizer);
+}
 void test_getToken_will_throw_error_if_the_the_expression_contain_invalid_simbol()
 {
 	Tokenizer * testTokenizer = initTokenizer("3?2");
