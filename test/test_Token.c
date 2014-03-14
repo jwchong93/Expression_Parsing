@@ -81,7 +81,6 @@ void test_getToken_should_return_the_token_by_sequence()
 	
 }
 
-
 void test_getToken_should_indentify_the_identifier_consist_in_the_expression()
 {
 	Identifier *IdenToken;
@@ -869,6 +868,78 @@ void test_getToken_ignore_space_and_tab()
 	free(opeToken);
 	free(testTokenizer);
 }
+
+void test_getToken_will_treat_number_with_space_are_two_different_token_object()
+{
+	Tokenizer * testTokenizer = initTokenizer("total += 3 + 5 6 /7");
+	Token *testToken;
+	Number *testNum;
+	free(getToken(testTokenizer)); //total 
+	
+	testToken = getToken(testTokenizer); //+=
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	Operator *opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(ADD_SET_EQUAL,opeToken->id);
+	free(opeToken);
+	
+	testToken=getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	//Test the returned token type.
+	TEST_ASSERT_EQUAL(NUMBER, *testToken);
+	testNum = (Number*)testToken;
+	TEST_ASSERT_EQUAL(NUMBER,testNum->type);
+	TEST_ASSERT_EQUAL(3,testNum->value);
+	free(testNum);
+	
+	testToken = getToken(testTokenizer); //+
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(ADD,opeToken->id);
+	free(opeToken);
+	
+	testToken=getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	//Test the returned token type.
+	TEST_ASSERT_EQUAL(NUMBER, *testToken);
+	testNum = (Number*)testToken;
+	TEST_ASSERT_EQUAL(NUMBER,testNum->type);
+	TEST_ASSERT_EQUAL(5,testNum->value);
+	free(testNum);
+	
+	testToken=getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	//Test the returned token type.
+	TEST_ASSERT_EQUAL(NUMBER, *testToken);
+	testNum = (Number*)testToken;
+	TEST_ASSERT_EQUAL(NUMBER,testNum->type);
+	TEST_ASSERT_EQUAL(6,testNum->value);
+	free(testNum);
+	
+	testToken = getToken(testTokenizer); // /
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(DIVIDE,opeToken->id);
+	free(opeToken);
+	
+	testToken=getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	//Test the returned token type.
+	TEST_ASSERT_EQUAL(NUMBER, *testToken);
+	testNum = (Number*)testToken;
+	TEST_ASSERT_EQUAL(NUMBER,testNum->type);
+	TEST_ASSERT_EQUAL(7,testNum->value);
+	free(testNum);
+	
+	
+	free(testTokenizer);
+}
+
 void test_getToken_will_throw_error_if_the_the_expression_contain_invalid_simbol()
 {
 	Tokenizer * testTokenizer = initTokenizer("3?2");
