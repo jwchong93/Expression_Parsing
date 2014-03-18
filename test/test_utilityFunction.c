@@ -3,13 +3,14 @@
 #include "CException.h"
 #include "mock_Stack.h"
 #include "StringObject.h"
-#include "Stack.h"
 #include <malloc.h>
 #include <string.h>
 #include "Error.h"
 
 void setUp() {}
 void tearDown () {}
+
+
 
 
 void test_getToken_ignore_space_and_tab()
@@ -247,16 +248,17 @@ void test_isNumber_will_return_1_for_number_return_0_for_non_number()
 	free(testToken);
 }
 
-//Stop this and find dr poh to fix this
-void xtest_operatorEvaluate_will_evaluate_2_plus_3()
+void test_tryEvaluateThePush_will_evaluate_2_plus_3()
 {
-	Stack *numberStack, *operatorStack;
+	Stack numberStack, operatorStack;
 	Token *token0 = createNumberToken(2);
 	Token token1 = OPERATOR;
 	Token *token2 = createNumberToken(3);
-	pop_ExpectAndReturn(numberStack,token0);
-
-	operatorEvaluate(numberStack,operatorStack);
+	// pop_ExpectAndReturn(&operatorStack,NULL);
+	// pop_ExpectAndReturn(&numberStack,token0);
+	// pop_ExpectAndReturn(&numberStack,token2);
+	
+	tryEvaluateThePush(&token1,&numberStack,&operatorStack);
 
 }
 

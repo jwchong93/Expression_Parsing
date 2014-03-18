@@ -465,13 +465,11 @@ int isNumber (Token * unknownToken)
 	return 0;
 }
 
-//Stop this and find dr poh to fix this
-void operatorEvaluate(Stack *numberStack , Stack *operatorStack)
+void tryEvaluateThePush(Token *operators, Stack *numberStack , Stack *operatorStack)
 {
-	Token *firstNum,*secondNum,*operator;
-	Number *num1,*num2;
-	firstNum = pop (numberStack);
-
+	Token *temp;
+	Number *firstNum, *secondNum;
+	
 }
 
 
