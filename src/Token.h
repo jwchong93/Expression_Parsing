@@ -1,5 +1,10 @@
 #ifndef __TOKEN_H__
 #define __TOKEN_H__
+#include "Stack.h"
+#include "StringObject.h"
+
+
+
 
 typedef enum {NUMBER,OPERATOR,IDENTIFIER}Token;
 //Updating in progress, please be patient.....
@@ -11,9 +16,7 @@ typedef enum {CURRENT_PROGRAM_COUNTER,LEFT_PARENTHESIS,RIGHT_PARENTHESIS,LOGIC_N
 				MODULUS_SET_EQUAL,LEFT_SHIFT_SET_EQUAL,RIGHT_SHIFT_SET_EQUAL,AND_SET_EQUAL,
 				OR_SET_EQUAL,XOR_SET_EQUAL}OperatorID;
 
-//Will be update when discuss with bing xuan group.
-typedef enum {INVALID_INDENTIFIER,UNKNOWN_OPERATOR} Error;
-
+				
 //This structure store the converted version of string
 typedef struct {
 	char *rawString;
@@ -37,11 +40,19 @@ typedef struct {
 	char *name;
 }Identifier;
 
-Tokenizer *initTokenizer(char *expression);
-Token *getToken (Tokenizer *tokenizer);
-Operator *detectOperator(Tokenizer *tokenizer, int i);
-void copyString(char *source, char* destination, int startLocation,int length);
-void copyStringWithoutSpace(char *source,char*destination);
+
+//Global variable
+// errorMessage *errMsg=malloc(sizeof(errorMessage));
+
+//Main functions
+String *initTokenizer(char *expression);
+Token *getToken (String *tokenizer);
+//Sub-function
+Operator *detectOperator(String *tokenizer, int i);
 Token *checkIdentifier(char *name);
+//Utility function that help in evaluating the expression in shunting yard part.
 Token *createNumberToken(int number);
+int isOperator (Token * unknownToken);
+int isNumber (Token * unknownToken);
+void tryEvaluateThePush(Token *operators, Stack *numberStack , Stack *operatorStack);
 #endif //__TOKEN_H__

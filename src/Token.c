@@ -5,26 +5,8 @@
 #include <string.h>
 #include <ctype.h>
 #include "CException.h"
+#include "Error.h"
 
-/*
-	This function will generate a tokenizer
-	
-	Input: *expression 		which contain the string(expression)
-	Output: none
-	return: Tokenizer 		which pass to the getToken to generate token.
-*/
-Tokenizer *initTokenizer(char *expression)
-{
-	int i =0, j=0;
-	int length = strlen(expression);
-	Tokenizer *newTokenizer = malloc (sizeof(Tokenizer));
-	char *newString = malloc (length+1);
-	copyString(expression,newString,0,length);
-	newTokenizer->rawString=newString;
-	newTokenizer ->startIndex =0;
-	newTokenizer ->length =strlen(newTokenizer->rawString);
-	return newTokenizer;
-}
 
 /*
 	This function will generate a token
@@ -38,23 +20,33 @@ Tokenizer *initTokenizer(char *expression)
 		2)Must not start with number.
 		
 */
-Token *getToken (Tokenizer *tokenizer)
+Token *getToken (String *tokenizer)
 { int tempNum,i=1; //i is for calculate how many char been tokenize
 
+	//Ignore any space or tab and continue get to details.
 	while(tokenizer->rawString[tokenizer->startIndex]==' '||tokenizer->rawString[tokenizer->startIndex]=='\t')
 	{
 		tokenizer->startIndex ++;
 	}
+	
+	//Check if it is a digit type.
 	if(isdigit(tokenizer->rawString[tokenizer->startIndex]))
 	{
+		//This indicate the error type of identifier which start with number.
 		if(isalpha(tokenizer->rawString[tokenizer->startIndex+1]))
 		{
-			Throw(INVALID_INDENTIFIER);
+			errorMessage. rawString = tokenizer -> rawString;
+			errorMessage.position = tokenizer->startIndex;
+			errorMessage.message = "Invalid identifier ! ";
+			
+			Throw(INVALID_IDENTIFIER);
 			return NULL;
 		}
+		
 		Number *numToken = malloc(sizeof(Number));
 		tempNum=tokenizer->startIndex;
 		numToken->value=0;
+		//Collect all of the integers from string.
 		do
 		{
 			numToken->value =(numToken->value*10)+(tokenizer->rawString[tempNum]-'0');
@@ -65,9 +57,9 @@ Token *getToken (Tokenizer *tokenizer)
 		while(isdigit(tokenizer->rawString[tempNum]));
 		
 		i--;
-			
-		numToken->type = NUMBER;
 		
+		
+		numToken->type = NUMBER;
 		tokenizer->length-=i;
 		tokenizer->startIndex+=i;
 		
@@ -87,10 +79,11 @@ Token *getToken (Tokenizer *tokenizer)
 			j++;
 			tempIndex++;
 		}while(isalnum(tokenizer->rawString[tempIndex])||(tokenizer->rawString[tempIndex]=='.'));
-		copyString(tokenizer->rawString,idenToken->name,tokenizer->startIndex,j);
+		stringCopy(tokenizer->rawString,idenToken->name,tokenizer->startIndex,j);
 		i=j;
 		tokenizer->length-=i;
 		tokenizer->startIndex+=i;
+		//Check that this identifier is named as low, high or upper.
 		opeToken=checkIdentifier(idenToken->name);
 		if(opeToken!=NULL)
 		{
@@ -111,7 +104,6 @@ Token *getToken (Tokenizer *tokenizer)
 	}
 }
 
-
 /*
 	The job of this function is to detect the operation type and return it. 
 	
@@ -123,7 +115,7 @@ Token *getToken (Tokenizer *tokenizer)
 	return:			opeToken	-> If it is a valid operator.
 					NULL		-> If it is not a valid operator.
 */	
-Operator *detectOperator(Tokenizer *tokenizer, int i)
+Operator *detectOperator(String *tokenizer, int i)
 {	
 	Operator *opeToken = malloc(sizeof(Operator));
 	switch(tokenizer->rawString[tokenizer->startIndex])
@@ -347,6 +339,9 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 			}
 			default:
 			{
+				errorMessage.rawString = tokenizer -> rawString;
+				errorMessage.position = tokenizer -> startIndex;
+				errorMessage.message = "Unknown operator ! ";
 				Throw(UNKNOWN_OPERATOR);
 				break;
 			}
@@ -357,7 +352,6 @@ Operator *detectOperator(Tokenizer *tokenizer, int i)
 		return opeToken;
 		
 }
-
 
 /*
 	The purpose of this function is to validate the input string is low , high or upper.
@@ -407,60 +401,7 @@ Token *checkIdentifier(char * name)
 	return (Token*)opeToken;
 	
 }
-
-/*
-	This function is to copy string from the middle of the string for specific length.
 	
-	input :
-	*source				The string that contain the wanted string.
-	startLocation		The start location of the wanted string in source
-	length 				The length of the wanted string 
-	
-	output:
-	*destination 		The wanted string will be copied to this string.(must be in array to make this work)
-	
-	return:
-	none
-*/
-void copyString(char *source,char*destination,int startLocation, int length)
-{
-	int i,j=0;
-	for (i=0;i<length;i++,j++)
-	{
-		destination[j]= source[startLocation+i];
-	}
-	destination[j]='\0';
-	
-}	
-
-/*
-	This function will copy the string without the space. (Trim space)
-	
-	input :
-	*source				The string that contain the wanted string.
-	
-	output:
-	*destination 		The wanted string will be copied to this string.(must be in array to make this work)
-	
-	return:
-	none
-*/
-void copyStringWithoutSpace(char *source,char *destination)
-{
-    int i =0 ,j=0;
-	int length = strlen(source);
-	for(i=0;i<length;i++)
-	{
-		if(source[i]!=' '&&source[i]!='\t')
-		{		
-			destination[j] = source[i];
-			j++;
-		}
-	}
-	destination[j]='\0';
-	
-}
-
 /*
 	This function will generate a Token from a number.
 	
@@ -473,7 +414,6 @@ void copyStringWithoutSpace(char *source,char *destination)
 	return:
 	(Token*)newToken	The token that generated.
 */
-
 Token *createNumberToken(int number)
 {
 	Number *newToken = malloc (sizeof(Number));
@@ -482,3 +422,62 @@ Token *createNumberToken(int number)
 	
 	return (Token*)newToken;
 }
+
+/*
+	This function will determine token is operator or not.
+	
+	input :
+	unknownToken		The token that consists the type.(number, operator)
+	
+	output:
+	none
+	
+	return:
+	0					indicate it is not an operator
+	1					indicate it is an operator
+*/
+int isOperator (Token * unknownToken)
+{
+	if(*unknownToken==OPERATOR)
+		return 1;
+		
+	return 0;
+}
+
+/*
+	This function will determine token is number or not.
+	
+	input :
+	unknownToken		The token that consists the type.(number, operator)
+	
+	output:
+	none
+	
+	return:
+	0					indicate it is not a number
+	1					indicate it is a number
+*/
+int isNumber (Token * unknownToken)
+{
+	if(*unknownToken==NUMBER)
+		return 1;
+		
+	return 0;
+}
+
+//Stop this and find dr poh to fix this
+void operatorEvaluate(Stack *numberStack , Stack *operatorStack)
+{
+	Token *firstNum,*secondNum,*operator;
+	Number *num1,*num2;
+	firstNum = pop (numberStack);
+
+}
+
+
+
+
+
+
+
+

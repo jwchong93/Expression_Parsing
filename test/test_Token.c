@@ -3,13 +3,17 @@
 #include <malloc.h>
 #include <string.h>
 #include "CException.h"
+#include "mock_Stack.h"
+#include "StringObject.h"
+#include "Error.h"
+
 void setUp(){}
 void tearDown(){}
 
-void test_initTokenizer_should_initiate_and_return_a_tokenizer_properly()
+void test_stringCreate_should_initiate_and_return_a_tokenizer_properly()
 {
 	//Initiate a new tokenizer which will contain the data of 2+3
-	Tokenizer *testTokenizer = initTokenizer("2+3");
+	String *testTokenizer = stringCreate("2+3");
 	TEST_ASSERT_NOT_NULL(testTokenizer);
 	TEST_ASSERT_EQUAL_STRING("2+3", testTokenizer->rawString);
 	TEST_ASSERT_EQUAL(0,testTokenizer->startIndex);
@@ -17,7 +21,7 @@ void test_initTokenizer_should_initiate_and_return_a_tokenizer_properly()
 	free(testTokenizer);
 	
 	//Try a longer expression
-	testTokenizer = initTokenizer("2+3*8+8");
+	testTokenizer = stringCreate("2+3*8+8");
 	TEST_ASSERT_NOT_NULL(testTokenizer);
 	TEST_ASSERT_EQUAL_STRING("2+3*8+8", testTokenizer->rawString);
 	TEST_ASSERT_EQUAL(0,testTokenizer->startIndex);
@@ -30,7 +34,7 @@ void test_getToken_should_return_the_token_by_sequence()
 	Number *testNum;
 	Operator *testOpe;
 	Token *testToken=NULL;
-	Tokenizer *testTokenizer = initTokenizer("2+3");
+	String *testTokenizer = stringCreate("2+3");
 	
 	//Get the first token which is 2 and test the length and startIndex of tokenizer.
 	testToken = getToken(testTokenizer);
@@ -85,7 +89,7 @@ void test_getToken_should_indentify_the_identifier_consist_in_the_expression()
 {
 	Identifier *IdenToken;
 	Token *testToken=NULL;
-	Tokenizer *testTokenizer = initTokenizer("2+MAX5-4");
+	String *testTokenizer = stringCreate("2+MAX5-4");
 	
 	//Since previous test had tested how to return 2 and + lets skip the test
 	free(getToken(testTokenizer));
@@ -104,7 +108,7 @@ void test_getToken_should_indentify_the_identifier_consist_in_the_expression()
 
 void test_getToken_should_stop_return_a_token_while_an_invalid_identifer_is_included_in_the_expression()
 {
-	Tokenizer *testTokenizer = initTokenizer("5MAX+4");
+	String *testTokenizer = stringCreate("5MAX+4");
 	Error Exception;
 	Try 
 	{
@@ -114,11 +118,11 @@ void test_getToken_should_stop_return_a_token_while_an_invalid_identifer_is_incl
 	free(testToken);
 	}Catch(Exception)
 	{
-		TEST_ASSERT_EQUAL(INVALID_INDENTIFIER,Exception);
+		TEST_ASSERT_EQUAL(INVALID_IDENTIFIER,Exception);
 	}
 	
 	//lets try the function which the invalid identifier being in the last part of thr expression
-	testTokenizer = initTokenizer("2+5MAX");
+	testTokenizer = stringCreate("2+5MAX");
 	Try 
 	{
 	Token *testToken;
@@ -130,7 +134,7 @@ void test_getToken_should_stop_return_a_token_while_an_invalid_identifer_is_incl
 	free(testToken);
 	}Catch(Exception)
 	{
-		TEST_ASSERT_EQUAL(INVALID_INDENTIFIER,Exception);
+		TEST_ASSERT_EQUAL(INVALID_IDENTIFIER,Exception);
 	}
 	free(testTokenizer);
 }
@@ -138,7 +142,7 @@ void test_getToken_should_stop_return_a_token_while_an_invalid_identifer_is_incl
 void test_getToken_should_detect_the_valid_identifier_which_have_a_different_pattern()
 {
 	//Try some valid format like .MAX
-	Tokenizer *testTokenizer = initTokenizer("2+.MAX");
+	String *testTokenizer = stringCreate("2+.MAX");
 
 	Token *testToken;
 	free(getToken(testTokenizer));
@@ -154,7 +158,7 @@ void test_getToken_should_detect_the_valid_identifier_which_have_a_different_pat
 	free(testTokenizer);
 	
 	//Test for the identifier that consist more dot(.)
-	testTokenizer = initTokenizer("2+..MAX");
+	testTokenizer = stringCreate("2+..MAX");
 	free(getToken(testTokenizer));
 	free(getToken(testTokenizer));
 	testToken = getToken (testTokenizer);
@@ -166,7 +170,7 @@ void test_getToken_should_detect_the_valid_identifier_which_have_a_different_pat
 	free(testIden);
 	
 	//Try the identifier which have many dot in random location.
-	testTokenizer = initTokenizer("2+.M.A.X.");
+	testTokenizer = stringCreate("2+.M.A.X.");
 	free(getToken(testTokenizer));
 	free(getToken(testTokenizer));
 	testToken = getToken (testTokenizer);
@@ -181,7 +185,7 @@ void test_getToken_should_detect_the_valid_identifier_which_have_a_different_pat
 
 void test_getToken_should_identify_the_number_that_is_more_than_10()
 {
-	Tokenizer *testTokenizer = initTokenizer("25-456");
+	String *testTokenizer = stringCreate("25-456");
 	//Get the first token out from the tokenizer.
 	Token *testToken = getToken(testTokenizer);
 	//Test the tokenizer will be updated as expected.
@@ -223,7 +227,7 @@ void test_getToken_should_identify_the_number_that_is_more_than_10()
 
 void test_getToken_should_detect_multiply_sign()
 {
-	Tokenizer *testTokenizer = initTokenizer("25*456");
+	String *testTokenizer = stringCreate("25*456");
 	
 	//Since the program already can detect 25.
 	Token *testToken;
@@ -244,7 +248,7 @@ void test_getToken_should_detect_multiply_sign()
 
 void test_getToken_should_detect_divide_sign()
 {
-	Tokenizer *testTokenizer = initTokenizer("25/456");
+	String *testTokenizer = stringCreate("25/456");
 	
 	//Since the program already can detect 25.
 	Token *testToken;
@@ -265,7 +269,7 @@ void test_getToken_should_detect_divide_sign()
 
 void test_getToken_should_detect_modulus_sign()
 {
-	Tokenizer *testTokenizer = initTokenizer("200%10");
+	String *testTokenizer = stringCreate("200%10");
 	
 	//Since the program already can detect 25.
 	Token *testToken;
@@ -286,7 +290,7 @@ void test_getToken_should_detect_modulus_sign()
 
 void test_getToken_should_detect_current_program_counter_sign()
 {
-	Tokenizer *testTokenizer = initTokenizer("2+$");
+	String *testTokenizer = stringCreate("2+$");
 	
 	//Since the program already can detect 2 and +.
 	Token *testToken;
@@ -305,7 +309,7 @@ void test_getToken_should_detect_current_program_counter_sign()
 	free(opeToken);
 	
 	//Try reverse the other of the equation
-	testTokenizer = initTokenizer("$+2");
+	testTokenizer = stringCreate("$+2");
 	
 	testToken = getToken(testTokenizer);
 
@@ -323,7 +327,7 @@ void test_getToken_should_detect_current_program_counter_sign()
 
 void test_getToken_should_detect_parenthesis_sign()
 {
-	Tokenizer *testTokenizer = initTokenizer("(2+3)");
+	String *testTokenizer = stringCreate("(2+3)");
 	
 	Token *testToken = getToken(testTokenizer);
 	
@@ -354,7 +358,7 @@ void test_getToken_should_detect_parenthesis_sign()
 
 void test_getToken_should_detect_equal_sign()
 {
-	Tokenizer *testTokenizer = initTokenizer("2+3=5");
+	String *testTokenizer = stringCreate("2+3=5");
 	
 	//Since the program already can detect 2,+ and 3.
 	Token *testToken;
@@ -378,7 +382,7 @@ void test_getToken_should_detect_equal_sign()
 
 void test_getToken_should_detect_not_sign()
 {
-	Tokenizer *testTokenizer = initTokenizer("2+3+!3");
+	String *testTokenizer = stringCreate("2+3+!3");
 	
 	//Since the program already can detect 2,+ and 3.
 	Token *testToken;
@@ -399,7 +403,7 @@ void test_getToken_should_detect_not_sign()
 	free(opeToken);
 	
 	//getToken should diffrentiate NOT and not equal
-	testTokenizer = initTokenizer("2+3!=5");
+	testTokenizer = stringCreate("2+3!=5");
 	
 	//Since the program already can detect 2,+ and 3.
 	free(getToken(testTokenizer));
@@ -427,10 +431,9 @@ void test_getToken_should_detect_not_sign()
 	free(opeToken);
 }
 
-
 void test_getToken_should_detect_complement_in_an_expression()
 {
-	Tokenizer *testTokenizer = initTokenizer("~2+9");
+	String *testTokenizer = stringCreate("~2+9");
 	
 
 	Token *testToken = getToken(testTokenizer);
@@ -445,7 +448,7 @@ void test_getToken_should_detect_complement_in_an_expression()
 	free (opeToken);
 	
 	//Lets try to input some equation that the complement is being in middle. 
-	testTokenizer = initTokenizer("2+~9");
+	testTokenizer = stringCreate("2+~9");
 	free(getToken(testTokenizer));
 	free(getToken(testTokenizer));
 	testToken = getToken(testTokenizer); //~
@@ -466,7 +469,7 @@ void test_getToken_should_detect_complement_in_an_expression()
 
 void test_getToken_will_differentiate_low_high_and_upper_as_operator()
 {
-	Tokenizer *testTokenizer = initTokenizer("low(45012357)");
+	String *testTokenizer = stringCreate("low(45012357)");
 	
 	Token *testToken = getToken(testTokenizer);
 
@@ -482,7 +485,7 @@ void test_getToken_will_differentiate_low_high_and_upper_as_operator()
 	
 	//Since the function been tested in below. 
 	//Try to make some combinational expression.
-	testTokenizer = initTokenizer("1*high(45012357)");
+	testTokenizer = stringCreate("1*high(45012357)");
 	
 	free(getToken(testTokenizer));
 	free(getToken(testTokenizer));
@@ -511,7 +514,7 @@ void test_getToken_will_differentiate_low_high_and_upper_as_operator()
 
 void test_getToken_will_differentiate_greater__greater_or_equal__right_shift_and_right_shift_set_equal()
 {
-	Tokenizer * testTokenizer = initTokenizer("num1>num2");
+	String * testTokenizer = stringCreate("num1>num2");
 	Token * testToken = getToken(testTokenizer);
 	
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -538,7 +541,7 @@ void test_getToken_will_differentiate_greater__greater_or_equal__right_shift_and
 	free(idenToken);
 	free(testTokenizer);
 	
-	testTokenizer = initTokenizer("num1>=num2>>=MAX>>1");
+	testTokenizer = stringCreate("num1>=num2>>=MAX>>1");
 	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);
@@ -572,10 +575,9 @@ void test_getToken_will_differentiate_greater__greater_or_equal__right_shift_and
 	
 }
 
-
 void test_getToken_will_differentiate_less__less_or_equal__left_shift_and_left_shift_set_equal()
 {
-	Tokenizer * testTokenizer = initTokenizer("num1<num2");
+	String * testTokenizer = stringCreate("num1<num2");
 	Token * testToken = getToken(testTokenizer);
 	
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -602,7 +604,7 @@ void test_getToken_will_differentiate_less__less_or_equal__left_shift_and_left_s
 	free(idenToken);
 	free(testTokenizer);
 	
-	testTokenizer = initTokenizer("num1<=num2<<=MAX<<1");
+	testTokenizer = stringCreate("num1<=num2<<=MAX<<1");
 	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);
@@ -647,7 +649,7 @@ void test_getToken_will_differentiate_less__less_or_equal__left_shift_and_left_s
 
 void test_getToken_will_identify_equal_and_equal_to()
 {
-	Tokenizer * testTokenizer = initTokenizer("tempNum=2+3");
+	String * testTokenizer = stringCreate("tempNum=2+3");
 	Token *testToken = getToken(testTokenizer);
 	TEST_ASSERT_NOT_NULL(testToken);
 	TEST_ASSERT_EQUAL(IDENTIFIER,*testToken);
@@ -665,7 +667,7 @@ void test_getToken_will_identify_equal_and_equal_to()
 	free(opeToken);
 	free(testTokenizer);
 	
-	testTokenizer = initTokenizer("tempNum==5");
+	testTokenizer = stringCreate("tempNum==5");
 	free(getToken(testTokenizer));
 	testToken = getToken(testTokenizer); //==
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -680,7 +682,7 @@ void test_getToken_will_identify_equal_and_equal_to()
 
 void test_getToken_will_detect_BITWISE_LOGICAL_AND_AND_and_AND_SET_EQUAL()
 {
-	Tokenizer * testTokenizer = initTokenizer("4&5&&1");
+	String * testTokenizer = stringCreate("4&5&&1");
 	Token *testToken;
 	free(getToken(testTokenizer));
 	
@@ -703,7 +705,7 @@ void test_getToken_will_detect_BITWISE_LOGICAL_AND_AND_and_AND_SET_EQUAL()
 	free(opeToken);
 	free(testTokenizer);
 	
-	testTokenizer = initTokenizer("bool&=input");
+	testTokenizer = stringCreate("bool&=input");
 	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);
@@ -715,9 +717,10 @@ void test_getToken_will_detect_BITWISE_LOGICAL_AND_AND_and_AND_SET_EQUAL()
 	free(opeToken);
 	free(testTokenizer);
 }
+
 void test_getToken_will_detect_ADD_SET_EQUAL()
 {
-	Tokenizer * testTokenizer = initTokenizer("total+=number");
+	String * testTokenizer = stringCreate("total+=number");
 	Token *testToken;
 	free(getToken(testTokenizer));
 	
@@ -733,7 +736,7 @@ void test_getToken_will_detect_ADD_SET_EQUAL()
 
 void test_getToken_will_identify_SUBTRACT_SET_EQUAL()
 {
-	Tokenizer * testTokenizer = initTokenizer("total-=number");
+	String * testTokenizer = stringCreate("total-=number");
 	Token *testToken;
 	free(getToken(testTokenizer));
 	
@@ -749,7 +752,7 @@ void test_getToken_will_identify_SUBTRACT_SET_EQUAL()
 
 void test_getToken_will_identify_BITWISE_XOR_and_XOR_SET_EQUAL()
 {
-	Tokenizer * testTokenizer = initTokenizer("total+1^0^=1" );
+	String * testTokenizer = stringCreate("total+1^0^=1" );
 	Token *testToken;
 	free(getToken(testTokenizer));
 	free(getToken(testTokenizer));
@@ -775,10 +778,9 @@ void test_getToken_will_identify_BITWISE_XOR_and_XOR_SET_EQUAL()
 	free(testTokenizer);
 }
 
-
 void test_getToken_will_identify_BITWISE_OR_LOGICAL_OR_and_OR_SET_EQUAL()
 {
-	Tokenizer * testTokenizer = initTokenizer("total|1||0|=1" );
+	String * testTokenizer = stringCreate("total|1||0|=1" );
 	Token *testToken;
 	free(getToken(testTokenizer));
 	
@@ -814,7 +816,7 @@ void test_getToken_will_identify_BITWISE_OR_LOGICAL_OR_and_OR_SET_EQUAL()
 
 void test_getToken_will_identify_MULTIPLY_DIVIDE_and_MODULUS_SET_EQUAL()
 {
-	Tokenizer * testTokenizer = initTokenizer("total*=0" );
+	String * testTokenizer = stringCreate("total*=0" );
 	Token *testToken;
 	free(getToken(testTokenizer));
 	
@@ -827,7 +829,7 @@ void test_getToken_will_identify_MULTIPLY_DIVIDE_and_MODULUS_SET_EQUAL()
 	free(opeToken);
 	free(testTokenizer);
 	
-	testTokenizer = initTokenizer("total%=0" );
+	testTokenizer = stringCreate("total%=0" );
 	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer); 		//%=
@@ -840,7 +842,7 @@ void test_getToken_will_identify_MULTIPLY_DIVIDE_and_MODULUS_SET_EQUAL()
 	free(testTokenizer);
 	
 	
-	testTokenizer = initTokenizer("total/=0" );
+	testTokenizer = stringCreate("total/=0" );
 	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer); 		///=
@@ -855,7 +857,7 @@ void test_getToken_will_identify_MULTIPLY_DIVIDE_and_MODULUS_SET_EQUAL()
 
 void test_getToken_ignore_space_and_tab()
 {
-	Tokenizer * testTokenizer = initTokenizer("   total				+=    number   			");
+	String * testTokenizer = stringCreate("   total				+=    number   			");
 	Token *testToken;
 	free(getToken(testTokenizer));
 	
@@ -871,7 +873,7 @@ void test_getToken_ignore_space_and_tab()
 
 void test_getToken_will_treat_number_with_space_are_two_different_token_object()
 {
-	Tokenizer * testTokenizer = initTokenizer("total += 3 + 5 6 /7");
+	String * testTokenizer = stringCreate("total += 3 + 5 6 /7");
 	Token *testToken;
 	Number *testNum;
 	free(getToken(testTokenizer)); //total 
@@ -942,7 +944,7 @@ void test_getToken_will_treat_number_with_space_are_two_different_token_object()
 
 void test_getToken_will_throw_error_if_the_the_expression_contain_invalid_simbol()
 {
-	Tokenizer * testTokenizer = initTokenizer("3?2");
+	String * testTokenizer = stringCreate("3?2");
 	Error Exception;
 	Token *testToken;
 	free(getToken(testTokenizer));		//3
@@ -954,16 +956,15 @@ void test_getToken_will_throw_error_if_the_the_expression_contain_invalid_simbol
 	{
 		TEST_ASSERT_EQUAL(UNKNOWN_OPERATOR,Exception);
 	}
-	
-	
 }
-void test_copyString_should_copy_the_string_from_source_to_destination()
+
+void test_stringCopy_should_copy_the_string_from_source_to_destination()
 {
 	char * newString ="Hello World!!!!";
 	char * stringGet = malloc (sizeof(char)*(strlen(newString)));
 	
 	//Start From the location 6 and the size is 5
-	copyString (newString,stringGet,6,5);
+	stringCopy(newString,stringGet,6,5);
 	
 	TEST_ASSERT_EQUAL('W',stringGet[0]);
 	TEST_ASSERT_EQUAL('o',stringGet[1]);
@@ -972,38 +973,6 @@ void test_copyString_should_copy_the_string_from_source_to_destination()
 	TEST_ASSERT_EQUAL('d',stringGet[4]);
 	TEST_ASSERT_EQUAL_STRING("World",stringGet);
 
-}
-
-void test_copyStringWithoutSpace_should_copy_the_string_without_space_and_tab()
-{
-
-
-	char * newString ="Hello World!";
-	char * stringGet ;
-	
-
-	copyStringWithoutSpace (newString,stringGet);
-	
-	TEST_ASSERT_EQUAL('H',stringGet[0]);
-	TEST_ASSERT_EQUAL('e',stringGet[1]);
-	TEST_ASSERT_EQUAL('l',stringGet[2]);
-	TEST_ASSERT_EQUAL('l',stringGet[3]);
-	TEST_ASSERT_EQUAL('o',stringGet[4]);
-	TEST_ASSERT_EQUAL_STRING("HelloWorld!",stringGet);
-	
-	
-	newString ="Hello 		World!			  ";
-	
-	copyStringWithoutSpace (newString,stringGet);
-	TEST_ASSERT_EQUAL_STRING("HelloWorld!",stringGet);
-	
-	//Make sure it do nothing on normal string.
-	newString ="Hello";
-	copyStringWithoutSpace (newString,stringGet);
-	TEST_ASSERT_EQUAL_STRING("Hello",stringGet);
-	
-
-	
 }
 
 void test_checkIdentifer_will_filter_out_low_high_and_upper()
@@ -1084,3 +1053,66 @@ void test_createNumberToken_should_identify_the_input_and_return_a_token()
 	free(numToken);
 	
 }
+
+void test_isOperator_will_return_1_for_operator_return_0_for_non_operator()
+{
+	String *testTokenizer = stringCreate("2*3");
+	Token *testToken;
+	int result=5;
+	free(getToken(testTokenizer));
+	
+	testToken = getToken(testTokenizer);
+	result = isOperator(testToken);
+	TEST_ASSERT_EQUAL(1,result);
+	free(testToken);
+	
+	testToken = getToken(testTokenizer);
+	result = isOperator(testToken);
+	TEST_ASSERT_EQUAL(0,result);
+	free(testToken);
+}
+
+void test_isNumber_will_return_1_for_number_return_0_for_non_number()
+{
+	String *testTokenizer = stringCreate("2*3");
+	Token *testToken;
+	int result=5;
+	free(getToken(testTokenizer));
+	
+	testToken = getToken(testTokenizer);
+	result = isNumber(testToken);
+	TEST_ASSERT_EQUAL(0,result);
+	free(testToken);
+	
+	testToken = getToken(testTokenizer);
+	result = isNumber(testToken);
+	TEST_ASSERT_EQUAL(1,result);
+	free(testToken);
+}
+
+//Stop this and find dr poh to fix this
+void xtest_operatorEvaluate_will_evaluate_2_plus_3()
+{
+	Stack *numberStack, *operatorStack;
+	Token *token0 = createNumberToken(2);
+	Token token1 = OPERATOR;
+	Token *token2 = createNumberToken(3);
+	pop_ExpectAndReturn(numberStack,token0);
+
+	operatorEvaluate(numberStack,operatorStack);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
