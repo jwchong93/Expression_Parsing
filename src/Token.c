@@ -1,12 +1,9 @@
 #include <stdio.h>
 #include "Token.h"
 #include <malloc.h>
-#include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 #include "CException.h"
 #include "Error.h"
-
 
 /*
 	This function will generate a token
@@ -21,7 +18,8 @@
 		
 */
 Token *getToken (String *tokenizer)
-{ int tempNum,i=1; //i is for calculate how many char been tokenize
+{ 
+	int tempNum,i=1; //i is for calculate how many char been tokenize
 
 	//Ignore any space or tab and continue get to details.
 	while(tokenizer->rawString[tokenizer->startIndex]==' '||tokenizer->rawString[tokenizer->startIndex]=='\t')
@@ -463,13 +461,6 @@ int isNumber (Token * unknownToken)
 		return 1;
 		
 	return 0;
-}
-
-void tryEvaluateThePush(Token *operators, Stack *numberStack , Stack *operatorStack)
-{
-	Token *temp;
-	Number *firstNum, *secondNum;
-	
 }
 
 
