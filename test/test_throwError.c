@@ -1,13 +1,10 @@
 #include "unity.h"
 #include "Token.h"
 #include "CException.h"
-#include "mock_Stack.h"
 #include "StringObject.h"
 #include "Stack.h"
 #include <malloc.h>
 #include "Error.h"
-
-
 
 void setUp () {}
 void tearDown () {} 

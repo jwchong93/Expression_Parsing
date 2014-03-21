@@ -3,7 +3,6 @@
 #include <malloc.h>
 #include <string.h>
 #include "CException.h"
-#include "mock_Stack.h"
 #include "StringObject.h"
 #include "Error.h"
 
