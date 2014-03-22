@@ -3,7 +3,7 @@
 #include <string.h>
 #include <malloc.h>
 
-
+LinkedList *Definelist;
 
 /*
 	This function will generate a string

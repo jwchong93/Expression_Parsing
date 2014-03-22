@@ -1,5 +1,8 @@
 #ifndef __STRING_OBJECT_H__
 #define __STRING_OBJECT_H__
+#include "Iterator.h"
+
+extern LinkedList *Definelist;
 typedef struct {
 	char *rawString;
 	int startIndex;
