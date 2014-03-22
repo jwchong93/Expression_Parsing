@@ -5,6 +5,7 @@
 #include "Error.h"
 #include "mock_GetElement.h"
 #include <malloc.h>
+#include "Error.h"
 
 void setUp(){}
 
@@ -40,7 +41,7 @@ void test_convertIdentifierToNumber_should_retrieved_value_from_the_linked_list_
 }
 
 
-void test_convertIdentifierToNumber_should_retrieved_value_for_a_loger_name_of_identifier()
+void test_convertIdentifierToNumber_should_retrieved_value_for_a_longer_name_of_identifier()
 {
 	LinkedList *list;
 	char* name;
@@ -68,3 +69,48 @@ void test_convertIdentifierToNumber_should_retrieved_value_for_a_loger_name_of_i
 	free(identifier);
 	free(testTokenizer);
 }
+
+void test_convertIdentifierToNumber_will_return_NULL_when_the_identifier_is_not_inside_the_linked_list()
+{
+	LinkedList *list;
+	char* name;
+	Token *newToken;
+	Iterator *iterator;
+	Error exception;
+	String * testTokenizer = stringCreate("MAX5 += number");
+	Token *testToken;
+	DefineElement *element1 = NULL;
+	
+	testToken = getToken(testTokenizer);
+	Identifier *identifier = (Identifier *) testToken;
+	identifier->name = name;
+	getElement_ExpectAndReturn(list,name,element1);
+	newToken = convertIdentifierToNumber (list,iterator,identifier);
+	
+	TEST_ASSERT_NULL(newToken);
+	free(identifier);
+	free(testTokenizer);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
