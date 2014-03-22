@@ -4,7 +4,8 @@
 #include <string.h>
 #include "CException.h"
 #include "Error.h"
-
+#include "convertValue.h"
+#include "GetElement.h"
 /*
 	This function will generate a token
 	
@@ -36,14 +37,13 @@ Token *getToken (String *tokenizer)
 			errorMessage. rawString = tokenizer -> rawString;
 			errorMessage.position = tokenizer->startIndex;
 			errorMessage.message = "Invalid identifier ! ";
-			
 			Throw(INVALID_IDENTIFIER);
-			return NULL;
 		}
 		
 		Number *numToken = malloc(sizeof(Number));
 		tempNum=tokenizer->startIndex;
 		numToken->value=0;
+		
 		//Collect all of the integers from string.
 		do
 		{
@@ -66,12 +66,12 @@ Token *getToken (String *tokenizer)
 	else if (isalpha(tokenizer->rawString[tokenizer->startIndex])||(tokenizer->rawString[tokenizer->startIndex])=='.')
 	{
 		Identifier *idenToken = malloc(sizeof(Identifier));
-		Token *opeToken;
+		Token *newToken;
 		int tempIndex,j=0; //j is for calculate how many char that is belong to identifier
 		char tempChar;
 		tempIndex = tokenizer->startIndex;
 		idenToken->type=IDENTIFIER;
-		idenToken->name = malloc (sizeof(Identifier)*tokenizer->length);
+		idenToken->name = malloc (tokenizer->length);
 		do
 		{
 			j++;
@@ -82,11 +82,13 @@ Token *getToken (String *tokenizer)
 		tokenizer->length-=i;
 		tokenizer->startIndex+=i;
 		//Check that this identifier is named as low, high or upper.
-		opeToken=checkIdentifier(idenToken->name);
-		if(opeToken!=NULL)
+		newToken=checkIdentifier(idenToken->name);
+		if(newToken!=NULL)
 		{
-			return opeToken;
+			free(idenToken);
+			return newToken;
 		}
+		newToken=convertIdentifierToNumber (Definelist,idenToken);
 		return (Token*)idenToken;
 	}
 	else if (tokenizer->rawString[tokenizer->startIndex]==0)
@@ -395,6 +397,7 @@ Token *checkIdentifier(char * name)
 	}
 	
 	opeToken->type=OPERATOR;
+	free(tempName);
 	
 	return (Token*)opeToken;
 	
