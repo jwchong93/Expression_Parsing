@@ -5,6 +5,7 @@
 #include <malloc.h>
 #include <string.h>
 #include "Error.h"
+#include "convertValue.h"
 #include "mock_GetElement.h"
 
 void setUp() {}
@@ -12,7 +13,7 @@ void tearDown () {}
 
 void test_getToken_ignore_space_and_tab()
 {
-	String * testTokenizer = stringCreate("   total				+=    number   			");
+	String * testTokenizer = stringCreate("   5			+=    2  			");
 	Token *testToken;
 	free(getToken(testTokenizer));
 	
@@ -28,10 +29,10 @@ void test_getToken_ignore_space_and_tab()
 
 void test_getToken_will_treat_number_with_space_are_two_different_token_object()
 {
-	String * testTokenizer = stringCreate("total += 3 + 5 6 /7");
+	String * testTokenizer = stringCreate("12321 += 3 + 5 6 /7");
 	Token *testToken;
 	Number *testNum;
-	free(getToken(testTokenizer)); //total 
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer); //+=
 	TEST_ASSERT_NOT_NULL(testToken);

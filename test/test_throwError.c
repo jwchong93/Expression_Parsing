@@ -5,6 +5,8 @@
 #include "Stack.h"
 #include <malloc.h>
 #include "Error.h"
+#include "convertValue.h"
+#include "mock_GetElement.h"
 
 void setUp () {}
 void tearDown () {} 

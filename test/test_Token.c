@@ -5,7 +5,8 @@
 #include "CException.h"
 #include "StringObject.h"
 #include "Error.h"
-
+#include "convertValue.h"
+#include "mock_GetElement.h"
 void setUp(){}
 void tearDown(){}
 
@@ -81,104 +82,6 @@ void test_getToken_should_return_the_token_by_sequence()
 	TEST_ASSERT_EQUAL(3,testTokenizer->startIndex);
 	
 	free(testTokenizer);
-	
-}
-
-void test_getToken_should_indentify_the_identifier_consist_in_the_expression()
-{
-	Identifier *IdenToken;
-	Token *testToken=NULL;
-	String *testTokenizer = stringCreate("2+MAX5-4");
-	
-	//Since previous test had tested how to return 2 and + lets skip the test
-	free(getToken(testTokenizer));
-	free(getToken(testTokenizer));
-	
-	//This getToken should return an identifier token address.
-	testToken = getToken(testTokenizer);
-	TEST_ASSERT_NOT_NULL(testToken);
-	TEST_ASSERT_EQUAL(IDENTIFIER,*testToken);
-	IdenToken = (Identifier*)testToken;
-	TEST_ASSERT_EQUAL_STRING("MAX5",IdenToken->name);
-	free(testTokenizer);
-	free(IdenToken);
-
-}
-
-void test_getToken_should_stop_return_a_token_while_an_invalid_identifer_is_included_in_the_expression()
-{
-	String *testTokenizer = stringCreate("5MAX+4");
-	Error Exception;
-	Try 
-	{
-	Token *testToken = getToken (testTokenizer);
-	//The getToken function will return NULL and throw an enum INVALID_IDENTFIER.
-	TEST_ASSERT_NULL(testToken);
-	free(testToken);
-	}Catch(Exception)
-	{
-		TEST_ASSERT_EQUAL(INVALID_IDENTIFIER,Exception);
-	}
-	
-	//lets try the function which the invalid identifier being in the last part of thr expression
-	testTokenizer = stringCreate("2+5MAX");
-	Try 
-	{
-	Token *testToken;
-	free(getToken(testTokenizer));
-	free(getToken(testTokenizer));
-	testToken = getToken (testTokenizer);
-	//The getToken function will return NULL and throw an enum INVALID_IDENTFIER.
-	TEST_ASSERT_NULL(testToken);
-	free(testToken);
-	}Catch(Exception)
-	{
-		TEST_ASSERT_EQUAL(INVALID_IDENTIFIER,Exception);
-	}
-	free(testTokenizer);
-}
-
-void test_getToken_should_detect_the_valid_identifier_which_have_a_different_pattern()
-{
-	//Try some valid format like .MAX
-	String *testTokenizer = stringCreate("2+.MAX");
-
-	Token *testToken;
-	free(getToken(testTokenizer));
-	free(getToken(testTokenizer));
-	testToken = getToken (testTokenizer);
-	//The getToken function will not return NULL and do not throw an enum INVALID_IDENTFIER.
-	TEST_ASSERT_NOT_NULL(testToken);
-	TEST_ASSERT_EQUAL(IDENTIFIER,*testToken);
-	Identifier *testIden = (Identifier*)testToken;
-	//Since the previous test already test for the properties of tokenizer 
-	TEST_ASSERT_EQUAL_STRING(".MAX",testIden->name);
-	free(testIden);
-	free(testTokenizer);
-	
-	//Test for the identifier that consist more dot(.)
-	testTokenizer = stringCreate("2+..MAX");
-	free(getToken(testTokenizer));
-	free(getToken(testTokenizer));
-	testToken = getToken (testTokenizer);
-	TEST_ASSERT_NOT_NULL(testToken);
-	TEST_ASSERT_EQUAL(IDENTIFIER,*testToken);
-	testIden = (Identifier*)testToken;
-	TEST_ASSERT_EQUAL_STRING("..MAX",testIden->name);
-	free(testTokenizer);
-	free(testIden);
-	
-	//Try the identifier which have many dot in random location.
-	testTokenizer = stringCreate("2+.M.A.X.");
-	free(getToken(testTokenizer));
-	free(getToken(testTokenizer));
-	testToken = getToken (testTokenizer);
-	TEST_ASSERT_NOT_NULL(testToken);
-	TEST_ASSERT_EQUAL(IDENTIFIER,*testToken);
-	testIden = (Identifier*)testToken;
-	TEST_ASSERT_EQUAL_STRING(".M.A.X.",testIden->name);
-	free(testTokenizer);
-	free(testIden);
 	
 }
 
@@ -513,16 +416,10 @@ void test_getToken_will_differentiate_low_high_and_upper_as_operator()
 
 void test_getToken_will_differentiate_greater__greater_or_equal__right_shift_and_right_shift_set_equal()
 {
-	String * testTokenizer = stringCreate("num1>num2");
-	Token * testToken = getToken(testTokenizer);
-	
-	TEST_ASSERT_NOT_NULL(testToken);
-	TEST_ASSERT_EQUAL(IDENTIFIER,*testToken);
-	Identifier *idenToken = (Identifier*)testToken;
-	TEST_ASSERT_EQUAL(IDENTIFIER,idenToken->type);
-	TEST_ASSERT_EQUAL_STRING("num1",idenToken->name);
-	free(idenToken);
-	
+	String * testTokenizer = stringCreate("456>123");
+	Token * testToken;
+	free(getToken(testTokenizer));
+
 	testToken = getToken(testTokenizer);
 	TEST_ASSERT_NOT_NULL(testToken);
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
@@ -531,16 +428,10 @@ void test_getToken_will_differentiate_greater__greater_or_equal__right_shift_and
 	TEST_ASSERT_EQUAL(GREATER_THAN,opeToken->id);
 	free(opeToken);
 	
-	testToken = getToken(testTokenizer);
-	TEST_ASSERT_NOT_NULL(testToken);
-	TEST_ASSERT_EQUAL(IDENTIFIER,*testToken);
-	idenToken = (Identifier*)testToken;
-	TEST_ASSERT_EQUAL(IDENTIFIER,idenToken->type);
-	TEST_ASSERT_EQUAL_STRING("num2",idenToken->name);
-	free(idenToken);
+	
 	free(testTokenizer);
 	
-	testTokenizer = stringCreate("num1>=num2>>=MAX>>1");
+	testTokenizer = stringCreate("3>=3>>=456>>1");
 	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);
@@ -576,15 +467,10 @@ void test_getToken_will_differentiate_greater__greater_or_equal__right_shift_and
 
 void test_getToken_will_differentiate_less__less_or_equal__left_shift_and_left_shift_set_equal()
 {
-	String * testTokenizer = stringCreate("num1<num2");
-	Token * testToken = getToken(testTokenizer);
+	String * testTokenizer = stringCreate("213213<21542143");
+	Token * testToken;
 	
-	TEST_ASSERT_NOT_NULL(testToken);
-	TEST_ASSERT_EQUAL(IDENTIFIER,*testToken);
-	Identifier *idenToken = (Identifier*)testToken;
-	TEST_ASSERT_EQUAL(IDENTIFIER,idenToken->type);
-	TEST_ASSERT_EQUAL_STRING("num1",idenToken->name);
-	free(idenToken);
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -593,17 +479,9 @@ void test_getToken_will_differentiate_less__less_or_equal__left_shift_and_left_s
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
 	TEST_ASSERT_EQUAL(LESS_THAN,opeToken->id);
 	free(opeToken);
-	
-	testToken = getToken(testTokenizer);
-	TEST_ASSERT_NOT_NULL(testToken);
-	TEST_ASSERT_EQUAL(IDENTIFIER,*testToken);
-	idenToken = (Identifier*)testToken;
-	TEST_ASSERT_EQUAL(IDENTIFIER,idenToken->type);
-	TEST_ASSERT_EQUAL_STRING("num2",idenToken->name);
-	free(idenToken);
 	free(testTokenizer);
 	
-	testTokenizer = stringCreate("num1<=num2<<=MAX<<1");
+	testTokenizer = stringCreate("547351123<=21312<<=2131231<<1");
 	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);
@@ -648,14 +526,9 @@ void test_getToken_will_differentiate_less__less_or_equal__left_shift_and_left_s
 
 void test_getToken_will_identify_equal_and_equal_to()
 {
-	String * testTokenizer = stringCreate("tempNum=2+3");
-	Token *testToken = getToken(testTokenizer);
-	TEST_ASSERT_NOT_NULL(testToken);
-	TEST_ASSERT_EQUAL(IDENTIFIER,*testToken);
-	Identifier *idenToken = (Identifier*)testToken;
-	TEST_ASSERT_EQUAL(IDENTIFIER,idenToken->type);
-	TEST_ASSERT_EQUAL_STRING("tempNum",idenToken->name);
-	free(idenToken);
+	String * testTokenizer = stringCreate("5=2+3");
+	Token *testToken ;
+	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -666,7 +539,7 @@ void test_getToken_will_identify_equal_and_equal_to()
 	free(opeToken);
 	free(testTokenizer);
 	
-	testTokenizer = stringCreate("tempNum==5");
+	testTokenizer = stringCreate("6==5");
 	free(getToken(testTokenizer));
 	testToken = getToken(testTokenizer); //==
 	TEST_ASSERT_NOT_NULL(testToken);
@@ -704,7 +577,7 @@ void test_getToken_will_detect_BITWISE_LOGICAL_AND_AND_and_AND_SET_EQUAL()
 	free(opeToken);
 	free(testTokenizer);
 	
-	testTokenizer = stringCreate("bool&=input");
+	testTokenizer = stringCreate("345&=23423");
 	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer);
@@ -719,7 +592,7 @@ void test_getToken_will_detect_BITWISE_LOGICAL_AND_AND_and_AND_SET_EQUAL()
 
 void test_getToken_will_detect_ADD_SET_EQUAL()
 {
-	String * testTokenizer = stringCreate("total+=number");
+	String * testTokenizer = stringCreate("3+=1");
 	Token *testToken;
 	free(getToken(testTokenizer));
 	
@@ -735,7 +608,7 @@ void test_getToken_will_detect_ADD_SET_EQUAL()
 
 void test_getToken_will_identify_SUBTRACT_SET_EQUAL()
 {
-	String * testTokenizer = stringCreate("total-=number");
+	String * testTokenizer = stringCreate("3-=4");
 	Token *testToken;
 	free(getToken(testTokenizer));
 	
@@ -751,7 +624,7 @@ void test_getToken_will_identify_SUBTRACT_SET_EQUAL()
 
 void test_getToken_will_identify_BITWISE_XOR_and_XOR_SET_EQUAL()
 {
-	String * testTokenizer = stringCreate("total+1^0^=1" );
+	String * testTokenizer = stringCreate("2+1^0^=1" );
 	Token *testToken;
 	free(getToken(testTokenizer));
 	free(getToken(testTokenizer));
@@ -779,7 +652,7 @@ void test_getToken_will_identify_BITWISE_XOR_and_XOR_SET_EQUAL()
 
 void test_getToken_will_identify_BITWISE_OR_LOGICAL_OR_and_OR_SET_EQUAL()
 {
-	String * testTokenizer = stringCreate("total|1||0|=1" );
+	String * testTokenizer = stringCreate("0|1||0|=1" );
 	Token *testToken;
 	free(getToken(testTokenizer));
 	
@@ -815,7 +688,7 @@ void test_getToken_will_identify_BITWISE_OR_LOGICAL_OR_and_OR_SET_EQUAL()
 
 void test_getToken_will_identify_MULTIPLY_DIVIDE_and_MODULUS_SET_EQUAL()
 {
-	String * testTokenizer = stringCreate("total*=0" );
+	String * testTokenizer = stringCreate("234*=0" );
 	Token *testToken;
 	free(getToken(testTokenizer));
 	
@@ -828,7 +701,7 @@ void test_getToken_will_identify_MULTIPLY_DIVIDE_and_MODULUS_SET_EQUAL()
 	free(opeToken);
 	free(testTokenizer);
 	
-	testTokenizer = stringCreate("total%=0" );
+	testTokenizer = stringCreate("234235%=0" );
 	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer); 		//%=
@@ -841,7 +714,7 @@ void test_getToken_will_identify_MULTIPLY_DIVIDE_and_MODULUS_SET_EQUAL()
 	free(testTokenizer);
 	
 	
-	testTokenizer = stringCreate("total/=0" );
+	testTokenizer = stringCreate("2342344235/=0" );
 	free(getToken(testTokenizer));
 	
 	testToken = getToken(testTokenizer); 		///=
