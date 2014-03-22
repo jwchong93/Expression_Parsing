@@ -4,7 +4,7 @@
 #include "Iterator.h"
 #include "GetElement.h"
 
-Token* convertIdentifierToNumber (LinkedList *list,Iterator *iterator,Identifier *identifier);
+Token* convertIdentifierToNumber (LinkedList *list,Identifier *identifier);
 int convertBasedNumberToInt(char * anyBaseNumber);
 
 #endif // convertValue_H

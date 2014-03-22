@@ -13,7 +13,7 @@
 	return:
 	Token that carry the value of the identifier. (Can take out by using type cast.)
 */
-Token* convertIdentifierToNumber (LinkedList *list,Iterator *iterator,Identifier *identifier)
+Token* convertIdentifierToNumber (LinkedList *list,Identifier *identifier)
 {
 	DefineElement *newElement;
 	Number *newNumberToken = malloc(sizeof(Number));
@@ -22,7 +22,6 @@ Token* convertIdentifierToNumber (LinkedList *list,Iterator *iterator,Identifier
 	{
 		return NULL;
 	}
-	
 	newNumberToken->type = NUMBER;
 	newNumberToken->value = newElement->value;
 	
