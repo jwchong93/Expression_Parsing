@@ -15,12 +15,6 @@ typedef enum {XOR_SET_EQUAL,OR_SET_EQUAL,AND_SET_EQUAL,RIGHT_SHIFT_SET_EQUAL,
 				RIGHT_PARENTHESIS,CURRENT_PROGRAM_COUNTER}OperatorID;
 
 				
-//This structure store the converted version of string
-typedef struct {
-	char *rawString;
-	int  startIndex;
-	int length;	
-}Tokenizer;
 
 //Three type of token needed.
 typedef struct {

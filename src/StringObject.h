@@ -11,6 +11,7 @@ typedef struct {
 
 
 String *subString;
+extern LinkedList *DefineList;
 
 // Function Prototype
 String *stringCreate(char *expression) ;

@@ -78,17 +78,19 @@ Token *getToken (String *tokenizer)
 			tempIndex++;
 		}while(isalnum(tokenizer->rawString[tempIndex])||(tokenizer->rawString[tempIndex]=='.'));
 		stringCopy(tokenizer->rawString,idenToken->name,tokenizer->startIndex,j);
-		i=j;
-		tokenizer->length-=i;
-		tokenizer->startIndex+=i;
 		//Check that this identifier is named as low, high or upper.
 		newToken=checkIdentifier(idenToken->name);
 		if(newToken!=NULL)
 		{
 			free(idenToken);
+			i=j;
+			tokenizer->length-=i;
+			tokenizer->startIndex+=i;
 			return newToken;
 		}
-		newToken=convertIdentifierToNumber (Definelist,idenToken);
+		i=j;
+		tokenizer->length-=i;
+		tokenizer->startIndex+=i;
 		return (Token*)idenToken;
 	}
 	else if (tokenizer->rawString[tokenizer->startIndex]==0)

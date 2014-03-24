@@ -15,8 +15,8 @@ typedef struct {
 //Element that Ee pak use to store identifier value.
 typedef struct DefineElement_t{
 	struct DefineElement_t *next;
-	char *id;
-	int value;
+	char *ID;
+	char *actualID;
 }DefineElement;
 
 void *getIterator(LinkedList *list);
