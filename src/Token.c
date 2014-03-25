@@ -28,8 +28,32 @@ Token *getToken (String *tokenizer)
 		tokenizer->startIndex ++;
 	}
 	
+	if (isalpha(tokenizer->rawString[tokenizer->startIndex])||(tokenizer->rawString[tokenizer->startIndex])=='.')
+	{
+		char *name = malloc (tokenizer->length);
+		Token *newToken;
+		int tempIndex,j=0; //j is for calculate how many char that is belong to identifier
+		tempIndex = tokenizer->startIndex;
+		
+		do
+		{
+			j++;
+			tempIndex++;
+		}while(isalnum(tokenizer->rawString[tempIndex])||(tokenizer->rawString[tempIndex]=='.'));
+		stringCopy(tokenizer->rawString,name,tokenizer->startIndex,j);
+		//Check that this identifier is named as low, high or upper.
+		newToken=checkIdentifier(name);
+		if(newToken!=NULL)
+		{
+			i=j;
+			tokenizer->length-=i;
+			tokenizer->startIndex+=i;
+			return newToken;
+		}
+		tokenizer = updateTheString(tokenizer,name);
+	}
 	//Check if it is a digit type.
-	if(isdigit(tokenizer->rawString[tokenizer->startIndex]))
+	else if(isdigit(tokenizer->rawString[tokenizer->startIndex]))
 	{
 		//This indicate the error type of identifier which start with number.
 		if(isalpha(tokenizer->rawString[tokenizer->startIndex+1]))
@@ -62,36 +86,6 @@ Token *getToken (String *tokenizer)
 		tokenizer->startIndex+=i;
 		
 		return (Token*)numToken;
-	}
-	else if (isalpha(tokenizer->rawString[tokenizer->startIndex])||(tokenizer->rawString[tokenizer->startIndex])=='.')
-	{
-		Identifier *idenToken = malloc(sizeof(Identifier));
-		Token *newToken;
-		int tempIndex,j=0; //j is for calculate how many char that is belong to identifier
-		char tempChar;
-		tempIndex = tokenizer->startIndex;
-		idenToken->type=IDENTIFIER;
-		idenToken->name = malloc (tokenizer->length);
-		do
-		{
-			j++;
-			tempIndex++;
-		}while(isalnum(tokenizer->rawString[tempIndex])||(tokenizer->rawString[tempIndex]=='.'));
-		stringCopy(tokenizer->rawString,idenToken->name,tokenizer->startIndex,j);
-		//Check that this identifier is named as low, high or upper.
-		newToken=checkIdentifier(idenToken->name);
-		if(newToken!=NULL)
-		{
-			free(idenToken);
-			i=j;
-			tokenizer->length-=i;
-			tokenizer->startIndex+=i;
-			return newToken;
-		}
-		i=j;
-		tokenizer->length-=i;
-		tokenizer->startIndex+=i;
-		return (Token*)idenToken;
 	}
 	else if (tokenizer->rawString[tokenizer->startIndex]==0)
 	{

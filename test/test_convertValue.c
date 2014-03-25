@@ -324,10 +324,10 @@ void test_updateTheString_will_update_the_identifier_when_meet_it()
 	
 	Identifier *testIdentifier1= malloc (sizeof(Identifier));
 	testIdentifier1->name = malloc (5);
-	stringCopy("num1",testIdentifier1->name,0,5);
+	stringCopy("num2",testIdentifier1->name,0,5);
 	testIdentifier1->type=IDENTIFIER;
 	DefineElement element1;
-	element1.ID = "num1";
+	element1.ID = "num2";
 	element1.actualID = "12";
 	
 	getElement_ExpectAndReturn(DefineList, testIdentifier->name,&element);
@@ -369,8 +369,6 @@ void test_updateTheString_should_return_NULL_when_the_identifier_is_not_defined(
 {
 	String *testTokenizer = stringCreate("12+num1");
 	String *newTokenizer;
-	Token *testToken;
-	Number *numToken;
 	free(getToken(testTokenizer));
 	free(getToken(testTokenizer));
 	Identifier *testIdentifier= malloc (sizeof(Identifier));
