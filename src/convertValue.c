@@ -20,7 +20,7 @@ String* updateTheString(String *beforeUpdate, char *name)
 	int counter=0;
 	int stringLength = strlen(beforeUpdate->rawString);
 	int length1,length2;
-	String *afterUpdate = malloc(sizeof(String));
+	String *afterUpdate=malloc(sizeof(String));
 	DefineElement *tempElement = getElement(DefineList,name);
 	if(tempElement == NULL)
 	{
@@ -44,8 +44,12 @@ String* updateTheString(String *beforeUpdate, char *name)
 	stringCopy(beforeUpdate->rawString,&(afterUpdate->rawString[beforeUpdate->startIndex+length2]),beforeUpdate->startIndex + length1,afterUpdate->length-length2);
 	
 	
-	free(beforeUpdate);
-	return afterUpdate;
+	free(beforeUpdate->rawString);
+	beforeUpdate->rawString = afterUpdate->rawString;
+	beforeUpdate->length = afterUpdate->length;
+	beforeUpdate->startIndex = afterUpdate->startIndex;
+	free(afterUpdate);
+	return beforeUpdate;
 	
 
 }
