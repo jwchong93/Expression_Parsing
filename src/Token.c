@@ -21,7 +21,6 @@
 Token *getToken (String *tokenizer)
 { 
 	int tempNum,i=1; //i is for calculate how many char been tokenize
-
 	//Ignore any space or tab and continue get to details.
 	while(tokenizer->rawString[tokenizer->startIndex]==' '||tokenizer->rawString[tokenizer->startIndex]=='\t')
 	{
@@ -52,8 +51,9 @@ Token *getToken (String *tokenizer)
 		}
 		tokenizer = updateTheString(tokenizer,name);
 	}
+
 	//Check if it is a digit type.
-	else if(isdigit(tokenizer->rawString[tokenizer->startIndex]))
+	if(isdigit(tokenizer->rawString[tokenizer->startIndex]))
 	{
 		//This indicate the error type of identifier which start with number.
 		if(isalpha(tokenizer->rawString[tokenizer->startIndex+1]))
@@ -84,7 +84,6 @@ Token *getToken (String *tokenizer)
 		numToken->type = NUMBER;
 		tokenizer->length-=i;
 		tokenizer->startIndex+=i;
-		
 		return (Token*)numToken;
 	}
 	else if (tokenizer->rawString[tokenizer->startIndex]==0)
