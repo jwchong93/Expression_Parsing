@@ -2,7 +2,7 @@
 #define __ERROR_H__
 
 
-typedef enum {INVALID_IDENTIFIER,UNKNOWN_OPERATOR,UNDECLARED_IDENTIFIER} Error;
+typedef enum {INVALID_IDENTIFIER,UNKNOWN_OPERATOR,UNDEFINED_IDENTIFIER} Error;
 
 typedef struct{
 	char *rawString;

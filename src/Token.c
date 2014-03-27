@@ -21,6 +21,7 @@
 Token *getToken (String *tokenizer)
 { 
 	int tempNum,i=1; //i is for calculate how many char been tokenize
+	String *newTokenizer;
 	//Ignore any space or tab and continue get to details.
 	while(tokenizer->rawString[tokenizer->startIndex]==' '||tokenizer->rawString[tokenizer->startIndex]=='\t')
 	{
@@ -49,7 +50,21 @@ Token *getToken (String *tokenizer)
 			tokenizer->startIndex+=i;
 			return newToken;
 		}
-		tokenizer = updateTheString(tokenizer,name);
+		
+		newTokenizer = updateTheString(tokenizer,name);
+		
+		//This indicate that the identifier is not defined.
+		if(newTokenizer == NULL)
+		{
+			errorMessage.rawString = tokenizer -> rawString;
+			errorMessage.position = tokenizer->startIndex;
+			errorMessage.message = "Undefined Identifier ! ";
+			Throw(UNDEFINED_IDENTIFIER);
+		}
+		else 
+		{
+			tokenizer = newTokenizer;
+		}
 	}
 
 	//Check if it is a digit type.
