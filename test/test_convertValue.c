@@ -310,7 +310,6 @@ void test_updateTheString_should_update_the_string_object_for_longer_expression_
 void test_updateTheString_will_update_the_identifier_when_meet_it()
 {
 	String *testTokenizer = stringCreate("num1+num2");
-	String *newTokenizer;
 	Token *testToken;
 	Number *numToken;
 	Operator *opeToken;
@@ -333,34 +332,33 @@ void test_updateTheString_will_update_the_identifier_when_meet_it()
 	getElement_ExpectAndReturn(DefineList, testIdentifier->name,&element);
 	getElement_ExpectAndReturn(DefineList, testIdentifier1->name,&element1);
 	//Now start put the identifier and tokenizer into the function.
-	newTokenizer = updateTheString(testTokenizer,testIdentifier->name);
-	TEST_ASSERT_EQUAL(6,newTokenizer->length);
-	TEST_ASSERT_EQUAL(0,newTokenizer->startIndex);
+	testTokenizer = updateTheString(testTokenizer,testIdentifier->name);
+	TEST_ASSERT_EQUAL(6,testTokenizer->length);
+	TEST_ASSERT_EQUAL(0,testTokenizer->startIndex);
 	//check the string inside the String.
-	TEST_ASSERT_EQUAL_STRING("4+num2",newTokenizer->rawString);
+	TEST_ASSERT_EQUAL_STRING("4+num2",testTokenizer->rawString);
 	
-	testToken = getToken(newTokenizer); //Should be 4.
+	testToken = getToken(testTokenizer); //Should be 4.
 	TEST_ASSERT_EQUAL(NUMBER,*testToken);
 	numToken = (Number*)testToken;
 	TEST_ASSERT_EQUAL(NUMBER,numToken->type);
 	TEST_ASSERT_EQUAL(4,numToken->value);
 	free(numToken);
 	
-	testToken = getToken(newTokenizer); //Should be +.
+	testToken = getToken(testTokenizer); //Should be +.
 	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
 	opeToken = (Operator*)testToken;
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
 	TEST_ASSERT_EQUAL(ADD,opeToken->id);
 	
 	
-	newTokenizer = updateTheString(newTokenizer,testIdentifier1->name);
-	TEST_ASSERT_EQUAL(2,newTokenizer->length);
-	TEST_ASSERT_EQUAL(2,newTokenizer->startIndex);
+	testTokenizer = updateTheString(testTokenizer,testIdentifier1->name);
+	TEST_ASSERT_EQUAL(2,testTokenizer->length);
+	TEST_ASSERT_EQUAL(2,testTokenizer->startIndex);
 	//check the string inside the String.
-	TEST_ASSERT_EQUAL_STRING("4+12",newTokenizer->rawString);
+	TEST_ASSERT_EQUAL_STRING("4+12",testTokenizer->rawString);
 	
 	free(opeToken);
-	free(newTokenizer);
 	free(testIdentifier);
 	free(testTokenizer);
 }
@@ -384,6 +382,105 @@ void test_updateTheString_should_return_NULL_when_the_identifier_is_not_defined(
 	free(testIdentifier);
 	free(testTokenizer);
 }
+
+void test_getToken_should_update_the_string_and_retrive_the_first_token_in_the_string()
+{
+	String *testString = stringCreate("num1+12");
+	Token *testToken;
+	Number *numToken;
+	Operator *opeToken;
+	char *name = "num1";
+	DefineElement element;
+	element.ID = "num1";
+	element.actualID = "4";
+	getElement_ExpectAndReturn(DefineList, name,&element);
+	testToken = getToken (testString);
+	
+	//Make sure the string inside String are as expected.
+	TEST_ASSERT_EQUAL('4',testString->rawString[0]);
+	TEST_ASSERT_EQUAL('+',testString->rawString[1]);
+	TEST_ASSERT_EQUAL('1',testString->rawString[2]);
+	TEST_ASSERT_EQUAL('2',testString->rawString[3]);
+	
+	//Now start to test the function working.
+	TEST_ASSERT_EQUAL(NUMBER, *testToken);
+	numToken = (Number*)testToken;
+	TEST_ASSERT_EQUAL(NUMBER, numToken->type);
+	TEST_ASSERT_EQUAL(4,numToken->value);
+	free(numToken);
+	
+	testToken = getToken(testString); //Should be +.
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(ADD,opeToken->id);
+	free(opeToken);
+	
+	testToken = getToken(testString); //Should be 12.
+	TEST_ASSERT_EQUAL(NUMBER, *testToken);
+	numToken = (Number*)testToken;
+	TEST_ASSERT_EQUAL(NUMBER, numToken->type);
+	TEST_ASSERT_EQUAL(12,numToken->value);
+	free(numToken);
+	free(testString);
+	
+}
+
+void test_getToken_with_longer_expression_with_identifier()
+{
+	String *testString = stringCreate("num1+num2");
+	Token *testToken;
+	Number *numToken;
+	Operator *opeToken;
+	char *name = "num1";
+	char *name1 = "num2";
+	DefineElement element;
+	element.ID = "num1";
+	element.actualID = "4";
+	DefineElement element1;
+	element1.ID = "num2";
+	element1.actualID = "4*12";
+	
+	getElement_ExpectAndReturn(DefineList, name,&element);
+	getElement_ExpectAndReturn(DefineList, name1,&element1);
+	testToken = getToken (testString);
+	TEST_ASSERT_EQUAL(NUMBER, *testToken);
+	numToken = (Number*)testToken;
+	TEST_ASSERT_EQUAL(NUMBER, numToken->type);
+	TEST_ASSERT_EQUAL(4,numToken->value);
+	free(numToken);
+	
+	testToken = getToken(testString); //Should be +.
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(ADD,opeToken->id);
+	free(opeToken);
+	
+	testToken = getToken (testString);
+	TEST_ASSERT_EQUAL(NUMBER, *testToken);
+	numToken = (Number*)testToken;
+	TEST_ASSERT_EQUAL(NUMBER, numToken->type);
+	TEST_ASSERT_EQUAL(4,numToken->value);
+	free(numToken);
+	
+	testToken = getToken(testString); //Should be *.
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(MULTIPLY,opeToken->id);
+	free(opeToken);
+	
+	testToken = getToken(testString); //Should be 12.
+	TEST_ASSERT_EQUAL(NUMBER, *testToken);
+	numToken = (Number*)testToken;
+	TEST_ASSERT_EQUAL(NUMBER, numToken->type);
+	TEST_ASSERT_EQUAL(12,numToken->value);
+	free(numToken);
+	
+	free(testString);
+}
+
 
 
 
