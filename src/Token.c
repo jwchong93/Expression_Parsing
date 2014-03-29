@@ -51,20 +51,6 @@ Token *getToken (String *tokenizer)
 			return newToken;
 		}
 		
-		newTokenizer = updateTheString(tokenizer,name);
-		
-		//This indicate that the identifier is not defined.
-		if(newTokenizer == NULL)
-		{
-			errorMessage.rawString = tokenizer -> rawString;
-			errorMessage.position = tokenizer->startIndex;
-			errorMessage.message = "Undefined Identifier ! ";
-			Throw(UNDEFINED_IDENTIFIER);
-		}
-		else 
-		{
-			tokenizer = newTokenizer;
-		}
 	}
 
 	//Check if it is a digit type.

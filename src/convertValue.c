@@ -44,12 +44,30 @@ String* updateTheString(String *beforeUpdate, char *name)
 	stringCopy(beforeUpdate->rawString,&(afterUpdate->rawString[beforeUpdate->startIndex+length2]),beforeUpdate->startIndex + length1,afterUpdate->length-length2);
 	
 	
-	free(beforeUpdate->rawString);
-	beforeUpdate->rawString = afterUpdate->rawString;
-	beforeUpdate->length = afterUpdate->length;
-	beforeUpdate->startIndex = afterUpdate->startIndex;
-	free(afterUpdate);
-	return beforeUpdate;
+	free(beforeUpdate);
+
+	return afterUpdate;
 	
 
 }
+
+void convertBasedNumberToBase10Number(char *input)
+{
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
