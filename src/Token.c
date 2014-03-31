@@ -21,7 +21,6 @@
 Token *getToken (String *tokenizer)
 { 
 	int tempNum,i=1; //i is for calculate how many char been tokenize
-	String *newTokenizer;
 	//Ignore any space or tab and continue get to details.
 	while(tokenizer->rawString[tokenizer->startIndex]==' '||tokenizer->rawString[tokenizer->startIndex]=='\t')
 	{
@@ -41,6 +40,7 @@ Token *getToken (String *tokenizer)
 			tempIndex++;
 		}while(isalnum(tokenizer->rawString[tempIndex])||(tokenizer->rawString[tempIndex]=='.'));
 		stringCopy(tokenizer->rawString,name,tokenizer->startIndex,j);
+		
 		//Check that this identifier is named as low, high or upper.
 		newToken=checkIdentifier(name);
 		if(newToken!=NULL)
@@ -48,6 +48,7 @@ Token *getToken (String *tokenizer)
 			i=j;
 			tokenizer->length-=i;
 			tokenizer->startIndex+=i;
+			free(name);
 			return newToken;
 		}
 		

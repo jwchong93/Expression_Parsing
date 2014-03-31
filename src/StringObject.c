@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <malloc.h>
+#include "Token.h"
 
 LinkedList *DefineList;
 
@@ -15,13 +16,40 @@ LinkedList *DefineList;
 String *stringCreate(char *expression) {
 	int length = strlen(expression);
 	String *newString = malloc (sizeof(String));
+	String *string;
+	string	= newString;
 	char *newRawString = malloc (length+1);
+	int tempIndex,stringStartLocation,j=0; 
+	Token *newToken;
 	
 	stringCopy(expression, newRawString, 0, length);
 	newString->rawString = newRawString;
 	newString->startIndex = 0;
 	newString->length = strlen(newString->rawString);
+	/*
+	for(tempIndex=0;tempIndex<=string->length;tempIndex++)
+	{
+		if (isalpha(string->rawString[tempIndex])||(string->rawString[tempIndex])=='.')
+		{
+			char *name = malloc (string->length);
+			stringStartLocation=tempIndex;
+			do
+			{
+				j++;
+				tempIndex++;
+			}while(isalnum(string->rawString[tempIndex])||(string->rawString[tempIndex]=='.'));
+			stringCopy(string->rawString,name,stringStartLocation,j);
+			newToken=checkIdentifier(name);
+			
+			if(newToken==NULL)
+			{
+				string = updateTheString(newString, name);
+				newString = string;
+			}
+		}
+	}
 	
+	*/
 	return newString;
 }
 
