@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "StringObject.h"
 #include "GetElement.h"
+#include <math.h>
 /*
 	Convert an identifier to number respectively to the value in linked list.
 	Input:
@@ -15,7 +16,7 @@
 	return:
 	Token that carry the value of the identifier. (Can take out by using type cast.)
 */
-String* updateTheString(String *beforeUpdate, char *name)
+String *updateTheString(String *beforeUpdate, char *name)
 {
 	int counter=0;
 	int stringLength = strlen(beforeUpdate->rawString);
@@ -44,6 +45,7 @@ String* updateTheString(String *beforeUpdate, char *name)
 	stringCopy(beforeUpdate->rawString,&(afterUpdate->rawString[beforeUpdate->startIndex+length2]),beforeUpdate->startIndex + length1,afterUpdate->length-length2);
 	
 	
+	free(beforeUpdate->rawString);
 	free(beforeUpdate);
 
 	return afterUpdate;
@@ -51,9 +53,173 @@ String* updateTheString(String *beforeUpdate, char *name)
 
 }
 
-void convertBasedNumberToBase10Number(char *input)
+int convertBasedNumberToBase10Number(char *input)
 {
-	
+	int i =0,j=0,result=0;
+	if(input[i] == 100 )//ASCII d = 100
+	{
+		i++;
+		if(input[i]==39)//ASCII ' = 39
+		{
+			i++;
+			while(isdigit(input[i]))
+			{
+				result =(result*10)+(input[i]-'0');
+				i++;
+				
+			}
+			
+		}
+		if(input[i]!=39)
+		{
+			errorMessage.rawString = input;
+			errorMessage.position = i;
+			errorMessage.message = "Invalid expression ! ";
+			Throw(INVALID_EXPRESSION);
+		}
+	}
+	else if(input[i] == 104 )//ASCII h = 104
+	{
+		i++;
+		if(input[i]==39)//ASCII ' = 39
+		{
+			i++;
+			while(isdigit(input[i])||(input[i]>=97&&input[i]<=102))
+			{
+				j++;
+				i++;
+			}
+			for(;j>0;j--)
+			{
+				if(isalpha(input[i-j]))
+				{
+					result += (input[i-j]-87)* (int)(pow(16,j-1));
+				}
+				else
+				{
+					result += (input[i-j]-'0')* (int)(pow(16,j-1));
+				}
+			}
+			
+		}
+		if(input[i]!=39)
+		{
+			errorMessage.rawString = input;
+			errorMessage.position = i;
+			errorMessage.message = "Invalid expression ! ";
+			Throw(INVALID_EXPRESSION);
+		}
+	}
+	else if(input[i] == 111 )//ASCII o = 111
+	{
+		i++;
+		if(input[i]==39)//ASCII ' = 39
+		{
+			i++;
+			while(input[i]>=48&&input[i]<=55)
+			{
+				j++;
+				i++;
+				
+			}
+			for(;j>0;j--)
+			{
+				result += (input[i-j]-'0')* (int)(pow(8,j-1));
+			}
+		}
+		if(input[i]!=39)
+		{
+			errorMessage.rawString = input;
+			errorMessage.position = i;
+			errorMessage.message = "Invalid expression ! ";
+			Throw(INVALID_EXPRESSION);
+		}
+	}
+	else if(input[i] == 98 )//ASCII b = 98
+	{
+		i++;
+		if(input[i]==39)//ASCII ' = 39
+		{
+			i++;
+			while(input[i]==48||input[i]==49)
+			{
+				j++;
+				i++;
+				
+			}
+			for(;j>0;j--)
+			{
+				result += (input[i-j]-'0')* (int)(pow(2,j-1));
+			}
+		}
+		if(input[i]!=39)
+		{
+			errorMessage.rawString = input;
+			errorMessage.position = i;
+			errorMessage.message = "Invalid expression ! ";
+			Throw(INVALID_EXPRESSION);
+		}
+	}
+	else if(input[i] == 48 )//ASCII 0 = 48
+	{
+		i++;
+		if(input[i]==120)//ASCII ' = 120
+		{
+			i++;
+			while(isdigit(input[i])||(input[i]>=97&&input[i]<=102))
+			{
+				j++;
+				i++;
+			}
+			for(;j>0;j--)
+			{
+				if(isalpha(input[i-j]))
+				{
+					result += (input[i-j]-87)* (int)(pow(16,j-1));
+				}
+				else
+				{
+					result += (input[i-j]-'0')* (int)(pow(16,j-1));
+				}
+			}
+		}
+		if(input[i]!=0)
+		{
+			errorMessage.rawString = input;
+			errorMessage.position = i;
+			errorMessage.message = "Invalid expression ! ";
+			Throw(INVALID_EXPRESSION);
+		}
+	}
+	/*
+	else if ((input[i]>=97&&input[i]<102)||isdigit(input[i]))
+	{
+		while(isdigit(input[i])||(input[i]>=97&&input[i]<=102))
+		{
+			j++;
+			i++;
+		}
+		if(input[i]!=104)
+		{
+			errorMessage.rawString = input;
+			errorMessage.position = i;
+			errorMessage.message = "Invalid expression ! ";
+			Throw(INVALID_EXPRESSION);
+		}
+		for(;j>0;j--)
+		{
+			if(isalpha(input[i-j]))
+			{
+				result += (input[i-j]-87)* (int)(pow(16,j-1));
+			}
+			else
+			{
+				result += (input[i-j]-'0')* (int)(pow(16,j-1));
+			}
+		}
+	}
+	*/
+	return result;
 }
 
 
