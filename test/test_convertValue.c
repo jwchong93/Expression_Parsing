@@ -14,7 +14,10 @@ void tearDown(){}
 
 void test_updateTheString_should_update_the_string_object_as_defined_by_user()
 {
-	String *testTokenizer = stringCreate("12+num1");
+	String *testTokenizer =malloc(sizeof(String));
+	testTokenizer->rawString = "12+num1";
+	testTokenizer->startIndex = 0;
+	testTokenizer->length = 7;
 	String *newTokenizer;
 	Token *testToken;
 	Number *numToken;
@@ -57,7 +60,10 @@ void test_updateTheString_should_update_the_string_object_as_defined_by_user()
 
 void test_updateTheString_should_update_the_string_object_as_defined_by_user_for_longer_expression()
 {
-	String *testTokenizer = stringCreate("12+num1");
+	String *testTokenizer =malloc(sizeof(String));
+	testTokenizer->rawString = "12+num1";
+	testTokenizer->startIndex = 0;
+	testTokenizer->length = 7;
 	String *newTokenizer;
 	Token *testToken;
 	Operator *opeToken;
@@ -117,7 +123,11 @@ void test_updateTheString_should_update_the_string_object_as_defined_by_user_for
 
 void test_updateTheString_should_update_the_string_object_if_the_identifier_is_being_in_front_of_the_expression()
 {
-	String *testTokenizer = stringCreate("num1+12");
+	
+	String *testTokenizer =malloc(sizeof(String));
+	testTokenizer->rawString = "num1+12";
+	testTokenizer->startIndex = 0;
+	testTokenizer->length = 7;
 	String *newTokenizer;
 	Token *testToken;
 	Operator *opeToken;
@@ -173,7 +183,10 @@ void test_updateTheString_should_update_the_string_object_if_the_identifier_is_b
 
 void test_updateTheString_should_update_the_string_object_for_longer_expression_of_user_define_and_a_longer_expression()
 {
-	String *testTokenizer = stringCreate("num1+12+5+99+89");
+	String *testTokenizer =malloc(sizeof(String));
+	testTokenizer->rawString = "num1+12+5+99+89";
+	testTokenizer->startIndex = 0;
+	testTokenizer->length = 15;
 	String *newTokenizer;
 	Token *testToken;
 	Operator *opeToken;
@@ -309,7 +322,10 @@ void test_updateTheString_should_update_the_string_object_for_longer_expression_
 
 void test_updateTheString_will_update_the_identifier_when_meet_it()
 {
-	String *testTokenizer = stringCreate("num1+num2");
+	String *testTokenizer =malloc(sizeof(String));
+	testTokenizer->rawString = "num1+num2";
+	testTokenizer->startIndex = 0;
+	testTokenizer->length = 9;
 	Token *testToken;
 	Number *numToken;
 	Operator *opeToken;
@@ -365,7 +381,11 @@ void test_updateTheString_will_update_the_identifier_when_meet_it()
 
 void test_updateTheString_should_return_NULL_when_the_identifier_is_not_defined()
 {
-	String *testTokenizer = stringCreate("12+num1");
+	
+	String *testTokenizer =malloc(sizeof(String));
+	testTokenizer->rawString = "12+num1";
+	testTokenizer->startIndex = 0;
+	testTokenizer->length = 7;
 	String *newTokenizer;
 	free(getToken(testTokenizer));
 	free(getToken(testTokenizer));
@@ -383,17 +403,91 @@ void test_updateTheString_should_return_NULL_when_the_identifier_is_not_defined(
 	free(testTokenizer);
 }
 
+void test_convertBasedNumberToBase10Number_will_convert_decimal_number_starting_with_d()
+{
+	int result;
+	result = convertBasedNumberToBase10Number("d'100'");
+	TEST_ASSERT_EQUAL(100,result);
+	//Go with some other longer number.
+	result = convertBasedNumberToBase10Number("d'18145613548'");
+	TEST_ASSERT_EQUAL(18145613548,result);
+	
+	//*****Error checking tested in test_throwError.c
+}
+
+void test_convertBasedNumberToBase10Number_will_convert_hexadecimal_number_starting_with_h()
+{
+	int result;
+	result = convertBasedNumberToBase10Number("h'100'");
+	TEST_ASSERT_EQUAL(256,result);
+	//Go with some other longer number.
+	result = convertBasedNumberToBase10Number("h'4875'");
+	TEST_ASSERT_EQUAL(18549,result);
+	
+	//Try some value with integer that exceed 9 
+	result = convertBasedNumberToBase10Number("h'beef'");
+	TEST_ASSERT_EQUAL(48879,result);
+	
+	result = convertBasedNumberToBase10Number("h'abcdef'");
+	TEST_ASSERT_EQUAL(11259375,result);
+	//*****Error checking tested in test_throwError.c
+}
+
+void test_convertBasedNumberToBase10Number_will_convert_octal_number_starting_with_o()
+{
+	int result;
+	result = convertBasedNumberToBase10Number("o'100'");
+	TEST_ASSERT_EQUAL(64,result);
+	//Go with some other longer number.
+	result = convertBasedNumberToBase10Number("o'4775'");
+	TEST_ASSERT_EQUAL(2557,result);
+	
+	//*****Error checking tested in test_throwError.c
+}
 
 
+void test_convertBasedNumberToBase10Number_will_convert_binary_number_starting_with_o()
+{
+	int result;
+	result = convertBasedNumberToBase10Number("b'100'");
+	TEST_ASSERT_EQUAL(4,result);
+	//Go with some other longer number.
+	result = convertBasedNumberToBase10Number("b'101100101'");
+	TEST_ASSERT_EQUAL(357,result);
+	
+	//*****Error checking tested in test_throwError.c
+}
+/*
+void test_convertBasedNumberToBase10Number_will_convert_hexadecimal_number_end_with_h()
+{
+	int result;
+	result = convertBasedNumberToBase10Number("100h");
+	TEST_ASSERT_EQUAL(256,result);
+	//Go with some other longer number.
+	result = convertBasedNumberToBase10Number("abcdefh");
+	TEST_ASSERT_EQUAL(11259375,result);
+	
+	//*****Error checking tested in test_throwError.c
+}
+*/
 
-
-
-
-
-
-
-
-
+void test_convertBasedNumberToBase10Number_will_convert_hexadecimal_number_starting_with_0x()
+{
+	int result;
+	result = convertBasedNumberToBase10Number("0x1234");
+	TEST_ASSERT_EQUAL(4660,result);
+	//Go with some other longer number.
+	result = convertBasedNumberToBase10Number("0xabcd");
+	TEST_ASSERT_EQUAL(43981,result);
+	
+	//Try some value with integer that exceed 9 
+	result = convertBasedNumberToBase10Number("0x1a2c3b");
+	TEST_ASSERT_EQUAL(1715259,result);
+	
+	result = convertBasedNumberToBase10Number("0xaaaa");
+	TEST_ASSERT_EQUAL(43690,result);
+	//*****Error checking tested in test_throwError.c
+}
 
 
 
