@@ -17,43 +17,50 @@ LinkedList *DefineList;
 String *stringCreate(char *expression) {
 	int length = strlen(expression);
 	String *newString = malloc (sizeof(String));
-	String *string;
-	string	= newString;
-	int result;
 	char *newRawString = malloc (length+1);
-	int tempIndex,stringStartLocation,j=0; 
+	int tempIndex,stringStartLocation,lengthOfTheIdentifier=0; 
 	Token *newToken;
-	
+	char name[20];
 	stringCopy(expression, newRawString, 0, length);
 	newString->rawString = newRawString;
 	newString->startIndex = 0;
 	newString->length = strlen(newString->rawString);
-	/*
-	for(tempIndex=0;tempIndex<=string->length;tempIndex++)
+	
+	for(tempIndex=0;tempIndex<=newString->length;tempIndex++)
 	{
 		// result = convertBasedNumberToBase10Number(newString->rawString);
 		
-		if (isalpha(string->rawString[tempIndex])||(string->rawString[tempIndex])=='.')
+		if (isalpha(newString->rawString[tempIndex])||(newString->rawString[tempIndex])=='.')
 		{
-			char *name = malloc (string->length);
 			stringStartLocation=tempIndex;
 			do
 			{
-				j++;
+				lengthOfTheIdentifier++;
 				tempIndex++;
-			}while(isalnum(string->rawString[tempIndex])||(string->rawString[tempIndex]=='.'));
-			stringCopy(string->rawString,name,stringStartLocation,j);
+			}while(isalnum(newString->rawString[tempIndex])||(newString->rawString[tempIndex]=='.'));
+			stringCopy(newString->rawString,name,stringStartLocation,lengthOfTheIdentifier);
+			
 			newToken=checkIdentifier(name);
+			tempIndex-=lengthOfTheIdentifier+1;
 			
 			if(newToken==NULL)
 			{
-				string = getFromListAndUpdate(newString, name);
-				newString = string;
+				newString = getFromListAndUpdate(newString, name);
 			}
+			else if(newToken!=NULL)
+			{
+				tempIndex += lengthOfTheIdentifier;
+			}
+			lengthOfTheIdentifier=0;
+			
+		}
+			
+		else
+		{
+			newString->startIndex++;
 		}
 	}
-	
-	*/
+	newString->startIndex=0;
 	return newString;
 }
 

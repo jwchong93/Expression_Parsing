@@ -18,7 +18,6 @@
 */
 String *getFromListAndUpdate(String *beforeUpdate, char *name)
 {
-	int counter=0;
 	int stringLength = strlen(beforeUpdate->rawString);
 	int length1,length2;
 	String *afterUpdate=malloc(sizeof(String));
@@ -43,7 +42,10 @@ String *getFromListAndUpdate(String *beforeUpdate, char *name)
 	//Copy the found(from element) into the string.
 	stringCopy(tempElement->actualID,&(afterUpdate->rawString[beforeUpdate->startIndex]),0,length2);
 	//Copy the remaining string into it.
-	stringCopy(beforeUpdate->rawString,&(afterUpdate->rawString[beforeUpdate->startIndex+length2]),beforeUpdate->startIndex + length1,afterUpdate->length-length2);
+	stringCopy(beforeUpdate->rawString,
+			&(afterUpdate->rawString[beforeUpdate->startIndex+length2]),
+			beforeUpdate->startIndex + length1,
+			beforeUpdate->length-(beforeUpdate->startIndex + length1));
 	
 	beforeUpdate->rawString="";
 	free(beforeUpdate->rawString);
@@ -227,7 +229,6 @@ String *convertBasedNumberToBase10Number(String *input)
 	}
 	else 
 	{
-
 		return NULL;
 	}
 	if(result!=0)
