@@ -406,7 +406,7 @@ void test_updateTheString_should_return_NULL_when_the_identifier_is_not_defined(
 	TEST_ASSERT_NULL(newTokenizer);
 	free(testIdentifier.name);
 }
-/*
+
 void test_convertBasedNumberToBase10Number_will_convert_decimal_number_starting_with_d()
 {
 	String testTokenizer;
@@ -528,7 +528,7 @@ void test_convertBasedNumberToBase10Number_will_convert_longer_octal_number_star
 	//*****Error checking tested in test_throwError.c
 }
 
-/*
+
 void test_convertBasedNumberToBase10Number_will_convert_binary_number_starting_with_b()
 {
 	String testTokenizer;
@@ -558,7 +558,7 @@ void test_convertBasedNumberToBase10Number_will_convert_longer_binary_number_sta
 	free(testTokenizer1);
 	//*****Error checking tested in test_throwError.c
 }
-
+/*
 void test_convertBasedNumberToBase10Number_will_convert_hexadecimal_number_end_with_h()
 {
 	String *testTokenizer =malloc(sizeof(String));
@@ -592,7 +592,7 @@ void test_convertBasedNumberToBase10Number_will_convert_bigger_hexadecimal_numbe
 	//*****Error checking tested in test_throwError.c
 }
 
-
+*/
 void test_convertBasedNumberToBase10Number_will_convert_hexadecimal_number_starting_with_0x()
 {
 	String testTokenizer;
@@ -620,6 +620,7 @@ void test_convertBasedNumberToBase10Number_will_convert_bigger_hexadecimal_numbe
 	TEST_ASSERT_EQUAL(5,testTokenizer1->length);
 	free(testTokenizer1);
 }
+
 void test_convertBasedNumberToBase10Number_will_convert_longer_bigger_hexadecimal_number_starting_with_0x()
 {
 	String testTokenizer;
@@ -649,6 +650,6 @@ void test_convertBasedNumberToBase10Number_will_convert_the_hexadecimal_number_s
 	//*****Error checking tested in test_throwError.c
 }
 
-*/
+
 
 
