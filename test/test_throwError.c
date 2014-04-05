@@ -87,11 +87,15 @@ void test_getToken_will_update_the_error_message_when_it_meet_unknown_operator_i
 
 void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_other_unwanted_simbol_inside_the_decimal_expression()
 {
-	int result;
+	String testTokenizer;
+	String *testTokenizer1;
+	testTokenizer.rawString = "d'1 00'";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 6;
 	Error exception;
 	Try
 	{
-		result = convertBasedNumberToBase10Number("d'1 00'");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -105,10 +109,13 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 	}
 	
 	
+	testTokenizer.rawString = "d'1456781 00'";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 13;
 	//Make sure this will work for longer expression.
 	Try
 	{
-		result = convertBasedNumberToBase10Number("d'1456781 00'");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -120,10 +127,14 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 		TEST_ASSERT_EQUAL_STRING("Invalid expression ! ",errorMessage.message);
 		
 	}
+	
+	testTokenizer.rawString = "d'1@00'";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 6;
 	//Since it is work , c whether work for other symbol
 	Try
 	{
-		result = convertBasedNumberToBase10Number("d'1@00'");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -136,9 +147,12 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 		
 	}
 	
+	testTokenizer.rawString = "d'1$00'";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 6;
 	Try
 	{
-		result = convertBasedNumberToBase10Number("d'1$00'");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -151,9 +165,12 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 		
 	}
 	
+	testTokenizer.rawString = "d'1=00'";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 6;
 	Try
 	{
-		result = convertBasedNumberToBase10Number("d'1=00'");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -169,11 +186,15 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 
 void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_other_unwanted_simbol_inside_the_hexadecimal_expression()
 {
-	int result;
+	String testTokenizer;
+	String *testTokenizer1;
+	testTokenizer.rawString = "h'1 00'";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 6;
 	Error exception;
 	Try
 	{
-		result = convertBasedNumberToBase10Number("h'1 00'");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -187,10 +208,13 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 	}
 	
 	
+	testTokenizer.rawString = "h'1456781 00'";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 13;
 	//Make sure this will work for longer expression.
 	Try
 	{
-		result = convertBasedNumberToBase10Number("h'1456781 00'");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -202,10 +226,14 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 		TEST_ASSERT_EQUAL_STRING("Invalid expression ! ",errorMessage.message);
 		
 	}
+	
+	testTokenizer.rawString = "h'1@00'";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 6;
 	//Since it is work , c whether work for other symbol
 	Try
 	{
-		result = convertBasedNumberToBase10Number("h'1@00'");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -218,9 +246,12 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 		
 	}
 	
+	testTokenizer.rawString = "h'1$00'";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 6;
 	Try
 	{
-		result = convertBasedNumberToBase10Number("h'1$00'");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -233,9 +264,12 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 		
 	}
 	
+	testTokenizer.rawString = "h'1=00'";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 6;
 	Try
 	{
-		result = convertBasedNumberToBase10Number("h'1=00'");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -251,11 +285,15 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 
 void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_other_unwanted_simbol_inside_the_octal_expression()
 {
-	int result;
+	String testTokenizer;
+	String *testTokenizer1;
+	testTokenizer.rawString = "o'1 00'";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 7;
 	Error exception;
 	Try
 	{
-		result = convertBasedNumberToBase10Number("o'1 00'");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -267,9 +305,13 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 		TEST_ASSERT_EQUAL_STRING("Invalid expression ! ",errorMessage.message);
 		
 	}
+	
+	testTokenizer.rawString = "o'1800'";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 7;
 	Try
 	{
-		result = convertBasedNumberToBase10Number("o'1800'");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -281,9 +323,13 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 		TEST_ASSERT_EQUAL_STRING("Invalid expression ! ",errorMessage.message);
 		
 	}
+	
+	testTokenizer.rawString = "o'1900'";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 7;
 	Try
 	{
-		result = convertBasedNumberToBase10Number("o'1900'");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -295,9 +341,14 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 		TEST_ASSERT_EQUAL_STRING("Invalid expression ! ",errorMessage.message);
 		
 	}
+	
+	testTokenizer.rawString = "o'1a00'";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 7;
+	
 	Try
 	{
-		result = convertBasedNumberToBase10Number("o'1a00'");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -310,14 +361,18 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 		
 	}
 }
-/*
+
 void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_other_unwanted_simbol_inside_the_hexadecimal_expression_end_with_h()
 {
-	int result;
+	String testTokenizer;
+	String *testTokenizer1;
+	testTokenizer.rawString = "c0ffee h";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 8;
 	Error exception;
 	Try
 	{
-		result = convertBasedNumberToBase10Number("c0ffee h");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -329,9 +384,14 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 		TEST_ASSERT_EQUAL_STRING("Invalid expression ! ",errorMessage.message);
 		
 	}
+	
+	testTokenizer.rawString = "c0ffeekh";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 8;
+	
 	Try
 	{
-		result = convertBasedNumberToBase10Number("c0ffeekh");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -344,9 +404,12 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 		
 	}
 	
+	testTokenizer.rawString = "c0ffeek";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 7;
 	Try
 	{
-		result = convertBasedNumberToBase10Number("c0ffeek");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -358,9 +421,13 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 		TEST_ASSERT_EQUAL_STRING("Invalid expression ! ",errorMessage.message);
 		
 	}
+	
+	testTokenizer.rawString = "c0ffeey";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 7;
 	Try
 	{
-		result = convertBasedNumberToBase10Number("c0ffeey");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -374,14 +441,19 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 	}
 	
 }
-*/
-void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_other_unwanted_simbol_inside_the_hexadecimal_expression_star_with_0x()
+
+
+void test_convertBasedNumberToBase10Number_will_throw_error_when_an_invalid_symbol_is_inside_the_hexadecimal_expression_star_with_0x()
 {
-	int result;
+	String testTokenizer;
+	String *testTokenizer1;
+	testTokenizer.rawString = "0x1 00";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 6;
 	Error exception;
 	Try
 	{
-		result = convertBasedNumberToBase10Number("0x1 00");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -393,12 +465,20 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 		TEST_ASSERT_EQUAL_STRING("Invalid expression ! ",errorMessage.message);
 		
 	}
-	
+}
+void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_inside_the_hexadecimal_expression_star_with_0x()
+{
+	String testTokenizer;
+	String *testTokenizer1;
+	Error exception;
+	testTokenizer.rawString = "0x1456781 00";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 12;
 	
 	//Make sure this will work for longer expression.
 	Try
 	{
-		result = convertBasedNumberToBase10Number("0x1456781 00");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -410,10 +490,19 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 		TEST_ASSERT_EQUAL_STRING("Invalid expression ! ",errorMessage.message);
 		
 	}
+}
+void test_convertBasedNumberToBase10Number_will_throw_error_when_a_symbol_inside_the_hexadecimal_expression_star_with_0x()
+{
+	String testTokenizer;
+	String *testTokenizer1;
+	Error exception;
+	testTokenizer.rawString = "0x1@00";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 6;
 	//Since it is work , c whether work for other symbol
 	Try
 	{
-		result = convertBasedNumberToBase10Number("0x1@00");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -426,9 +515,12 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 		
 	}
 	
+	testTokenizer.rawString = "0x1$00";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 6;
 	Try
 	{
-		result = convertBasedNumberToBase10Number("0x1$00");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
@@ -441,9 +533,12 @@ void test_convertBasedNumberToBase10Number_will_throw_error_when_a_space_is_or_o
 		
 	}
 	
+	testTokenizer.rawString = "0x1=00";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 6;
 	Try
 	{
-		result = convertBasedNumberToBase10Number("0x1=00");
+		testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
 	}
 	Catch(exception)
 	{
