@@ -73,15 +73,16 @@ String *convertBasedNumberToBase10Number(String *input)
 				result =(result*10)+(input->rawString[i]-'0');
 				i++;
 			}
+			if(input->rawString[i]!=39)
+			{
+				errorMessage.rawString = input->rawString;
+				errorMessage.position = i;
+				errorMessage.message = "Invalid expression ! ";
+				Throw(INVALID_EXPRESSION);
+			}
 			
 		}
-		if(input->rawString[i]!=39)
-		{
-			errorMessage.rawString = input->rawString;
-			errorMessage.position = i;
-			errorMessage.message = "Invalid expression ! ";
-			Throw(INVALID_EXPRESSION);
-		}
+
 
 	}
 	else if(input->rawString[i] == 104 )//ASCII h = 104
@@ -106,15 +107,17 @@ String *convertBasedNumberToBase10Number(String *input)
 					result += (input->rawString[i-j]-'0')* (int)(pow(16,j-1));
 				}
 			}
+			if(input->rawString[i]!=39)
+			{
+				errorMessage.rawString = input->rawString;
+				errorMessage.position = i;
+				errorMessage.message = "Invalid expression ! ";
+				Throw(INVALID_EXPRESSION);
+			}
 			
 		}
-		if(input->rawString[i]!=39)
-		{
-			errorMessage.rawString = input->rawString;
-			errorMessage.position = i;
-			errorMessage.message = "Invalid expression ! ";
-			Throw(INVALID_EXPRESSION);
-		}
+
+
 	}
 	else if(input->rawString[i] == 111 )//ASCII o = 111
 	{
@@ -132,14 +135,17 @@ String *convertBasedNumberToBase10Number(String *input)
 			{
 				result += (input->rawString[i-j]-'0')* (int)(pow(8,j-1));
 			}
+			
+			if(input->rawString[i]!=39)
+			{
+				errorMessage.rawString = input->rawString;
+				errorMessage.position = i;
+				errorMessage.message = "Invalid expression ! ";
+				Throw(INVALID_EXPRESSION);
+			}
 		}
-		if(input->rawString[i]!=39)
-		{
-			errorMessage.rawString = input->rawString;
-			errorMessage.position = i;
-			errorMessage.message = "Invalid expression ! ";
-			Throw(INVALID_EXPRESSION);
-		}
+
+
 	}
 	else if(input->rawString[i] == 98 )//ASCII b = 98
 	{
@@ -156,14 +162,16 @@ String *convertBasedNumberToBase10Number(String *input)
 			{
 				result += (input->rawString[i-j]-'0')* (int)(pow(2,j-1));
 			}
+			if(input->rawString[i]!=39)
+			{
+				errorMessage.rawString = input->rawString;
+				errorMessage.position = i;
+				errorMessage.message = "Invalid expression ! ";
+				Throw(INVALID_EXPRESSION);
+			}
 		}
-		if(input->rawString[i]!=39)
-		{
-			errorMessage.rawString = input->rawString;
-			errorMessage.position = i;
-			errorMessage.message = "Invalid expression ! ";
-			Throw(INVALID_EXPRESSION);
-		}
+
+
 	}
 /*	else if (isdigit(input->rawString[i]))
 	{
@@ -213,23 +221,15 @@ String *convertBasedNumberToBase10Number(String *input)
 					result += (input->rawString[i-j]-'0')* (int)(pow(16,j-1));
 				}
 			}
-		}
-		else
-		{
-			result =0;
-		}
-		if(input->rawString[i]!=0)
-		{
-			errorMessage.rawString = input->rawString;
-			errorMessage.position = i;
-			errorMessage.message = "Invalid expression ! ";
-			Throw(INVALID_EXPRESSION);
+			if(input->rawString[i]!=0)
+			{
+				errorMessage.rawString = input->rawString;
+				errorMessage.position = i;
+				errorMessage.message = "Invalid expression ! ";
+				Throw(INVALID_EXPRESSION);
+			}
 		}
 	i--;
-	}
-	else 
-	{
-		return NULL;
 	}
 	
 	if(result!=0)

@@ -54,10 +54,15 @@ String *stringCreate(char *expression) {
 			lengthOfTheIdentifier=0;
 			
 		}
-			
+		else if(newString->rawString[tempIndex]==48||newString->rawString[tempIndex]==98
+				||newString->rawString[tempIndex]==100||newString->rawString[tempIndex]==104
+				||newString->rawString[tempIndex]==111)
+		{
+			newString = convertBasedNumberToBase10Number(newString);
+			newString->startIndex++;
+		}
 		else
 		{
-			//newString = convertBasedNumberToBase10Number(newString);
 			newString->startIndex++;
 		}
 	}
