@@ -7,6 +7,7 @@
 #include "Error.h"
 #include "convertValue.h"
 #include "mock_GetElement.h"
+
 void setUp(){}
 void tearDown(){}
 
@@ -383,6 +384,39 @@ void test_getToken_will_differentiate_low_high_and_upper_as_operator()
 	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
 	TEST_ASSERT_EQUAL(LOW,opeToken->id);
 	free (opeToken);
+	
+	testToken = getToken(testTokenizer);
+
+	//This testToken should be not NULL
+	TEST_ASSERT_NOT_NULL(testToken);
+	//With operator type.
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(LEFT_PARENTHESIS,opeToken->id);
+	free (opeToken);
+	
+	
+	testToken = getToken(testTokenizer);
+	TEST_ASSERT_NOT_NULL(testToken);
+	TEST_ASSERT_EQUAL(NUMBER,*testToken);
+	Number *numToken = (Number*)testToken;
+	TEST_ASSERT_EQUAL(NUMBER,numToken->type);
+	TEST_ASSERT_EQUAL(45012357,numToken->value);
+	free (numToken);
+	
+	
+	testToken = getToken(testTokenizer);
+
+	//This testToken should be not NULL
+	TEST_ASSERT_NOT_NULL(testToken);
+	//With operator type.
+	TEST_ASSERT_EQUAL(OPERATOR,*testToken);
+	opeToken = (Operator*)testToken;
+	TEST_ASSERT_EQUAL(OPERATOR,opeToken->type);
+	TEST_ASSERT_EQUAL(RIGHT_PARENTHESIS,opeToken->id);
+	free (opeToken);
+	
 	free(testTokenizer);
 	
 	//Since the function been tested in below. 
@@ -729,10 +763,74 @@ void test_getToken_will_identify_MULTIPLY_DIVIDE_and_MODULUS_SET_EQUAL()
 
 void test_stringCreate_will_update_identifier_to_the_defined_term()
 {
+	//first,consider that the user will define an identifier name num1 as following.
+	//#define		num1		200+
+	char *name = "num1";
+	DefineElement element;
+	element.ID = "num1";
+	element.actualID = "200+";
+	getElement_ExpectAndReturn(DefineList, name,&element);
+	String * testTokenizer = stringCreate("num1 6");
 	
+	//Make sure the identifier been updated.
+	TEST_ASSERT_NOT_NULL(testTokenizer);
+	TEST_ASSERT_EQUAL_STRING("200+ 6",testTokenizer->rawString);
+	free(testTokenizer);
 }
 
+void test_stringCreate_will_update_identifier_to_the_defined_term_if_the_term_is_behind()
+{
+	char *name = "num1";
+	DefineElement element;
+	element.ID = "num1";
+	element.actualID = "*200";
+	getElement_ExpectAndReturn(DefineList, name,&element);
+	String * testTokenizer = stringCreate("6num1");
+	
+	//Make sure the identifier been updated.
+	TEST_ASSERT_NOT_NULL(testTokenizer);
+	TEST_ASSERT_EQUAL_STRING("6*200",testTokenizer->rawString);
+	free(testTokenizer);
+}
 
+void test_stringCreate_will_update_identifier_to_the_defined_term_if_the_term_is_middle()
+{
+	//make it middle.
+	char *name = "num1";
+	DefineElement element;
+	element.ID = "num1";
+	element.actualID = "200";
+	getElement_ExpectAndReturn(DefineList, name,&element);
+	String * testTokenizer = stringCreate("6+num1+100");
+	
+	//Make sure the identifier been updated.
+	TEST_ASSERT_NOT_NULL(testTokenizer);
+	TEST_ASSERT_EQUAL_STRING("6+200+100",testTokenizer->rawString);
+	free(testTokenizer);
+}
+
+void test_stringCreate_will_update_identifier_to_the_defined_term_if_there_are_two_identifier()
+{
+	//make it middle.
+	char *name = "num1";
+	char *name1 = "num2";
+	DefineElement element;
+	element.ID = "num1";
+	element.actualID = "200";
+	DefineElement element1;
+	element1.ID = "num2";
+	element1.actualID = "500";
+	getElement_ExpectAndReturn(DefineList, name,&element);
+	getElement_ExpectAndReturn(DefineList, name1,&element1);
+	getElement_ExpectAndReturn(DefineList, name,&element);
+	getElement_ExpectAndReturn(DefineList, name,&element);
+	String * testTokenizer = stringCreate("num1+num2-num1+num1");
+	
+	//Make sure the identifier been updated.
+	TEST_ASSERT_NOT_NULL(testTokenizer);
+	TEST_ASSERT_EQUAL_STRING("200+500-200+200",testTokenizer->rawString);
+	free(testTokenizer);
+}
 
 
 

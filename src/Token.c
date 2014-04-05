@@ -390,11 +390,12 @@ Token *checkIdentifier(char * name)
 	}
 	else 
 	{
+		free(tempName);
 		return NULL;
 	}
 	
 	opeToken->type=OPERATOR;
-	free(tempName);
+
 	
 	return (Token*)opeToken;
 	
