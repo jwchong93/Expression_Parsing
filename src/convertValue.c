@@ -165,6 +165,32 @@ String *convertBasedNumberToBase10Number(String *input)
 			Throw(INVALID_EXPRESSION);
 		}
 	}
+/*	else if (isdigit(input->rawString[i]))
+	{
+		while(isdigit(input->rawString[i])||(input->rawString[i]>=97&&input->rawString[i]<=102))
+		{
+			j++;
+			i++;
+		}
+		if(input->rawString[i]!=104)
+		{
+			errorMessage.rawString = input->rawString;
+			errorMessage.position = i;
+			errorMessage.message = "Invalid expression ! ";
+			Throw(INVALID_EXPRESSION);
+		}
+		for(;j>0;j--)
+		{
+			if(isalpha(input->rawString[i-j]))
+			{
+				result += (input->rawString[i-j]-87)* (int)(pow(16,j-1));
+			}
+			else
+			{
+				result += (input->rawString[i-j]-'0')* (int)(pow(16,j-1));
+			}
+		}
+	}*/
 	else if(input->rawString[i] == 48 )//ASCII 0 = 48
 	{
 		i++;
@@ -201,32 +227,6 @@ String *convertBasedNumberToBase10Number(String *input)
 		}
 	i--;
 	}
-	else if (isdigit(input->rawString[i]))
-	{
-		while(isdigit(input->rawString[i])||(input->rawString[i]>=97&&input->rawString[i]<=102))
-		{
-			j++;
-			i++;
-		}
-		if(input->rawString[i]!=104)
-		{
-			errorMessage.rawString = input->rawString;
-			errorMessage.position = i;
-			errorMessage.message = "Invalid expression ! ";
-			Throw(INVALID_EXPRESSION);
-		}
-		for(;j>0;j--)
-		{
-			if(isalpha(input->rawString[i-j]))
-			{
-				result += (input->rawString[i-j]-87)* (int)(pow(16,j-1));
-			}
-			else
-			{
-				result += (input->rawString[i-j]-'0')* (int)(pow(16,j-1));
-			}
-		}
-	}
 	else 
 	{
 		return NULL;
@@ -249,11 +249,17 @@ String *convertBasedNumberToBase10Number(String *input)
 		stringLength = strlen(input->rawString);
 		afterUpdate->rawString = malloc(stringLength-(length1-length2)+1);
 		
-		//Copy the previous
-		stringCopy(input->rawString,afterUpdate->rawString,0,input->startIndex);
-		
-		stringCopy(string,&(afterUpdate->rawString[input->startIndex]),0,length2);
-		
+
+			//Copy the previous string into the new string
+			stringCopy(input->rawString,afterUpdate->rawString,0,input->startIndex);
+			//Copy the found(from element) into the string.
+			stringCopy(string,&(afterUpdate->rawString[input->startIndex]),0,length2);
+			//Copy the remaining string into it.
+			stringCopy(input->rawString,
+						&(afterUpdate->rawString[input->startIndex+length2]),
+						input->startIndex + length1,
+						input->length-(input->startIndex + length1));
+						
 		afterUpdate->length = stringLength-(length1-length2);
 		afterUpdate->startIndex=input->startIndex;
 		
