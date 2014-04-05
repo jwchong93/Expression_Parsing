@@ -1,4 +1,5 @@
 #include "StringObject.h"
+#include "convertValue.h"
 #include <stdio.h>
 #include <string.h>
 #include <malloc.h>
@@ -18,6 +19,7 @@ String *stringCreate(char *expression) {
 	String *newString = malloc (sizeof(String));
 	String *string;
 	string	= newString;
+	int result;
 	char *newRawString = malloc (length+1);
 	int tempIndex,stringStartLocation,j=0; 
 	Token *newToken;
@@ -29,6 +31,8 @@ String *stringCreate(char *expression) {
 	/*
 	for(tempIndex=0;tempIndex<=string->length;tempIndex++)
 	{
+		// result = convertBasedNumberToBase10Number(newString->rawString);
+		
 		if (isalpha(string->rawString[tempIndex])||(string->rawString[tempIndex])=='.')
 		{
 			char *name = malloc (string->length);
@@ -43,7 +47,7 @@ String *stringCreate(char *expression) {
 			
 			if(newToken==NULL)
 			{
-				string = updateTheString(newString, name);
+				string = getFromListAndUpdate(newString, name);
 				newString = string;
 			}
 		}
