@@ -420,13 +420,7 @@ void test_convertBasedNumberToBase10Number_will_convert_decimal_number_starting_
 	TEST_ASSERT_EQUAL(0,testTokenizer1->startIndex);
 	TEST_ASSERT_EQUAL(3,testTokenizer1->length);
 	free(testTokenizer1);
-}
 
-void test_convertBasedNumberToBase10Number_will_convert_longer_decimal_number_starting_with_d()
-{
-	//Go with some other longer number.
-	String testTokenizer;
-	String *testTokenizer1;
 	testTokenizer.rawString = "d'1814561'";
 	testTokenizer.startIndex = 0;
 	testTokenizer.length = 10;
@@ -450,12 +444,7 @@ void test_convertBasedNumberToBase10Number_will_convert_hexadecimal_number_start
 	TEST_ASSERT_EQUAL(0,testTokenizer1->startIndex);
 	TEST_ASSERT_EQUAL(3,testTokenizer1->length);
 	free(testTokenizer1);
-}
 
-void test_convertBasedNumberToBase10Number_will_convert_bigger_hexadecimal_number_starting_with_h()
-{
-	String testTokenizer;
-	String *testTokenizer1;
 	//Go with some other longer number.
 	testTokenizer.rawString = "h'4875'";
 	testTokenizer.startIndex = 0;
@@ -465,12 +454,7 @@ void test_convertBasedNumberToBase10Number_will_convert_bigger_hexadecimal_numbe
 	TEST_ASSERT_EQUAL(0,testTokenizer1->startIndex);
 	TEST_ASSERT_EQUAL(5,testTokenizer1->length);
 	free(testTokenizer1);
-}
 
-void test_convertBasedNumberToBase10Number_will_convert_a_to_f_hexadecimal_number_starting_with_h()
-{
-	String testTokenizer;
-	String *testTokenizer1;
 	//Try some value with integer that exceed 9 
 	testTokenizer.rawString = "h'beef'";
 	testTokenizer.startIndex = 0;
@@ -480,12 +464,7 @@ void test_convertBasedNumberToBase10Number_will_convert_a_to_f_hexadecimal_numbe
 	TEST_ASSERT_EQUAL(0,testTokenizer1->startIndex);
 	TEST_ASSERT_EQUAL(5,testTokenizer1->length);
 	free(testTokenizer1);
-}
 
-void test_convertBasedNumberToBase10Number_will_convert_longer_a_to_f_hexadecimal_number_starting_with_h()
-{
-	String testTokenizer ;
-	String *testTokenizer1;
 	testTokenizer.rawString = "h'abcdef'";
 	testTokenizer.startIndex = 0;
 	testTokenizer.length = 9;
@@ -510,13 +489,7 @@ void test_convertBasedNumberToBase10Number_will_convert_octal_number_starting_wi
 	TEST_ASSERT_EQUAL(0,testTokenizer1->startIndex);
 	TEST_ASSERT_EQUAL(2,testTokenizer1->length);
 	free(testTokenizer1);
-}
 
-void test_convertBasedNumberToBase10Number_will_convert_longer_octal_number_starting_with_o()
-{
-	//Go with some other longer number.
-	String testTokenizer;
-	String *testTokenizer1;
 	testTokenizer.rawString = "o'4775'";
 	testTokenizer.startIndex = 0;
 	testTokenizer.length = 7;
@@ -541,13 +514,8 @@ void test_convertBasedNumberToBase10Number_will_convert_binary_number_starting_w
 	TEST_ASSERT_EQUAL(0,testTokenizer1->startIndex);
 	TEST_ASSERT_EQUAL(1,testTokenizer1->length);
 	free(testTokenizer1);
-}
 
-void test_convertBasedNumberToBase10Number_will_convert_longer_binary_number_starting_with_b()
-{
 	//Go with some other longer number.
-	String testTokenizer;
-	String *testTokenizer1;
 	testTokenizer.rawString = "b'101100101'";
 	testTokenizer.startIndex = 0;
 	testTokenizer.length = 12;
@@ -605,12 +573,7 @@ void test_convertBasedNumberToBase10Number_will_convert_hexadecimal_number_start
 	TEST_ASSERT_EQUAL(0,testTokenizer1->startIndex);
 	TEST_ASSERT_EQUAL(4,testTokenizer1->length);
 	free(testTokenizer1);
-}
 
-void test_convertBasedNumberToBase10Number_will_convert_bigger_hexadecimal_number_starting_with_0x()
-{
-	String testTokenizer ;
-	String *testTokenizer1;
 	testTokenizer.rawString = "0xabcd";
 	testTokenizer.startIndex = 0;
 	testTokenizer.length = 6;
@@ -619,12 +582,7 @@ void test_convertBasedNumberToBase10Number_will_convert_bigger_hexadecimal_numbe
 	TEST_ASSERT_EQUAL(0,testTokenizer1->startIndex);
 	TEST_ASSERT_EQUAL(5,testTokenizer1->length);
 	free(testTokenizer1);
-}
 
-void test_convertBasedNumberToBase10Number_will_convert_longer_bigger_hexadecimal_number_starting_with_0x()
-{
-	String testTokenizer;
-	String *testTokenizer1;
 	testTokenizer.rawString = "0x1a2c3b";
 	testTokenizer.startIndex = 0;
 	testTokenizer.length = 8;	
@@ -633,12 +591,7 @@ void test_convertBasedNumberToBase10Number_will_convert_longer_bigger_hexadecima
 	TEST_ASSERT_EQUAL(0,testTokenizer1->startIndex);
 	TEST_ASSERT_EQUAL(7,testTokenizer1->length);
 	free(testTokenizer1);
-}
 
-void test_convertBasedNumberToBase10Number_will_convert_the_hexadecimal_number_starting_with_0x()
-{
-	String testTokenizer;
-	String *testTokenizer1;
 	testTokenizer.rawString = "0xaaaa";
 	testTokenizer.startIndex = 0;
 	testTokenizer.length = 6;

@@ -231,6 +231,7 @@ String *convertBasedNumberToBase10Number(String *input)
 	{
 		return NULL;
 	}
+	
 	if(result!=0)
 	{
 		tempResult = result;
@@ -241,24 +242,24 @@ String *convertBasedNumberToBase10Number(String *input)
 			tempResult=tempResult/10;
 		}
 		
-		string = malloc(j);
+		string = malloc(j+1);
 		sprintf(string,"%d",result);
 		
-		length1 = ++i - input->startIndex;
-		length2 = strlen(string);
-		stringLength = strlen(input->rawString);
-		afterUpdate->rawString = malloc(stringLength-(length1-length2)+1);
+		length1 = ++i - input->startIndex; //length of the based number
+		length2 = strlen(string);	//length of the base 10 number.
+		stringLength = strlen(input->rawString);  //The length of the whole expression.
 		
+		afterUpdate->rawString = malloc(stringLength-(length1-length2)+1);
 
-			//Copy the previous string into the new string
-			stringCopy(input->rawString,afterUpdate->rawString,0,input->startIndex);
-			//Copy the found(from element) into the string.
-			stringCopy(string,&(afterUpdate->rawString[input->startIndex]),0,length2);
-			//Copy the remaining string into it.
-			stringCopy(input->rawString,
-						&(afterUpdate->rawString[input->startIndex+length2]),
-						input->startIndex + length1,
-						input->length-(input->startIndex + length1));
+		//Copy the previous string into the new string
+		stringCopy(input->rawString,afterUpdate->rawString,0,input->startIndex);
+		//Copy the found(from element) into the string.
+		stringCopy(string,&(afterUpdate->rawString[input->startIndex]),0,length2);
+		//Copy the remaining string into it.
+		stringCopy(input->rawString,
+					&(afterUpdate->rawString[input->startIndex+length2]),
+					input->startIndex + length1,
+					input->length-(input->startIndex + length1));
 						
 		afterUpdate->length = stringLength-(length1-length2);
 		afterUpdate->startIndex=input->startIndex;

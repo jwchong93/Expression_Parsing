@@ -57,6 +57,7 @@ String *stringCreate(char *expression) {
 			
 		else
 		{
+			//newString = convertBasedNumberToBase10Number(newString);
 			newString->startIndex++;
 		}
 	}
