@@ -364,7 +364,6 @@ Operator *detectOperator(String *tokenizer, int i)
 	opeToken		If it is low, high or upper.
 	
 */
-
 Token *checkIdentifier(char * name)
 {
 	char *tempName = malloc(strlen(name)+1);
@@ -395,7 +394,7 @@ Token *checkIdentifier(char * name)
 	}
 	
 	opeToken->type=OPERATOR;
-
+	free(tempName);
 	
 	return (Token*)opeToken;
 	

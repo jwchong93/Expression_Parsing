@@ -28,41 +28,51 @@ String *stringCreate(char *expression) {
 	
 	for(tempIndex=0;tempIndex<=newString->length;tempIndex++)
 	{
-		// result = convertBasedNumberToBase10Number(newString->rawString);
 		
 		if (isalpha(newString->rawString[tempIndex])||(newString->rawString[tempIndex])=='.')
 		{
-			stringStartLocation=tempIndex;
-			do
-			{
-				lengthOfTheIdentifier++;
-				tempIndex++;
-			}while(isalnum(newString->rawString[tempIndex])||(newString->rawString[tempIndex]=='.'));
-			stringCopy(newString->rawString,name,stringStartLocation,lengthOfTheIdentifier);
+				stringStartLocation=tempIndex;
+				do
+				{
+					lengthOfTheIdentifier++;
+					tempIndex++;
+				}while(isalnum(newString->rawString[tempIndex])||(newString->rawString[tempIndex]=='.'));
+				
+				stringCopy(newString->rawString,name,stringStartLocation,lengthOfTheIdentifier);
+				newToken=checkIdentifier(name);
+				tempIndex-=lengthOfTheIdentifier+1;
+				
+				if(newToken==NULL)
+				{
+					if(name[0]==48||name[0]==98
+						||name[0]==100||name[0]==104
+						||name[0]==111)
+					{
+						newString = convertBasedNumberToBase10Number(newString);
+						newString->startIndex++;
+					}
+					else
+					{
+						newString = getFromListAndUpdate(newString, name);
+					}
+				}
+				else if(newToken!=NULL)
+				{
+					tempIndex += lengthOfTheIdentifier;
+				}
+				
+				lengthOfTheIdentifier=0;
 			
-			newToken=checkIdentifier(name);
-			tempIndex-=lengthOfTheIdentifier+1;
-			
-			if(newToken==NULL)
-			{
-				newString = getFromListAndUpdate(newString, name);
-			}
-			else if(newToken!=NULL)
-			{
-				tempIndex += lengthOfTheIdentifier;
-			}
-			lengthOfTheIdentifier=0;
-			
-		}
-		else if(newString->rawString[tempIndex]==48||newString->rawString[tempIndex]==98
-				||newString->rawString[tempIndex]==100||newString->rawString[tempIndex]==104
-				||newString->rawString[tempIndex]==111)
-		{
-			newString = convertBasedNumberToBase10Number(newString);
-			newString->startIndex++;
 		}
 		else
 		{
+			if(newString->rawString[tempIndex]==48||newString->rawString[tempIndex]==98
+				||newString->rawString[tempIndex]==100||newString->rawString[tempIndex]==104
+				||newString->rawString[tempIndex]==111)
+			{
+				newString = convertBasedNumberToBase10Number(newString);
+
+			}
 			newString->startIndex++;
 		}
 	}
