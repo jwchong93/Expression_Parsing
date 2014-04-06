@@ -25,6 +25,7 @@ typedef struct {
 typedef struct {
 	Token type;
 	OperatorID id;
+	int precedence;
 }Operator;
 
 typedef struct {
