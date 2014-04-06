@@ -62,6 +62,7 @@ String *convertBasedNumberToBase10Number(String *input)
 	String *afterUpdate = malloc(sizeof(String));
 	char *string;
 	int tempResult,stringLength,length1,length2;
+	
 	if(input->rawString[i] == 100 )//ASCII d = 100
 	{
 		i++;
@@ -221,13 +222,13 @@ String *convertBasedNumberToBase10Number(String *input)
 					result += (input->rawString[i-j]-'0')* (int)(pow(16,j-1));
 				}
 			}
-			if(input->rawString[i]!=0)
-			{
-				errorMessage.rawString = input->rawString;
-				errorMessage.position = i;
-				errorMessage.message = "Invalid expression ! ";
-				Throw(INVALID_EXPRESSION);
-			}
+			// if(input->rawString[i]!=0)
+			// {
+				// errorMessage.rawString = input->rawString;
+				// errorMessage.position = i;
+				// errorMessage.message = "Invalid expression ! ";
+				// Throw(INVALID_EXPRESSION);
+			// }
 		}
 	i--;
 	}
