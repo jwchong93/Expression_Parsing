@@ -603,6 +603,45 @@ void test_convertBasedNumberToBase10Number_will_convert_hexadecimal_number_start
 	//*****Error checking tested in test_throwError.c
 }
 
+void test_convertBasedNumberToBase10Number_will_convert_the_number_if_it_is_inside_expression()
+{
+	String testTokenizer;
+	String *testTokenizer1;
+	testTokenizer.rawString = "0x1234+12";
+	testTokenizer.startIndex = 0;
+	testTokenizer.length = 9;
+	testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
+	TEST_ASSERT_EQUAL_STRING("4660+12",testTokenizer1->rawString);
+	TEST_ASSERT_EQUAL(0,testTokenizer1->startIndex);
+	TEST_ASSERT_EQUAL(7,testTokenizer1->length);
+	free(testTokenizer1);
+}
+
+void test_convertBasedNumberToBase10Number_will_convert_the_hexadecimal_number_if_it_is_inside_expression()
+{
+	String testTokenizer;
+	String *testTokenizer1;
+	testTokenizer.rawString = "12+h'1234'";
+	testTokenizer.startIndex = 3;
+	testTokenizer.length = 10;
+	testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
+	TEST_ASSERT_EQUAL_STRING("12+4660",testTokenizer1->rawString);
+	TEST_ASSERT_EQUAL(3,testTokenizer1->startIndex);
+	TEST_ASSERT_EQUAL(7,testTokenizer1->length);
+	free(testTokenizer1);
+}
 
 
-
+void test_convertBasedNumberToBase10Number_will_convert_the_hexadecimal_number_if_it_is_middle_of_the_expression()
+{
+	String testTokenizer;
+	String *testTokenizer1;
+	testTokenizer.rawString = "12+o'226'*128";
+	testTokenizer.startIndex = 3;
+	testTokenizer.length = 13;
+	testTokenizer1 = convertBasedNumberToBase10Number(&testTokenizer);
+	TEST_ASSERT_EQUAL_STRING("12+150*128",testTokenizer1->rawString);
+	TEST_ASSERT_EQUAL(3,testTokenizer1->startIndex);
+	TEST_ASSERT_EQUAL(10,testTokenizer1->length);
+	free(testTokenizer1);
+}
