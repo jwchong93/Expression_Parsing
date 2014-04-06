@@ -25,7 +25,8 @@ String *getFromListAndUpdate(String *beforeUpdate, char *name)
 	if(tempElement == NULL)
 	{
 		free(afterUpdate);
-		return NULL;
+		errorMessage.message = "Undefined Identifier! ";
+		Throw(UNDEFINED_IDENTIFIER);
 	}
 	length1 = strlen(tempElement->ID);
 	length2 = strlen(tempElement->actualID);
@@ -222,13 +223,13 @@ String *convertBasedNumberToBase10Number(String *input)
 					result += (input->rawString[i-j]-'0')* (int)(pow(16,j-1));
 				}
 			}
-			// if(input->rawString[i]!=0)
-			// {
-				// errorMessage.rawString = input->rawString;
-				// errorMessage.position = i;
-				// errorMessage.message = "Invalid expression ! ";
-				// Throw(INVALID_EXPRESSION);
-			// }
+			if(input->rawString[i]>102)
+			{
+				errorMessage.rawString = input->rawString;
+				errorMessage.position = i;
+				errorMessage.message = "Invalid expression ! ";
+				Throw(INVALID_EXPRESSION);
+			}
 		}
 	i--;
 	}

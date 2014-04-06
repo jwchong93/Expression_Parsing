@@ -4,6 +4,8 @@
 #include <string.h>
 #include <malloc.h>
 #include "Token.h"
+#include "CException.h"
+#include "Error.h"
 
 LinkedList *DefineList;
 
@@ -21,11 +23,13 @@ String *stringCreate(char *expression) {
 	int tempIndex,stringStartLocation,lengthOfTheIdentifier=0; 
 	Token *newToken;
 	char name[20];
+	Error exception;
 	stringCopy(expression, newRawString, 0, length);
 	newString->rawString = newRawString;
 	newString->startIndex = 0;
 	newString->length = strlen(newString->rawString);
-	
+	Try
+	{
 	for(tempIndex=0;tempIndex<=newString->length;tempIndex++)
 	{
 		
@@ -74,6 +78,20 @@ String *stringCreate(char *expression) {
 
 			}
 			newString->startIndex++;
+		}
+	}
+	}
+	Catch(exception)
+	{
+		errorMessage.rawString = newString->rawString;
+		errorMessage.position = newString->startIndex;
+		if(exception == UNDEFINED_IDENTIFIER)
+		{
+			Throw(UNDEFINED_IDENTIFIER);
+		}
+		else if(exception == INVALID_EXPRESSION)
+		{
+			Throw(INVALID_EXPRESSION);
 		}
 	}
 	newString->startIndex=0;
