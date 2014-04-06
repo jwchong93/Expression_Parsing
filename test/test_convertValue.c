@@ -384,28 +384,6 @@ void test_updateTheString_will_update_the_identifier_when_meet_it()
 	free(testTokenizer);
 }
 
-void test_updateTheString_should_return_NULL_when_the_identifier_is_not_defined()
-{
-	
-	String testTokenizer;
-	testTokenizer.rawString = "12+num1";
-	testTokenizer.startIndex = 0;
-	testTokenizer.length = 7;
-	String *newTokenizer;
-	free(getToken(&testTokenizer));
-	free(getToken(&testTokenizer));
-	Identifier testIdentifier;
-	testIdentifier.name = malloc (5);
-	stringCopy("num1",testIdentifier.name,0,5);
-	testIdentifier.type=IDENTIFIER;
-	
-	getElement_ExpectAndReturn(DefineList, testIdentifier.name,NULL);
-	//Now start put the identifier and tokenizer into the function.
-	newTokenizer = getFromListAndUpdate(&testTokenizer,testIdentifier.name);
-	
-	TEST_ASSERT_NULL(newTokenizer);
-	free(testIdentifier.name);
-}
 
 void test_convertBasedNumberToBase10Number_will_convert_decimal_number_starting_with_d()
 {
