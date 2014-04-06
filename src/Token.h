@@ -27,10 +27,10 @@ typedef struct {
 	OperatorID id;
 }Operator;
 
-typedef struct {
-	Token type;
-	char *name;
-}Identifier;
+// typedef struct {
+	// Token type;
+	// char *name;
+// }Identifier;
 
 
 //Main functions

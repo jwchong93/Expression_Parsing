@@ -8,13 +8,19 @@
 #include <math.h>
 /*
 	Convert an identifier to number respectively to the value in linked list.
-	Input:
-	list		the linked list that carry the name and value of the identifier.
-	iterator	iterator which points to the respective linked list.
-	identifier	the token that carry the name of the identifier.
 	
-	return:
-	Token that carry the value of the identifier. (Can take out by using type cast.)
+	Input:
+	name						carrying the name of the identifier
+	beforeUpdate				the string structure that contain the rawString which going to be update
+	
+	Output:
+	None
+	
+	Return:
+	afterUpdate					the string structure that contain the rawString after update.
+	
+	Throw:
+	UNDEFINED_IDENTIFIER		if the identifier is not defined in the linked list.
 */
 String *getFromListAndUpdate(String *beforeUpdate, char *name)
 {
@@ -56,7 +62,23 @@ String *getFromListAndUpdate(String *beforeUpdate, char *name)
 	
 
 }
-
+/*
+	The following function will take in a string type structure and update 
+	the structure to base 10 number according to the startIndex location.
+	
+	Input: 
+	input					A string structure that carrying the string going to be update
+	
+	Output:
+	None
+	
+	Return:
+	afterUpdate				The string that updated to base 10 number
+	input					If the startIndex is point on a base 10 number.
+	
+	Throw:
+	INVALID_EXPRESSION		If the input based number is not in the format.
+*/
 String *convertBasedNumberToBase10Number(String *input)
 {
 	int i =input->startIndex,j=0,result=0;

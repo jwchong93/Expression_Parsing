@@ -12,9 +12,18 @@ LinkedList *DefineList;
 /*
 	This function will generate a string
 	
-	Input: *expression 		which contain the string(expression)
-	Output: none
-	return: Tokenizer 		which pass to the getToken to generate token.
+	Input: 
+	*expression 					which contain the string(expression)
+	
+	Output: 
+	none
+	
+	return: 
+	Tokenizer 						which pass to the getToken to generate token.
+	
+	Throw:
+	UNDEFINED_IDENTIFIER			if the expression contained undefined identifier
+	INVALID_EXPRESSION				if the expression contained invalid expression (not following format)
 */
 String *stringCreate(char *expression) {
 	int length = strlen(expression);
