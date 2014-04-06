@@ -832,13 +832,57 @@ void test_stringCreate_will_update_identifier_to_the_defined_term_if_there_are_t
 	free(testTokenizer);
 }
 
+void test_stringCreate_will_update_based_number_to_base_10_number()
+{
+	String * testTokenizer = stringCreate("0x1234");
+	TEST_ASSERT_NOT_NULL(testTokenizer);
+	TEST_ASSERT_EQUAL_STRING("4660",testTokenizer->rawString);
+	TEST_ASSERT_EQUAL(4,testTokenizer->length);
+	TEST_ASSERT_EQUAL(0,testTokenizer->startIndex);
+	free(testTokenizer);
+}
 
+void test_stringCreate_will_update_based_number_to_base_10_number_if_there_is_some_expression_before_it()
+{
+	char *name = "o";
+	String * testTokenizer = stringCreate("3+o'1234'");
+	TEST_ASSERT_NOT_NULL(testTokenizer);
+	TEST_ASSERT_EQUAL_STRING("3+668",testTokenizer->rawString);
+	TEST_ASSERT_EQUAL(5,testTokenizer->length);
+	TEST_ASSERT_EQUAL(0,testTokenizer->startIndex);
+	free(testTokenizer);
+}
 
+void test_stringCreate_will_update_based_number_to_base_10_number_if_the_based_number_is_being_in_middle()
+{
+	char *name = "o";
+	String * testTokenizer = stringCreate("3+h'abcd'/100");
+	TEST_ASSERT_NOT_NULL(testTokenizer);
+	TEST_ASSERT_EQUAL_STRING("3+43981/100",testTokenizer->rawString);
+	TEST_ASSERT_EQUAL(11,testTokenizer->length);
+	TEST_ASSERT_EQUAL(0,testTokenizer->startIndex);
+	free(testTokenizer);
+}
 
-
-
-
-
+void test_stringCreate_will_update_both_based_number_and_identifier()
+{
+	char *name = "num1";
+	char *name1 = "num2";
+	DefineElement element;
+	element.ID = "num1";
+	element.actualID = "200";
+	DefineElement element1;
+	element1.ID = "num2";
+	element1.actualID = "500";
+	getElement_ExpectAndReturn(DefineList, name,&element);
+	getElement_ExpectAndReturn(DefineList, name1,&element1);
+	String * testTokenizer = stringCreate("0x1234-num1+num2%b'101100'");
+	TEST_ASSERT_NOT_NULL(testTokenizer);
+	TEST_ASSERT_EQUAL_STRING("4660-200+500%44",testTokenizer->rawString);
+	TEST_ASSERT_EQUAL(15,testTokenizer->length);
+	TEST_ASSERT_EQUAL(0,testTokenizer->startIndex);
+	free(testTokenizer);
+}
 
 
 
