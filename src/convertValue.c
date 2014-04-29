@@ -85,6 +85,7 @@ String *convertBasedNumberToBase10Number(String *input)
 	String *afterUpdate = malloc(sizeof(String));
 	char *string;
 	int tempResult,stringLength,length1,length2;
+	Status checking_status = UNCHECKED;
 	
 	if(input->rawString[i] == 100 )//ASCII d = 100
 	{
@@ -104,7 +105,11 @@ String *convertBasedNumberToBase10Number(String *input)
 				errorMessage.message = "Invalid expression ! ";
 				Throw(INVALID_EXPRESSION);
 			}
-			
+			checking_status = CHECKED;
+		}
+		else
+		{
+			checking_status = UNCHECKED;
 		}
 
 
@@ -138,8 +143,13 @@ String *convertBasedNumberToBase10Number(String *input)
 				errorMessage.message = "Invalid expression ! ";
 				Throw(INVALID_EXPRESSION);
 			}
-			
+			checking_status = CHECKED;
 		}
+		else
+		{
+			checking_status = UNCHECKED;
+		}
+
 
 
 	}
@@ -167,7 +177,13 @@ String *convertBasedNumberToBase10Number(String *input)
 				errorMessage.message = "Invalid expression ! ";
 				Throw(INVALID_EXPRESSION);
 			}
+			checking_status = CHECKED;
 		}
+		else
+		{
+			checking_status = UNCHECKED;
+		}
+
 
 
 	}
@@ -193,36 +209,16 @@ String *convertBasedNumberToBase10Number(String *input)
 				errorMessage.message = "Invalid expression ! ";
 				Throw(INVALID_EXPRESSION);
 			}
+			checking_status = CHECKED;
 		}
+		else
+		{
+			checking_status = UNCHECKED;
+		}
+
 
 
 	}
-/*	else if (isdigit(input->rawString[i]))
-	{
-		while(isdigit(input->rawString[i])||(input->rawString[i]>=97&&input->rawString[i]<=102))
-		{
-			j++;
-			i++;
-		}
-		if(input->rawString[i]!=104)
-		{
-			errorMessage.rawString = input->rawString;
-			errorMessage.position = i;
-			errorMessage.message = "Invalid expression ! ";
-			Throw(INVALID_EXPRESSION);
-		}
-		for(;j>0;j--)
-		{
-			if(isalpha(input->rawString[i-j]))
-			{
-				result += (input->rawString[i-j]-87)* (int)(pow(16,j-1));
-			}
-			else
-			{
-				result += (input->rawString[i-j]-'0')* (int)(pow(16,j-1));
-			}
-		}
-	}*/
 	else if(input->rawString[i] == 48 )//ASCII 0 = 48
 	{
 		i++;
@@ -252,8 +248,35 @@ String *convertBasedNumberToBase10Number(String *input)
 				errorMessage.message = "Invalid expression ! ";
 				Throw(INVALID_EXPRESSION);
 			}
+			checking_status = CHECKED;
+		}
+		else
+		{
+			checking_status = UNCHECKED;
 		}
 	i--;
+	}
+	if (isdigit(input->rawString[i])&&checking_status!=CHECKED)
+	{
+		while(isdigit(input->rawString[i])||(input->rawString[i]>=97&&input->rawString[i]<=102))
+		{
+			j++;
+			i++;
+		}
+		if(input->rawString[i]==104)
+		{
+		for(;j>0;j--)
+		{
+			if(isalpha(input->rawString[i-j]))
+			{
+				result += (input->rawString[i-j]-87)* (int)(pow(16,j-1));
+			}
+			else
+			{
+				result += (input->rawString[i-j]-'0')* (int)(pow(16,j-1));
+			}
+		}
+		}
 	}
 	
 	if(result!=0)
@@ -291,7 +314,6 @@ String *convertBasedNumberToBase10Number(String *input)
 		free(input->rawString);
 		free(string);
 		free(input);
-		
 		return afterUpdate;
 	}
 	else

@@ -4,6 +4,8 @@
 #include "Iterator.h"
 #include "GetElement.h"
 
+typedef enum {CHECKED,UNCHECKED,NEUTRAL}Status;
+
 String* getFromListAndUpdate(String *beforeUpdate, char *name);
 String * convertBasedNumberToBase10Number(String *input);
 

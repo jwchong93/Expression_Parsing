@@ -504,7 +504,7 @@ void test_convertBasedNumberToBase10Number_will_convert_binary_number_starting_w
 	free(testTokenizer1);
 	//*****Error checking tested in test_throwError.c
 }
-/*
+
 void test_convertBasedNumberToBase10Number_will_convert_hexadecimal_number_end_with_h()
 {
 	String *testTokenizer =malloc(sizeof(String));
@@ -526,7 +526,7 @@ void test_convertBasedNumberToBase10Number_will_convert_bigger_hexadecimal_numbe
 	String *testTokenizer1;
 	testTokenizer->rawString = "0abcdefh";
 	testTokenizer->startIndex = 0;
-	testTokenizer->length = 4;
+	testTokenizer->length = 8;
 	//Go with some other longer number.
 	testTokenizer1 = convertBasedNumberToBase10Number(testTokenizer);
 	TEST_ASSERT_EQUAL_STRING("11259375",testTokenizer1->rawString);
@@ -538,7 +538,7 @@ void test_convertBasedNumberToBase10Number_will_convert_bigger_hexadecimal_numbe
 	//*****Error checking tested in test_throwError.c
 }
 
-*/
+
 void test_convertBasedNumberToBase10Number_will_convert_hexadecimal_number_starting_with_0x()
 {
 	String testTokenizer;
